@@ -12,7 +12,7 @@ export default class TabBarIcon extends React.Component {
         <Ionicons
           name={name}
           size={30}
-          style={{ marginBottom: -3 }}
+          style={{ marginBottom: -3, color: '#659B0E' }}
           color={focused ? Colors.tabIconSelected : Colors.tabIconDefault}
         />
       );
@@ -21,7 +21,7 @@ export default class TabBarIcon extends React.Component {
         <MaterialCommunityIcons
           name={name}
           size={30}
-          style={{ marginBottom: -3 }}
+          style={{ marginBottom: -3, color: '#659B0E' }}
           color={focused ? Colors.tabIconSelected : Colors.tabIconDefault}
         />
       );
