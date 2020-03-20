@@ -1,41 +1,39 @@
-// import React from 'react';
-// import { connect } from 'react-redux';
-// import { fetchIngredients } from '../store/nutrition';
-// import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
-// class CurrentIngredient extends React.Component {
-//   constructor() {
-//     super();
-//     this.state = {};
-//   }
+export default class CurrentIngredient extends React.Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
 
-//   render() {
-//     let {ing} = this.props
+  render() {
+    return (
+      <View>
+        <Text style={styles.name}>DISH NAME</Text>
+        <Text style={styles.ingredients}>ingredients listed here</Text>
+      </View>
+    );
+  }
+}
 
-//     return (
-//       <View>
-//         <Text style={styles.name}>{ing[0].}</Text>
-//       </View>
-//     );
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   name: {
-//     fontSize: 50
-//   }
-// })
-
-// const mapStateToProps = state => ({
-//   ingredients: state.ingredients,
-// });
-
-// const mapDispatchToProps = dispatch => ({
-//   fetchIngredientsDispatch: () => dispatch(fetchIngredients()),
-// });
-
-// const ConnectedCurrentIng = connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(CurrentIngredient);
-// export default ConnectedCurrentIng;
+const styles = StyleSheet.create({
+  name: {
+    fontSize: 20,
+  },
+  ingredients: {
+    fontSize: 15,
+  },
+  image: {
+    width: 100,
+    height: 100,
+  },
+  donutGraph: {
+    width: 90,
+    height: 90,
+  },
+  barGraph: {
+    width: 100,
+    height: 200,
+  },
+});
