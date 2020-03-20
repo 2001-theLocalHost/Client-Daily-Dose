@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
-
+import * as ImagePicker from 'expo-image-picker';
 import { MonoText } from '../components/StyledText';
 
 export default function HomeScreen() {
@@ -23,7 +23,7 @@ export default function HomeScreen() {
         <View style={styles.getStartedContainer}>
           <DevelopmentModeNotice />
 
-          <Text style={styles.getStartedText}>Open up the code for this screen:</Text>
+          <Text style={styles.getStartedText}>Hello World</Text>
 
           <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
             <MonoText>screens/HomeScreen.js</MonoText>
@@ -177,3 +177,4 @@ const styles = StyleSheet.create({
     color: '#2e78b7',
   },
 });
+
