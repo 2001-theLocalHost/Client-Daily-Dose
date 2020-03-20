@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, TextInput, Button } from 'react-native';
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, TextInput, Button, Picker } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux'
 import { addIngredientByUser, finalizeIngredients, fetchNutrition, removeIngredient, removeUserAddedItem } from '../redux/dishes'
@@ -8,12 +8,17 @@ import { addIngredientByUser, finalizeIngredients, fetchNutrition, removeIngredi
 class IngredientConfirmation extends React.Component {
     constructor() {
         super()
-        this.state = {value: '', portion: "1"}
+        this.state = {value: '', portion: "", amount: '', type: '', ingredients: [{name: "", quantity: 0, measurement: "oz"}]}
         this.handleChangeText = this.handleChangeText.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.fetchNutrition = this.fetchNutrition.bind(this)
         this.removeIngredient = this.removeIngredient.bind(this)
         this.removeUserAddedItem = this.removeUserAddedItem.bind(this)
+    }
+
+    componentDidMount () {
+        this.setState({...this.state, ingredients: this.props.ingredients}, () => { console.log('TEST', this.state.ingredients); return true})
+        //console.log('TEST', this.state.ingredients)
     }
 
     handleChangeText(newText) {
@@ -48,18 +53,35 @@ class IngredientConfirmation extends React.Component {
         const ingredients = this.props.ingredients
         console.log('****', ingredients)
         const userAddedIngredients = this.props.userAddedIngredients
+        const quantTypes = [{value: 'oz'}, {value: 'g'}, {value: 'c'}]
         return (
             <View>
                 <View style={styles.renderIngredients}>
                 <Text>Confirm Your Ingredients:</Text>
                 {
-                 ingredients.map((item, index) => {
+                 this.state.ingredients.map((item, index) => {
                          return (
                              <Text key={index}>
                              <Text >
-                                 {item} 
+                                 {item.name} 
                              </Text>
                              <Button onPress={this.removeIngredient} title="Remove" color="red" />
+                             <TextInput 
+                                placeholder="Enter A Numerical Value"
+                                defaultValue={item.quantity} 
+                            />
+                            <Text></Text>
+                            <Picker
+                            selectedValue={item.measurement}>
+                            {/* onValueChange={(value) => { 
+                                let localState = {...this.state}
+                                this.setState({...this.state, this.state.ingredients[index].measurement: value})} } */}
+                                {
+                                    quantTypes.map((cateogry, index) => {
+                                        return (<Picker.Item key={index} label={cateogry.value} value={cateogry.value}/>)
+                                    })
+                                }
+                            </Picker>
                              </Text>
                          )
                      })
@@ -75,7 +97,18 @@ class IngredientConfirmation extends React.Component {
                              <Text>
                                  {item} 
                              </Text> 
-                             <Button onPress={this.removeUserAddedItem} title="Remove" color="red" />   
+                             <Button onPress={this.removeUserAddedItem} title="Remove" color="red" /> 
+                             <TextInput 
+                                placeholder="Enter A Numerical Value"
+                                defaultValue={this.state.portion} 
+                            />
+                            <Picker>
+                                {
+                                    quantTypes.map((cateogry, index) => {
+                                        return (<Picker.Item key={index} label={cateogry.value} value={cateogry.value} />)
+                                    })
+                                }
+                            </Picker>  
                              </Text>
                          )
                      })
@@ -95,7 +128,7 @@ class IngredientConfirmation extends React.Component {
                 <View style={styles.addItem}>
                 <Text>Confirm Portion Size:</Text>
                 <TextInput 
-                    placeholder="1"
+                    placeholder=""
                     defaultValue={this.state.portion} 
                 />
                 </View>

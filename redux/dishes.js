@@ -102,10 +102,23 @@ export const fetchNutrition = (finalIngredients) => {
 
 //INITIAL STATE
 const initialState = {
-    ingredients: ['Bread', 'Cheese'],
+    ingredients: [
+        {
+          "name": "sauce",
+          "quantity": "0",
+          "measurement": "c"
+        },
+        {
+          "name": "pasta",
+          "quantity": "0",
+          "measurement": "oz"
+        },
+        ],
     userAddedIngredients: ['Walnuts', 'Olive Oil', 'Truffles'],
+    //formattedApiIngredients: [ {name: 'Pasta', amount: '1', type: 'c'} ],
+    //formattedUserAddedIngredients: [ {name: 'Walnuts', amount: '2', type: 'oz'}, ],
     finalIngredients: [],
-    nutritionData: []
+    nutritionData: [] //['1 cup rice', '10 oz chickpeas', '5 grams chocolate']
 }
 //once nutritionData is loaded with data from Nutrition API, current dish view can be rendered 
 
