@@ -32,10 +32,7 @@
     "react-native-reanimated": "~1.4.0",
     "react-native-safe-area-context": "0.6.0",
     "react-native-screens": "2.0.0-alpha.12",
-<<<<<<< HEAD
-=======
     "react-native-tab-view": "^2.13.0",
->>>>>>> master
     "react-native-web": "~0.11.7",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
