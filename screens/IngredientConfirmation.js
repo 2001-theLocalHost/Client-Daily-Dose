@@ -8,7 +8,7 @@ import { addIngredientByUser, finalizeIngredients, fetchNutrition, removeIngredi
 class IngredientConfirmation extends React.Component {
     constructor() {
         super()
-        this.state = {value: '', portion: "", amount: '', type: '', ingredients: [{name: "", quantity: 0, measurement: "oz"}]}
+        this.state = {value: '', dishName: "", ingredients: [{name: "", quantity: "0", measurement: "oz"}], userAddedIngredients: [{name: "", quantity: "0", measurement: "oz"}]}
         this.handleChangeText = this.handleChangeText.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.fetchNutrition = this.fetchNutrition.bind(this)
@@ -17,8 +17,8 @@ class IngredientConfirmation extends React.Component {
     }
 
     componentDidMount () {
-        this.setState({...this.state, ingredients: this.props.ingredients}, () => { console.log('TEST', this.state.ingredients); return true})
-        //console.log('TEST', this.state.ingredients)
+        this.setState({...this.state, ingredients: this.props.ingredients, userAddedIngredients: this.props.userAddedIngredients}, () => { console.log('TEST', this.state.ingredients, 'FROM REDUX: ', this.props.ingredients); return true})
+
     }
 
     handleChangeText(newText) {
@@ -26,38 +26,39 @@ class IngredientConfirmation extends React.Component {
     }
 
     handleSubmit() {
-        this.props.addIngredientByUser(this.state.value)
-        this.setState({value: ''})
+        let addingIngredientClone = {...this.state}
+        addingIngredientClone.userAddedIngredients.push({name: this.state.value, quantity: "0", measurement: "oz"})
+        this.setState(addingIngredientClone)
     }
 
      async fetchNutrition () {
-        //console.log('DID THIS HAPPEN?', 'API INGREDIENTS: ', this.props.ingredients, 'USER INGREDIENTS: ', this.props.userAddedIngredients)
-        await this.props.finalizeIngredients(this.props.ingredients, this.props.userAddedIngredients)
+        await this.props.finalizeIngredients(this.state.ingredients, this.state.userAddedIngredients, this.state.dishName)
         console.log('API INGREDIENTS: ', this.props.ingredients, 'USER INGREDIENTS: ', this.props.userAddedIngredients, 'Final Ingredients look like this: ', this.props.finalIngredients)
-        // await this.props.fetchNutrition(this.props.finalIngredients)
-        // console.log('Final Ingredients look like this: ', this.props.finalIngredients)
         // if(this.props.nutritionData === true){
         //     return (<Redirect to="/your/redirect/page" />);
         // }
     }
 
     async removeIngredient (index) {
-        this.props.removeIngredient(index)
+        let ingredientsClone = {...this.state}
+        ingredientsClone.ingredients.splice(index, 1)
+        this.setState(ingredientsClone)
     }
 
     async removeUserAddedItem (index) {
-        this.props.removeUserAddedItem(index)
+        let userIngredientsClone = {...this.state}
+        userIngredientsClone.userAddedIngredients.splice(index, 1)
+        this.setState(userIngredientsClone)
     }
 
     render() {
         const ingredients = this.props.ingredients
-        console.log('****', ingredients)
         const userAddedIngredients = this.props.userAddedIngredients
         const quantTypes = [{value: 'oz'}, {value: 'g'}, {value: 'c'}]
         return (
             <View>
                 <View style={styles.renderIngredients}>
-                <Text>Confirm Your Ingredients:</Text>
+                <Text style={styles.headerText}>Confirm Your Ingredients:</Text>
                 {
                  this.state.ingredients.map((item, index) => {
                          return (
@@ -65,17 +66,24 @@ class IngredientConfirmation extends React.Component {
                              <Text >
                                  {item.name} 
                              </Text>
-                             <Button onPress={this.removeIngredient} title="Remove" color="red" />
+                             <Button onPress={() => {this.removeIngredient(index)}} title="Remove" color="red" />
                              <TextInput 
                                 placeholder="Enter A Numerical Value"
-                                defaultValue={item.quantity} 
+                                value={item.quantity}
+                                onChangeText={(text) => {
+                                    let localStateClone = {...this.state}
+                                    localStateClone.ingredients[index].quantity = text;
+                                    this.setState(localStateClone)
+                                    }} 
                             />
                             <Text></Text>
                             <Picker
-                            selectedValue={item.measurement}>
-                            {/* onValueChange={(value) => { 
-                                let localState = {...this.state}
-                                this.setState({...this.state, this.state.ingredients[index].measurement: value})} } */}
+                            selectedValue={item.measurement}
+                            onValueChange={(value) => { 
+                                let localState = {...this.state }
+                                localState.ingredients[index].measurement = value;
+                                this.setState(localState) }}
+                                >
                                 {
                                     quantTypes.map((cateogry, index) => {
                                         return (<Picker.Item key={index} label={cateogry.value} value={cateogry.value}/>)
@@ -89,20 +97,31 @@ class IngredientConfirmation extends React.Component {
                 </View>
 
                 <View style={styles.renderIngredients}>
-                <Text>Added By User:</Text>
+                <Text style={styles.headerText}>Added By User:</Text>
                 {
-                    userAddedIngredients.map((item, index) => {
+                    this.state.userAddedIngredients.map((item, index) => {
                          return (
                              <Text key={index}>
                              <Text>
-                                 {item} 
+                                 {item.name} 
                              </Text> 
-                             <Button onPress={this.removeUserAddedItem} title="Remove" color="red" /> 
+                             <Button onPress={() => {this.removeUserAddedItem(index)}} title="Remove" color="red" /> 
                              <TextInput 
                                 placeholder="Enter A Numerical Value"
-                                defaultValue={this.state.portion} 
+                                value={item.quantity}
+                                onChangeText={(text) => {
+                                    let localUserAddedStateClone = {...this.state}
+                                    localUserAddedStateClone.userAddedIngredients[index].quantity = text;
+                                    this.setState(localUserAddedStateClone)
+                                    }} 
                             />
-                            <Picker>
+                            <Picker
+                                selectedValue={item.measurement}
+                                onValueChange={(value) => { 
+                                let localState = {...this.state }
+                                localState.userAddedIngredients[index].measurement = value;
+                                this.setState(localState) }}
+                            >
                                 {
                                     quantTypes.map((cateogry, index) => {
                                         return (<Picker.Item key={index} label={cateogry.value} value={cateogry.value} />)
@@ -116,7 +135,7 @@ class IngredientConfirmation extends React.Component {
                 </View>
             
                 <View style={styles.addItem}>
-                <Text>Add An Additional Ingredient:</Text>
+                <Text style={styles.headerText}>Add An Additional Ingredient:</Text>
                 <TextInput 
                     placeholder='Your Ingredient' 
                     defaultValue={this.state.value}
@@ -126,10 +145,15 @@ class IngredientConfirmation extends React.Component {
                 </View>
 
                 <View style={styles.addItem}>
-                <Text>Confirm Portion Size:</Text>
+                <Text style={styles.headerText}>Confirm Name Of Dish</Text>
                 <TextInput 
-                    placeholder=""
-                    defaultValue={this.state.portion} 
+                    placeholder="i.e. Vegan Pasta Salad"
+                    value={this.state.dishName}
+                    onChangeText={(text) => {
+                        let localStateDish = {...this.state}
+                        localStateDish.dishName = text
+                        this.setState(localStateDish)
+                    }}
                 />
                 </View>
 
@@ -154,7 +178,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
     return {
         addIngredientByUser: (newIngredient) => dispatch(addIngredientByUser(newIngredient)),
-        finalizeIngredients: (ingredients, userIngredients) => dispatch(finalizeIngredients(ingredients, userIngredients)),
+        finalizeIngredients: (ingredients, userIngredients, dishName) => dispatch(finalizeIngredients(ingredients, userIngredients, dishName)),
         fetchNutrition: (finalIngredients) => dispatch(fetchNutrition(finalIngredients)),
         removeIngredient: (index) => dispatch(removeIngredient(index)),
         removeUserAddedItem: (index) => dispatch(removeUserAddedItem(index))
@@ -171,4 +195,7 @@ const styles = StyleSheet.create({
     renderIngredients: {
         padding: 10
     },
+    headerText: {
+        fontWeight: 'bold'
+    }
 })

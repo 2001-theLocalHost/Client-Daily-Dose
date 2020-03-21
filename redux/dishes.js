@@ -33,11 +33,12 @@ const removingUserAddedItem = (index) => {
     }
 }
 
-const finalizingIngredients = (ingredients, userIngredients) => {
+const finalizingIngredients = (ingredients, userIngredients, dishName) => {
     return {
         type: FINALIZE_INGREDIENT,
         ingredients,
-        userIngredients
+        userIngredients,
+        dishName
     }
 }
 
@@ -79,10 +80,10 @@ export const removeUserAddedItem = index => {
     }
 }
 
-export const finalizeIngredients = (ingredients, userIngredients) => {
+export const finalizeIngredients = (ingredients, userIngredients, dishName) => {
     return dispatch => {
         try {
-            dispatch(finalizingIngredients (ingredients, userIngredients))
+            dispatch(finalizingIngredients (ingredients, userIngredients, dishName))
         } catch (error) {
             console.error(error)
         }
@@ -105,7 +106,7 @@ const initialState = {
     ingredients: [
         {
           "name": "sauce",
-          "quantity": "0",
+          "quantity": "4",
           "measurement": "c"
         },
         {
@@ -114,10 +115,8 @@ const initialState = {
           "measurement": "oz"
         },
         ],
-    userAddedIngredients: ['Walnuts', 'Olive Oil', 'Truffles'],
-    //formattedApiIngredients: [ {name: 'Pasta', amount: '1', type: 'c'} ],
-    //formattedUserAddedIngredients: [ {name: 'Walnuts', amount: '2', type: 'oz'}, ],
-    finalIngredients: [],
+    userAddedIngredients: [{name: "Truffles", quantity: "0", measurement: "oz"}],
+    finalIngredients: [], //Wi
     nutritionData: [] //['1 cup rice', '10 oz chickpeas', '5 grams chocolate']
 }
 //once nutritionData is loaded with data from Nutrition API, current dish view can be rendered 
@@ -137,7 +136,7 @@ const reducer = (state = initialState, action) => {
             userAddedIngredientsClone.splice(action.index, 1)
             return {...state, userAddedIngredients: [...userAddedIngredientsClone]}
         case FINALIZE_INGREDIENT:
-            return {...state, finalIngredients: [...action.ingredients, ...action.userIngredients]}
+            return {...state, finalIngredients: [...action.ingredients, ...action.userIngredients, action.dishName]}
         case GET_NUTRITION:
             return {...state, nutritionData: action.nutrition}
         default:
