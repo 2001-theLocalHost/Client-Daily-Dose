@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, ScrollView, View } from 'react-native';
+import PieChart from './Pie';
 
 export default class CurrentDish extends React.Component {
   constructor() {
@@ -71,6 +72,8 @@ export default class CurrentDish extends React.Component {
 
           <View style={styles.donutGraph}>
             <Text>FOR DONUT GRAPH</Text>
+
+            <View>{/* <PieChart /> */}</View>
             <Text>
               Calories from Carb: {totalNutrientsKCal.CHOCDF_KCAL.quantity} kCal
             </Text>

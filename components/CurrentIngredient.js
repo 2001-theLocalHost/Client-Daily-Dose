@@ -10,8 +10,10 @@ export default class CurrentIngredient extends React.Component {
   render() {
     return (
       <View>
-        <Text style={styles.name}>DISH NAME</Text>
-        <Text style={styles.ingredients}>ingredients listed here</Text>
+        <View>
+          <Text style={styles.name}>DISH NAME</Text>
+          <Text style={styles.ingredients}>ingredients listed here</Text>
+        </View>
       </View>
     );
   }
