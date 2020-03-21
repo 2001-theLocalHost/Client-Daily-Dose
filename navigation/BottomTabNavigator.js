@@ -36,11 +36,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         component={UploadImg}
         options={{
           title: 'Photos',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-camera" />,
-          title: 'Resources',
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon icon="ionicons" focused={focused} name="md-book" />
-          ),
+          tabBarIcon: ({ focused }) => <TabBarIcon icon="ionicons" focused={focused} name="md-camera" />
         }}
       />
       <BottomTab.Screen
