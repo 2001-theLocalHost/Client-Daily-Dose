@@ -32,16 +32,6 @@ export default function BottomTabNavigator({ navigation, route }) {
         }}
       />
       <BottomTab.Screen
-        name="Links"
-        component={LinksScreen}
-        options={{
-          title: 'Resources',
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon icon="ionicons" focused={focused} name="md-book" />
-          ),
-        }}
-      />
-      <BottomTab.Screen
         name="Dishes"
         component={ConnectedDishScreen}
         options={{
@@ -61,7 +51,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         component={IngredientConfirmation}
         options={{
           title: 'ConfirmIngredients',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-book" />,
+          tabBarIcon: ({ focused }) => <TabBarIcon icon="ionicons" focused={focused} name="md-book" />,
         }}
       />
     </BottomTab.Navigator>

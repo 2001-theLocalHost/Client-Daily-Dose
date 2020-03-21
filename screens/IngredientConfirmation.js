@@ -2,7 +2,7 @@ import React from 'react'
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, TextInput, Button, Picker } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux'
-import { addIngredientByUser, finalizeIngredients, fetchNutrition, removeIngredient, removeUserAddedItem } from '../redux/dishes'
+import { addIngredientByUser, finalizeIngredients, fetchNutrition, removeIngredient, removeUserAddedItem } from '../store/dishes'
 //import { Redirect } from 'react-router';
 
 class IngredientConfirmation extends React.Component {
