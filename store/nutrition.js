@@ -1,7 +1,5 @@
 import axios from 'axios';
-import qs from 'qs';
 import { ED_APIKEY, ED_APIID } from '../secret';
-import { ActionSheetIOS } from 'react-native';
 
 const GOT_NUTRITION = 'GOT_NUTRITION';
 // const GOT_DISH = 'GOT_DISH';
@@ -37,35 +35,13 @@ export const fetchNutrition = () => {
           ingr: '1%20cup%20rice', // pass stringify here
         },
       });
+      console.log('pineapple', data);
       dispatch(gotNutrition(data));
     } catch (err) {
       console.log('not able to load nutrition details', err);
     }
   };
 };
-
-// export const fetchNutrition = () => {
-//   return async dispatch => {
-//     try {
-//       // let stringify = urlEncoded(X)
-//       let { data } = await axios.post(url, {
-//         params: {
-//           app_id: ED_APIID,
-//           app_key: ED_APIKEY,
-//           // ingr: '1%20cup%20rice', // pass stringify here
-//         },
-//         recipe,
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//       });
-//        console.log('!!!!!!!!!!!!!!!!!!!! post request', data);
-//       dispatch(gotNutrition(data));
-//     } catch (err) {
-//       console.log('not able to load nutrition details', err);
-//     }
-//   };
-// };
 
 // export const fetchDish = () => {
 //   return async dispatch => {
@@ -103,3 +79,26 @@ const nutritionReducer = (state = initialState, action) => {
 };
 
 export default nutritionReducer;
+
+/* POST REQUEST (NEED JSON FILE AS REQ BODY & NEED HEADER)
+const options = {
+  headers: {
+    'Content-Type': 'application/json',
+  },
+};
+
+export const fetchNutrition = recipe => {
+  return async dispatch => {
+    try {
+      let { data } = await axios.post(
+        `https://api.edamam.com/api/nutrition-details?app_id=${ED_APIID}&app_key=${ED_APIKEY}`,
+        recipe.default,
+        options
+      );
+      dispatch(gotNutrition(data));
+    } catch (err) {
+      console.log('not able to load nutrition details', err);
+    }
+  };
+};
+*/

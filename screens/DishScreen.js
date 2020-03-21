@@ -50,7 +50,6 @@ class DishScreen extends React.Component {
   };
 
   render() {
-    console.log('dish screen:', this.props.dishNut);
     return (
       <TabView
         navigationState={{ index: this.state.index, routes: this.state.routes }}
@@ -71,7 +70,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   dishNut: state.nutrition.dishNut,
-  // ingredientsNut: state.nutrition.ingredientsNut,
   // dish: state.nutrition.dish
 });
 
