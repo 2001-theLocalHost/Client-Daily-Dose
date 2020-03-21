@@ -12,7 +12,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "@expo/vector-icons": "~10.0.0",
+    "@expo/vector-icons": "^10.0.6",
     "@react-native-community/masked-view": "0.1.5",
     "@react-navigation/bottom-tabs": "^5.0.0",
     "@react-navigation/native": "^5.0.0",
@@ -24,12 +24,18 @@
     "expo-constants": "~8.0.0",
     "expo-font": "~8.0.0",
     "expo-web-browser": "~8.0.0",
+    "qs": "^6.9.1",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
     "react-native-gesture-handler": "~1.5.0",
+    "react-native-reanimated": "~1.4.0",
     "react-native-safe-area-context": "0.6.0",
     "react-native-screens": "2.0.0-alpha.12",
+<<<<<<< HEAD
+=======
+    "react-native-tab-view": "^2.13.0",
+>>>>>>> master
     "react-native-web": "~0.11.7",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
@@ -40,7 +46,8 @@
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "babel-preset-expo": "~8.0.0",
-    "jest-expo": "~36.0.1"
+    "jest-expo": "~36.0.1",
+    "json-loader": "^0.5.7"
   },
   "private": true
 }
