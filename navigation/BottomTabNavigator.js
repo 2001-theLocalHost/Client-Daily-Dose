@@ -4,6 +4,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import UploadImg from '../components/UploadImg'
 import LinksScreen from '../screens/LinksScreen';
+import IngredientConfirmation from '../screens/IngredientConfirmation';
 import ConnectedDishScreen from '../screens/DishScreen';
 
 const BottomTab = createBottomTabNavigator();
@@ -51,6 +52,15 @@ export default function BottomTabNavigator({ navigation, route }) {
               name="silverware-fork-knife"
             />
           ),
+        }}
+      />
+
+      <BottomTab.Screen
+        name="ConfirmIngredients"
+        component={IngredientConfirmation}
+        options={{
+          title: 'ConfirmIngredients',
+          tabBarIcon: ({ focused }) => <TabBarIcon icon="ionicons" focused={focused} name="md-book" />,
         }}
       />
     </BottomTab.Navigator>
