@@ -2,6 +2,7 @@ import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
+import UploadImg from '../components/UploadImg'
 import LinksScreen from '../screens/LinksScreen';
 import IngredientConfirmation from '../screens/IngredientConfirmation';
 import ConnectedDishScreen from '../screens/DishScreen';
@@ -29,6 +30,14 @@ export default function BottomTabNavigator({ navigation, route }) {
               name="md-code-working"
             />
           ),
+        }}
+      />
+      <BottomTab.Screen
+        name="UploadImg"
+        component={UploadImg}
+        options={{
+          title: 'Photos',
+          tabBarIcon: ({ focused }) => <TabBarIcon icon="ionicons" focused={focused} name="md-camera" />
         }}
       />
       <BottomTab.Screen
