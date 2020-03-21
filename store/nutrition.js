@@ -1,7 +1,5 @@
 import axios from 'axios';
-import qs from 'qs';
 import { ED_APIKEY, ED_APIID } from '../secret';
-import { ActionSheetIOS } from 'react-native';
 
 const GOT_NUTRITION = 'GOT_NUTRITION';
 // const GOT_DISH = 'GOT_DISH';
@@ -37,35 +35,13 @@ export const fetchNutrition = () => {
           ingr: '1%20cup%20rice', // pass stringify here
         },
       });
+      console.log('pineapple', data);
       dispatch(gotNutrition(data));
     } catch (err) {
       console.log('not able to load nutrition details', err);
     }
   };
 };
-
-// export const fetchNutrition = () => {
-//   return async dispatch => {
-//     try {
-//       // let stringify = urlEncoded(X)
-//       let { data } = await axios.post(url, {
-//         params: {
-//           app_id: ED_APIID,
-//           app_key: ED_APIKEY,
-//           // ingr: '1%20cup%20rice', // pass stringify here
-//         },
-//         recipe,
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//       });
-//        console.log('!!!!!!!!!!!!!!!!!!!! post request', data);
-//       dispatch(gotNutrition(data));
-//     } catch (err) {
-//       console.log('not able to load nutrition details', err);
-//     }
-//   };
-// };
 
 // export const fetchDish = () => {
 //   return async dispatch => {
@@ -80,26 +56,6 @@ export const fetchNutrition = () => {
 
 const initialState = {
   dishNut: {},
-  totalNutrientsFAT: {},
-  totalNutrientsCHOCDF: {},
-  totalNutrientsPROCNT: {},
-  totalDailyENERGY: {},
-  totalDailyFAT: {},
-  totalDailyFASAT: {},
-  totalDailyCHOCDF: {},
-  totalDailyPROCNT: {},
-  totalDailyNA: {},
-  totalDailyCA: {},
-  totalDailyMG: {},
-  totalDailyK: {},
-  totalDailyFE: {},
-  totalDailyZN: {},
-  totalDailyP: {},
-  totalDailyTHIA: {},
-  totalDailyRIBF: {},
-  totalDailyNIA: {},
-  totalDailyVITB6A: {},
-  totalDailyFOLDFE: {},
   // ingredientsNut: [],
   // dish: {},
 };
@@ -110,26 +66,6 @@ const nutritionReducer = (state = initialState, action) => {
       return {
         ...state,
         dishNut: action.nutrition,
-        totalNutrientsFAT: action.nutrition.totalNutrients.FAT,
-        totalNutrientsCHOCDF: action.nutrition.totalNutrients.CHOCDF,
-        totalNutrientsPROCNT: action.nutrition.totalNutrients.PROCNT,
-        totalDailyENERGY: action.nutrition.totalDaily.ENERC_KCAL,
-        totalDailyFAT: action.nutrition.totalDaily.FAT,
-        totalDailyFASAT: action.nutrition.totalDaily.FASAT,
-        totalDailyCHOCDF: action.nutrition.totalDaily.CHOCDF,
-        totalDailyPROCNT: action.nutrition.totalDaily.PROCNT,
-        totalDailyNA: action.nutrition.totalDaily.NA,
-        totalDailyCA: action.nutrition.totalDaily.CA,
-        totalDailyMG: action.nutrition.totalDaily.MG,
-        totalDailyK: action.nutrition.totalDaily.K,
-        totalDailyFE: action.nutrition.totalDaily.FE,
-        totalDailyZN: action.nutrition.totalDaily.ZN,
-        totalDailyP: action.nutrition.totalDaily.P,
-        totalDailyTHIA: action.nutrition.totalDaily.THIA,
-        totalDailyRIBF: action.nutrition.totalDaily.RIBF,
-        totalDailyNIA: action.nutrition.totalDaily.NIA,
-        totalDailyVITB6A: action.nutrition.totalDaily.VITB6A,
-        totalDailyFOLDFE: action.nutrition.totalDaily.FOLDFE,
         // ingredientsNut: action.nutrition.ingredients,
       };
     // case GOT_DISH:
@@ -143,3 +79,26 @@ const nutritionReducer = (state = initialState, action) => {
 };
 
 export default nutritionReducer;
+
+/* POST REQUEST (NEED JSON FILE AS REQ BODY & NEED HEADER)
+const options = {
+  headers: {
+    'Content-Type': 'application/json',
+  },
+};
+
+export const fetchNutrition = recipe => {
+  return async dispatch => {
+    try {
+      let { data } = await axios.post(
+        `https://api.edamam.com/api/nutrition-details?app_id=${ED_APIID}&app_key=${ED_APIKEY}`,
+        recipe.default,
+        options
+      );
+      dispatch(gotNutrition(data));
+    } catch (err) {
+      console.log('not able to load nutrition details', err);
+    }
+  };
+};
+*/

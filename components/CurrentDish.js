@@ -8,153 +8,196 @@ export default class CurrentDish extends React.Component {
   }
 
   render() {
-    let totalNutrientsFAT;
-    if (this.props.totalNutrientsFAT) {
-      totalNutrientsFAT = Math.round(this.props.totalNutrientsFAT.quantity);
-    }
+    const {
+      dishNut: {
+        calories,
+        healthLabels,
+        dietLabels,
+        cautions,
+        totalDaily,
+        totalNutrients,
+        totalNutrientsKCal,
+      },
+    } = this.props;
 
-    let totalNutrientsCHOCDF;
-    if (this.props.totalNutrientsCHOCDF) {
-      totalNutrientsCHOCDF = Math.round(
-        this.props.totalNutrientsCHOCDF.quantity
-      );
-    }
-
-    let totalNutrientsPROCNT;
-    if (this.props.totalNutrientsPROCNT) {
-      totalNutrientsPROCNT = Math.round(
-        this.props.totalNutrientsPROCNT.quantity
-      );
-    }
-
-    let totalDailyENERGY;
-    if (this.props.totalDailyENERGY) {
-      totalDailyENERGY = Math.round(this.props.totalDailyENERGY.quantity);
-    }
-
-    let totalDailyFAT;
-    if (this.props.totalDailyFAT) {
-      totalDailyFAT = Math.round(this.props.totalDailyFAT.quantity);
-    }
-
-    let totalDailyFASAT;
-    if (this.props.totalDailyFASAT) {
-      totalDailyFASAT = Math.round(this.props.totalDailyFASAT.quantity);
-    }
-
-    let totalDailyCHOCDF;
-    if (this.props.totalDailyCHOCDF) {
-      totalDailyCHOCDF = Math.round(this.props.totalDailyCHOCDF.quantity);
-    }
-
-    let totalDailyPROCNT;
-    if (this.props.totalDailyPROCNT) {
-      totalDailyPROCNT = Math.round(this.props.totalDailyPROCNT.quantity);
-    }
-
-    let totalDailyNA;
-    if (this.props.totalDailyNA) {
-      totalDailyNA = Math.round(this.props.totalDailyNA.quantity);
-    }
-
-    let totalDailyCA;
-    if (this.props.totalDailyCA) {
-      totalDailyCA = Math.round(this.props.totalDailyCA.quantity);
-    }
-
-    let totalDailyMG;
-    if (this.props.totalDailyMG) {
-      totalDailyMG = Math.round(this.props.totalDailyMG.quantity);
-    }
-
-    let totalDailyK;
-    if (this.props.totalDailyK) {
-      totalDailyK = Math.round(this.props.totalDailyK.quantity);
-    }
-
-    let totalDailyFE;
-    if (this.props.totalDailyFE) {
-      totalDailyFE = Math.round(this.props.totalDailyFE.quantity);
-    }
-
-    let totalDailyZN;
-    if (this.props.totalDailyZN) {
-      totalDailyZN = Math.round(this.props.totalDailyZN.quantity);
-    }
-
-    let totalDailyP;
-    if (this.props.totalDailyP) {
-      totalDailyP = Math.round(this.props.totalDailyP.quantity);
-    }
-
-    let totalDailyTHIA;
-    if (this.props.totalDailyTHIA) {
-      totalDailyTHIA = Math.round(this.props.totalDailyTHIA.quantity);
-    }
-
-    let totalDailyRIBF;
-    if (this.props.totalDailyRIBF) {
-      totalDailyRIBF = Math.round(this.props.totalDailyRIBF.quantity);
-    }
-
-    let totalDailyNIA;
-    if (this.props.totalDailyNIA) {
-      totalDailyNIA = Math.round(this.props.totalDailyNIA.quantity);
-    }
-
-    let totalDailyVITB6A;
-    if (this.props.totalDailyVITB6A) {
-      totalDailyVITB6A = Math.round(this.props.totalDailyVITB6A.quantity);
-    }
-
-    let totalDailyFOLDFE;
-    if (this.props.totalDailyFOLDFE) {
-      totalDailyFOLDFE = Math.round(this.props.totalDailyFOLDFE.quantity);
-    }
-
-    return (
-      <ScrollView>
+    if (
+      !calories ||
+      !healthLabels ||
+      !dietLabels ||
+      !cautions ||
+      !totalDaily ||
+      !totalNutrients ||
+      !totalNutrientsKCal
+    ) {
+      return (
         <View>
-          <Text style={styles.name}>DISH NAME</Text>
-          <Text style={styles.ingredients}>ingredients listed here</Text>
+          <Text>Loading....</Text>
         </View>
-        <View>{/* <Image source={{uri: "x"}} style={styles.image} /> */}</View>
-        <Text>Calories: {this.props.dishNut.calories}</Text>
-        {/* <Text>Categories:</Text>
-        {this.props.dishNut.dietLabels.map(el => (
-          <Text>{el}</Text>
-        ))} */}
-        <View style={styles.donutGraph}>
-          <Text>Total Nutrients:</Text>
-          <Text>Fat: {totalNutrientsFAT}</Text>
-          <Text>Protein: {totalNutrientsPROCNT}</Text>
-          <Text>Carbs: {totalNutrientsCHOCDF}</Text>
-        </View>
-        <View style={styles.barGraph}>
-          <Text>Total Daily:</Text>
-          <Text>Energy: {totalDailyENERGY}% </Text>
-          <Text>Fat: {totalDailyFAT}%</Text>
-          <Text>
-            Saturated Fat:
-            {totalDailyFASAT}%
-          </Text>
-          <Text>Carbs: {totalDailyCHOCDF}% </Text>
-          <Text>Protein: {totalDailyPROCNT}%</Text>
-          <Text>Sodium: {totalDailyNA}%</Text>
-          <Text>Calcium: {totalDailyCA}%</Text>
-          <Text>Magnesium: {totalDailyMG}%</Text>
-          <Text>Potassium: {totalDailyK}%</Text>
-          <Text>Iron: {totalDailyFE}%</Text>
-          <Text>Zinc: {totalDailyZN}%</Text>
-          <Text>Phosphorus: {totalDailyP}%</Text>
-          <Text>Thiamin (B1): {totalDailyTHIA}%</Text>
-          {/* <Text>Riboflavin (B2): {totalDailyRIBF.quantity}%</Text> */}
-          <Text>Niacin (B3): {totalDailyNIA}%</Text>
-          <Text>Vitamin (B6): {totalDailyVITB6A}%</Text>
-          <Text>Folate (B9): {totalDailyFOLDFE}%</Text>
-        </View>
-      </ScrollView>
-    );
+      );
+    } else {
+      return (
+        <ScrollView>
+          {console.log(totalDaily)}
+          <View>
+            <Text style={styles.name}>DISH NAME</Text>
+            <Text>Breakfast/Lunch/Dinner here</Text>
+            <Text style={styles.ingredients}>
+              ingredients and portion size here
+            </Text>
+            <View>
+              <Text>Image here</Text>
+              {/* <Image source={{ uri: 'x' }} style={styles.image} /> */}
+            </View>
+          </View>
+
+          <View>
+            <Text>Calories: {calories}</Text>
+            {/* {healthLabels
+            ? healthLabels.map(el => {
+                <Text key={el}>{el}</Text>;
+              })
+            : null}
+          {dietLabels
+            ? dietLabels.map(el => {
+                <Text key={el}>{el}</Text>;
+              })
+            : null}
+          {cautions
+            ? cautions.map(el => {
+                <Text key={el}>{el}</Text>;
+              })
+            : null} */}
+          </View>
+
+          <View style={styles.donutGraph}>
+            <Text>FOR DONUT GRAPH</Text>
+            <Text>
+              Calories from Carb: {totalNutrientsKCal.CHOCDF_KCAL.quantity} kCal
+            </Text>
+            <Text>
+              Calories from Fat: {totalNutrientsKCal.FAT_KCAL.quantity} kCal
+            </Text>
+            <Text>
+              Calories from Protein: {totalNutrientsKCal.PROCNT_KCAL.quantity}{' '}
+              kCal
+            </Text>
+          </View>
+
+          <View style={styles.barGraph}>
+            <Text>TOTAL DAILY PERCENTAGE BASED ON 2000 CALORIE</Text>
+            <Text>Calcium: {Math.round(totalDaily.CA.quantity)}%</Text>
+            <Text>Carbs: {Math.round(totalDaily.CHOCDF.quantity)}%</Text>
+            <Text>Energy: {Math.round(totalDaily.ENERC_KCAL.quantity)}%</Text>
+            <Text>Saturated Fat: {Math.round(totalDaily.FASAT.quantity)}%</Text>
+            <Text>Fat: {Math.round(totalDaily.FAT.quantity)}%</Text>
+            <Text>Iron: {Math.round(totalDaily.FE.quantity)}%</Text>
+            <Text>
+              Folate Equivalent: {Math.round(totalDaily.FOLDFE.quantity)}%
+            </Text>
+            <Text>Potassium: {Math.round(totalDaily.K.quantity)}%</Text>
+            <Text>Magnesium: {Math.round(totalDaily.MG.quantity)}%</Text>
+            <Text>Sodium: {Math.round(totalDaily.NA.quantity)}%</Text>
+            <Text>Niacin (B3): {Math.round(totalDaily.NIA.quantity)}%</Text>
+            <Text>Phosphorus: {Math.round(totalDaily.P.quantity)}%</Text>
+            <Text>Protein: {Math.round(totalDaily.PROCNT.quantity)}%</Text>
+            <Text>
+              Riboflavin (B2): {Math.round(totalDaily.RIBF.quantity)}%
+            </Text>
+            <Text>Thiamin (B1): {Math.round(totalDaily.THIA.quantity)}%</Text>
+            <Text>Vitamin B6: {Math.round(totalDaily.VITB6A.quantity)}%</Text>
+            <Text>Zinc: {Math.round(totalDaily.ZN.quantity)}%</Text>
+          </View>
+
+          <View style={styles.barGraph}>
+            <Text>TOTAL NUTRIENTS</Text>
+            <Text>
+              Calcium: {Math.round(totalNutrients.CA.quantity)}
+              {totalNutrients.CA.unit}
+            </Text>
+            <Text>
+              Carbs: {Math.round(totalNutrients.CHOCDF.quantity)}
+              {totalNutrients.CHOCDF.unit}
+            </Text>
+            <Text>
+              Energy: {Math.round(totalNutrients.ENERC_KCAL.quantity)}
+              {totalNutrients.ENERC_KCAL.unit}
+            </Text>
+            <Text>
+              Monounsaturated Fat: {Math.round(totalNutrients.FAMS.quantity)}
+              {totalNutrients.FAMS.unit}
+            </Text>
+            <Text>
+              Polyunsaturated Fat: {Math.round(totalNutrients.FAPU.quantity)}
+              {totalNutrients.FAPU.unit}
+            </Text>
+            <Text>
+              Saturated Fat: {Math.round(totalNutrients.FASAT.quantity)}
+              {totalNutrients.FASAT.unit}
+            </Text>
+            <Text>
+              Fat: {Math.round(totalNutrients.FAT.quantity)}
+              {totalNutrients.FAT.unit}
+            </Text>
+            <Text>
+              Iron: {Math.round(totalNutrients.FE.quantity)}
+              {totalNutrients.FE.unit}
+            </Text>
+            <Text>
+              Folate Equivalent: {Math.round(totalNutrients.FOLDFE.quantity)}
+              {totalNutrients.FOLDFE.unit}
+            </Text>
+            <Text>
+              Folate Food: {Math.round(totalNutrients.FOLFD.quantity)}
+              {totalNutrients.FOLFD.unit}
+            </Text>
+            <Text>
+              Potassium: {Math.round(totalNutrients.K.quantity)}
+              {totalNutrients.K.unit}
+            </Text>
+            <Text>
+              Magnesium: {Math.round(totalNutrients.MG.quantity)}
+              {totalNutrients.MG.unit}
+            </Text>
+            <Text>
+              Sodium: {Math.round(totalNutrients.NA.quantity)}
+              {totalNutrients.NA.unit}
+            </Text>
+            <Text>
+              Niacin: {Math.round(totalNutrients.NIA.quantity)}
+              {totalNutrients.NIA.unit}
+            </Text>
+            <Text>
+              Phosphorus: {Math.round(totalNutrients.P.quantity)}
+              {totalNutrients.P.unit}
+            </Text>
+            <Text>
+              Protein: {Math.round(totalNutrients.PROCNT.quantity)}
+              {totalNutrients.PROCNT.unit}
+            </Text>
+            <Text>
+              Riboflavin (B2): {Math.round(totalNutrients.RIBF.quantity)}
+              {totalNutrients.RIBF.unit}
+            </Text>
+            <Text>
+              Thiamin (B2): {Math.round(totalNutrients.THIA.quantity)}
+              {totalNutrients.THIA.unit}
+            </Text>
+            <Text>
+              Vitamin B6: {Math.round(totalNutrients.VITB6A.quantity)}
+              {totalNutrients.VITB6A.unit}
+            </Text>
+            <Text>
+              Water:{Math.round(totalNutrients.WATER.quantity)}
+              {totalNutrients.WATER.unit}
+            </Text>
+            <Text>
+              Zinc: {Math.round(totalNutrients.FAT.quantity)}
+              {totalNutrients.FAT.unit}
+            </Text>
+          </View>
+        </ScrollView>
+      );
+    }
   }
 }
 
@@ -170,11 +213,13 @@ const styles = StyleSheet.create({
     height: 100,
   },
   donutGraph: {
+    marginTop: 15,
+    marginBottom: 15,
     width: 200,
-    height: 90,
   },
   barGraph: {
+    marginTop: 15,
+    marginBottom: 15,
     width: 200,
-    height: 200,
   },
 });
