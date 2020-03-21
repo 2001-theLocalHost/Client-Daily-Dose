@@ -171,7 +171,6 @@ const mapState = (state) => {
         ingredients: state.dishes.ingredients,
         userAddedIngredients: state.dishes.userAddedIngredients,
         finalIngredients: state.dishes.finalIngredients,
-        nutritionData: state.dishes.nutritionData
     }
 }
 

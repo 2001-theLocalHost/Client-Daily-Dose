@@ -9,7 +9,6 @@ const REMOVING_USER_ADDED_ITEM = "REMOVING_USER_ADDED_ITEM"
 
 const FINALIZE_INGREDIENT = "FINALIZE_INGREDIENT"
 
-const GET_NUTRITION = "GET_NUTRITION"
 
 //ACTION CREATOR
 const addIngredient = (newIngredient) => {
@@ -42,12 +41,6 @@ const finalizingIngredients = (ingredients, userIngredients, dishName) => {
     }
 }
 
-const getNutrition = (nutrition) => {
-    return {
-        type: GET_NUTRITION,
-        nutrition
-    }
-}
 
 //THUNK
 export const addIngredientByUser = newIngredient => {
@@ -90,16 +83,6 @@ export const finalizeIngredients = (ingredients, userIngredients, dishName) => {
     }
 }
 
-export const fetchNutrition = (finalIngredients) => {
-    return async (dispatch, next) => {
-        try {
-            //const { data } = await axios.post(API ROUTE, finalIngredients)
-            dispatch(getNutrition(data))
-        } catch (error) {
-            console.error(error)
-        }
-    }
-}
 
 //INITIAL STATE
 const initialState = {
@@ -136,8 +119,6 @@ const reducer = (state = initialState, action) => {
             return {...state, userAddedIngredients: [...userAddedIngredientsClone]}
         case FINALIZE_INGREDIENT:
             return {...state, finalIngredients: [...action.ingredients, ...action.userIngredients, action.dishName]}
-        case GET_NUTRITION:
-            return {...state, nutritionData: action.nutrition}
         default:
             return state
     }
