@@ -116,10 +116,9 @@ const initialState = {
         },
         ],
     userAddedIngredients: [{name: "Truffles", quantity: "0", measurement: "oz"}],
-    finalIngredients: [], //Wi
+    finalIngredients: [], // [{name: 'sauce', quantity: '4', measurement: 'c'}, {name: 'pasta', quantity: '1', measurement: 'c'}, "pasta salad"]
     nutritionData: [] //['1 cup rice', '10 oz chickpeas', '5 grams chocolate']
 }
-//once nutritionData is loaded with data from Nutrition API, current dish view can be rendered 
 
 
 //REDUCER
