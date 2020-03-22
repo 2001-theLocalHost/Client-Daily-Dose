@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, ScrollView, View } from 'react-native';
-import PieChart from './Pie';
+import AnimatedPie from './Graph-Pieces/AnimatedPie';
+import AnimatedPieLabel from './Graph-Pieces/AnimatedPieLabel';
+import TotalNutrientsBar from './Graph-Pieces/TotalNutrients-Bar';
 
 export default class CurrentDish extends React.Component {
   constructor() {
@@ -38,7 +40,6 @@ export default class CurrentDish extends React.Component {
     } else {
       return (
         <ScrollView>
-          {console.log(totalDaily)}
           <View>
             <Text style={styles.name}>DISH NAME</Text>
             <Text>Breakfast/Lunch/Dinner here</Text>
@@ -71,10 +72,17 @@ export default class CurrentDish extends React.Component {
           </View>
 
           <View style={styles.donutGraph}>
-            <Text>FOR DONUT GRAPH</Text>
-
-            <View>{/* <PieChart /> */}</View>
-            <Text>
+            <AnimatedPie
+              carbs={totalNutrientsKCal.CHOCDF_KCAL.quantity}
+              fat={totalNutrientsKCal.FAT_KCAL.quantity}
+              protein={totalNutrientsKCal.PROCNT_KCAL.quantity}
+            />
+            <AnimatedPieLabel
+              carbs={totalNutrientsKCal.CHOCDF_KCAL.quantity}
+              fat={totalNutrientsKCal.FAT_KCAL.quantity}
+              protein={totalNutrientsKCal.PROCNT_KCAL.quantity}
+            />
+            {/* <Text>
               Calories from Carb: {totalNutrientsKCal.CHOCDF_KCAL.quantity} kCal
             </Text>
             <Text>
@@ -83,36 +91,36 @@ export default class CurrentDish extends React.Component {
             <Text>
               Calories from Protein: {totalNutrientsKCal.PROCNT_KCAL.quantity}{' '}
               kCal
-            </Text>
+            </Text> */}
           </View>
 
           <View style={styles.barGraph}>
-            <Text>TOTAL DAILY PERCENTAGE BASED ON 2000 CALORIE</Text>
-            <Text>Calcium: {Math.round(totalDaily.CA.quantity)}%</Text>
-            <Text>Carbs: {Math.round(totalDaily.CHOCDF.quantity)}%</Text>
-            <Text>Energy: {Math.round(totalDaily.ENERC_KCAL.quantity)}%</Text>
-            <Text>Saturated Fat: {Math.round(totalDaily.FASAT.quantity)}%</Text>
-            <Text>Fat: {Math.round(totalDaily.FAT.quantity)}%</Text>
-            <Text>Iron: {Math.round(totalDaily.FE.quantity)}%</Text>
-            <Text>
-              Folate Equivalent: {Math.round(totalDaily.FOLDFE.quantity)}%
-            </Text>
-            <Text>Potassium: {Math.round(totalDaily.K.quantity)}%</Text>
-            <Text>Magnesium: {Math.round(totalDaily.MG.quantity)}%</Text>
-            <Text>Sodium: {Math.round(totalDaily.NA.quantity)}%</Text>
-            <Text>Niacin (B3): {Math.round(totalDaily.NIA.quantity)}%</Text>
-            <Text>Phosphorus: {Math.round(totalDaily.P.quantity)}%</Text>
-            <Text>Protein: {Math.round(totalDaily.PROCNT.quantity)}%</Text>
-            <Text>
-              Riboflavin (B2): {Math.round(totalDaily.RIBF.quantity)}%
-            </Text>
-            <Text>Thiamin (B1): {Math.round(totalDaily.THIA.quantity)}%</Text>
-            <Text>Vitamin B6: {Math.round(totalDaily.VITB6A.quantity)}%</Text>
-            <Text>Zinc: {Math.round(totalDaily.ZN.quantity)}%</Text>
+            {/* <TotalDaily-Bar
+              data={[
+                totalDaily.CA.quantity,
+                totalDaily.CHOCDF.quantity,
+                totalDaily.ENERC_KCAL.quantity,
+                totalDaily.FASAT.quantity,
+                totalDaily.FAT.quantity,
+                totalDaily.FE.quantity,
+                totalDaily.FOLDFE.quantity,
+                totalDaily.K.quantity,
+                totalDaily.MG.quantity,
+                totalDaily.NA.quantity,
+                totalDaily.NIA.quantity,
+                totalDaily.P.quantity,
+                totalDaily.PROCNT.quantity,
+                totalDaily.RIBF.quantity,
+                totalDaily.THIA.quantity,
+                totalDaily.VITB6A.quantity,
+                totalDaily.ZN.quantity,
+              ]}
+            /> */}
           </View>
 
           <View style={styles.barGraph}>
             <Text>TOTAL NUTRIENTS</Text>
+            <TotalNutrientsBar />
             <Text>
               Calcium: {Math.round(totalNutrients.CA.quantity)}
               {totalNutrients.CA.unit}
@@ -212,17 +220,18 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   image: {
-    width: 100,
-    height: 100,
+    width: 50,
+    height: 50,
   },
   donutGraph: {
     marginTop: 15,
-    marginBottom: 15,
-    width: 200,
+    marginBottom: 0,
+    width: 500,
+    height: 400,
   },
   barGraph: {
     marginTop: 15,
     marginBottom: 15,
-    width: 200,
+    width: 500,
   },
 });
