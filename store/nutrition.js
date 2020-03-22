@@ -2,17 +2,17 @@ import axios from 'axios';
 import { ED_APIKEY, ED_APIID } from '../secret';
 
 const GOT_NUTRITION = 'GOT_NUTRITION';
-const GOT_INGR_NUTRITION = 'GOT_INGR_NUTRITION';
+// const GOT_INGR_NUTRITION = 'GOT_INGR_NUTRITION';
 
 export const gotNutrition = nutrition => ({
   type: GOT_NUTRITION,
   nutrition,
 });
 
-export const gotIngrNutrition = ingrNutrition => ({
-  type: GOT_INGR_NUTRITION,
-  ingrNutrition,
-});
+// export const gotIngrNutrition = ingrNutrition => ({
+//   type: GOT_INGR_NUTRITION,
+//   ingrNutrition,
+// });
 
 const url = 'https://api.edamam.com/api/nutrition-data';
 
