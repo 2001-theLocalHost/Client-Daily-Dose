@@ -22,6 +22,7 @@ const SaveDish = (props) => {
             <View>
               <TextInput
                 placeholder='Dish Name'
+                //placedholder --> bring in info from confirm ingredients page
                 onChangeText={formikProps.handleChange('dishName')}
                 value={formikProps.values.dishName}
               />
