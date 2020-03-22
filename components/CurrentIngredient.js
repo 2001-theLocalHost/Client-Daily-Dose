@@ -26,6 +26,10 @@ export default class CurrentIngredient extends React.Component {
         <Text style={styles.name}>DISH NAME</Text>
         <Button title='Save Meal' onPress={() => {this.setState({modalOpen: true})}}/>
         <Text style={styles.ingredients}>ingredients listed here</Text>
+        <View>
+          <Text style={styles.name}>DISH NAME</Text>
+          <Text style={styles.ingredients}>ingredients listed here</Text>
+        </View>
       </View>
     );
   }
