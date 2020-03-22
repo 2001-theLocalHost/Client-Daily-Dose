@@ -1,11 +1,20 @@
 import axios from 'axios'
 
 //ACTION TYPE
+const GET_INGREDIENTS = 'GET_INGREDIENTS';
+
 const FINALIZE_INGREDIENT = "FINALIZE_INGREDIENT"
 
 const CONSOLIDATE_DATA = "CONSOLIDATE_DATA"
 
 //ACTION CREATOR
+const getIngredients = ingredients => {
+    return {
+       type: GET_INGREDIENTS,
+       ingredients
+    };
+ };
+
 const finalizingIngredients = (ingredients, userIngredients, dishName) => {
     return {
         type: FINALIZE_INGREDIENT,
@@ -21,7 +30,19 @@ const consolidatingDataForAPI = (consolidated) => {
         consolidated
     }
 }
+
+
 //THUNK
+export const getIngredientsThunk = foodImageUrl => {
+    return async dispatch => {
+       try {
+          
+       } catch (error) {
+          console.error(error);
+       }
+    };
+ };
+
 export const finalizeIngredients = (ingredients, userIngredients, dishName) => {
     return dispatch => {
         try {
@@ -45,16 +66,16 @@ export const consolidatingData = (consolidated) => {
 //INITIAL STATE
 const initialState = {
     ingredients: [
-        {
-          name: "sauce",
-          quantity: "4",
-          measurement: "c"
-        },
-        {
-          name: "pasta",
-          quantity: "0",
-          measurement: "oz"
-        },
+        // {
+        //   name: "sauce",
+        //   quantity: "4",
+        //   measurement: "c"
+        // },
+        // {
+        //   name: "pasta",
+        //   quantity: "0",
+        //   measurement: "oz"
+        // },
         ],
     userAddedIngredients: [{name: "Truffles", quantity: "0", measurement: "oz"}],
     finalIngredients: [], // [{name: 'rice', quantity: '1', measurement: 'cup'}, {name: 'chickpeas', quantity: '10', measurement: 'oz'}, 'chickpeas rice']
