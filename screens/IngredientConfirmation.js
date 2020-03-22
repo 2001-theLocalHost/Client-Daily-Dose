@@ -250,27 +250,6 @@ const mapDispatch = dispatch => {
   };
 };
 
-const mapState = state => {
-  return {
-    ingredients: state.dishes.ingredients,
-    userAddedIngredients: state.dishes.userAddedIngredients,
-    finalIngredients: state.dishes.finalIngredients,
-  };
-};
-
-const mapDispatch = dispatch => {
-  return {
-    addIngredientByUser: newIngredient =>
-      dispatch(addIngredientByUser(newIngredient)),
-    finalizeIngredients: (ingredients, userIngredients, dishName) =>
-      dispatch(finalizeIngredients(ingredients, userIngredients, dishName)),
-    fetchNutrition: finalIngredients =>
-      dispatch(fetchNutrition(finalIngredients)),
-    removeIngredient: index => dispatch(removeIngredient(index)),
-    removeUserAddedItem: index => dispatch(removeUserAddedItem(index)),
-  };
-};
-
 export default connect(mapState, mapDispatch)(IngredientConfirmation);
 
 const styles = StyleSheet.create({
