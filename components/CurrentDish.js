@@ -6,18 +6,72 @@ import TotalDailyBar from './Graph-Pieces/TotalDailyBar';
 import TotalNutrientsBar from './Graph-Pieces/TotalNutrientsBar';
 
 export default class CurrentDish extends React.Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
-
+  /* combining health and diet labels with underscores */
   cleanStr(dietLabelArr, healthLabelsArr) {
     let newArr = [...dietLabelArr, ...healthLabelsArr];
-
     let tempArr = newArr.map(el => {
       return el.split('_').join(' ');
     });
     return tempArr.join(', ');
+  }
+
+  /* given goalsArr and mealsArr - get the difference in Array */
+  difference(goalsArr, currentArr) {
+    let diffArr = [];
+    for (let i = 0; i < currentArr.length; i++) {
+      let difference = goalsArr[i] - currentArr[i];
+      diffArr.push(difference);
+    }
+    return diffArr;
+  }
+
+  /* creating finalData format to pass to StackedGraph */
+  finalData(label, quant, diff) {
+    let final = [];
+    let temp = [];
+    let innerObj = {};
+
+    innerObj[label[0]] = quant[0];
+    innerObj['current'] = quant[0];
+    innerObj['diff'] = diff[0];
+    temp.push(innerObj);
+
+    if (label.length === 1) {
+      return temp;
+    } else {
+      let result = this.finalData(
+        label.slice(1),
+        quant.slice(1),
+        diff.slice(1)
+      );
+      final = [...temp, ...result];
+    }
+    return final;
+  }
+
+  /* making startData for StackedGraph for animation purposes; 
+can delete later if we find better way */
+  startData(label, quant, diff) {
+    let final = [];
+    let temp = [];
+    let innerObj = {};
+
+    innerObj[label[0]] = 0;
+    innerObj['current'] = 0;
+    innerObj['diff'] = 0;
+    temp.push(innerObj);
+
+    if (label.length === 1) {
+      return temp;
+    } else {
+      let result = this.startData(
+        label.slice(1),
+        quant.slice(1),
+        diff.slice(1)
+      );
+      final = [...temp, ...result];
+    }
+    return final;
   }
 
   render() {
@@ -48,6 +102,50 @@ export default class CurrentDish extends React.Component {
         </View>
       );
     } else {
+      /* Total Daily Quantities/Units/Labels in arrays */
+      let totalDailyKeys = Object.keys(totalDaily);
+      let totalDailyQuantities = totalDailyKeys.map(el => {
+        return totalDaily[el].quantity;
+      });
+      let totalDailyUnits = totalDailyKeys.map(el => {
+        return totalDaily[el].unit;
+      });
+      let totalDailyLabels = totalDailyKeys.map(el => {
+        return totalDaily[el].label;
+      });
+
+      /* Total Nutrients Quantities/Units/Labels in arrays */
+      let totalNutrientsKeys = Object.keys(totalNutrients);
+      let totalNutrientsQuantities = totalNutrientsKeys.map(el => {
+        return totalNutrients[el].quantity;
+      });
+      let totalNutrientsUnits = totalNutrientsKeys.map(el => {
+        return totalNutrients[el].unit;
+      });
+      let totalNutrientsLabels = totalNutrientsKeys.map(el => {
+        return totalNutrients[el].label;
+      });
+
+      /* Fake NutrientGoals in Array */
+      let nutrientGoals = Array(21).fill(100);
+
+      /* Difference of Goal & Nutrient Quantities in Array */
+      let difference = this.difference(nutrientGoals, totalNutrientsQuantities);
+
+      /* Final data for TotalNutrients StackBarGraph */
+      let finalDataForTotalNutrients = this.finalData(
+        totalNutrientsLabels,
+        totalNutrientsQuantities,
+        difference
+      );
+
+      /* Start data for TotalNutrients StackBarGraph */
+      let startDataForTotalNutrients = this.startData(
+        totalNutrientsLabels,
+        totalNutrientsQuantities,
+        difference
+      );
+
       return (
         <ScrollView>
           <View>
@@ -82,117 +180,23 @@ export default class CurrentDish extends React.Component {
           </View>
 
           <View style={styles.barGraph}>
-            <Text style={styles.title}>TOTAL DAILY:</Text>
+            <Text style={styles.title}>TOTAL DAILY %:</Text>
             <TotalDailyBar
-              data={[
-                totalDaily.CA.quantity,
-                totalDaily.CHOCDF.quantity,
-                totalDaily.ENERC_KCAL.quantity,
-                totalDaily.FASAT.quantity,
-                totalDaily.FAT.quantity,
-                totalDaily.FE.quantity,
-                totalDaily.FOLDFE.quantity,
-                totalDaily.K.quantity,
-                totalDaily.MG.quantity,
-                totalDaily.NA.quantity,
-                totalDaily.NIA.quantity,
-                totalDaily.P.quantity,
-                totalDaily.PROCNT.quantity,
-                totalDaily.RIBF.quantity,
-                totalDaily.THIA.quantity,
-                totalDaily.VITB6A.quantity,
-                totalDaily.ZN.quantity,
-              ]}
+              label={totalDailyLabels}
+              quantity={totalDailyQuantities}
+              unit={totalDailyUnits}
             />
           </View>
 
           <View style={styles.barGraph}>
-            <Text>TOTAL NUTRIENTS</Text>
-            <TotalNutrientsBar />
-            <Text>
-              Calcium: {Math.round(totalNutrients.CA.quantity)}
-              {totalNutrients.CA.unit}
-            </Text>
-            <Text>
-              Carbs: {Math.round(totalNutrients.CHOCDF.quantity)}
-              {totalNutrients.CHOCDF.unit}
-            </Text>
-            <Text>
-              Energy: {Math.round(totalNutrients.ENERC_KCAL.quantity)}
-              {totalNutrients.ENERC_KCAL.unit}
-            </Text>
-            <Text>
-              Monounsaturated Fat: {Math.round(totalNutrients.FAMS.quantity)}
-              {totalNutrients.FAMS.unit}
-            </Text>
-            <Text>
-              Polyunsaturated Fat: {Math.round(totalNutrients.FAPU.quantity)}
-              {totalNutrients.FAPU.unit}
-            </Text>
-            <Text>
-              Saturated Fat: {Math.round(totalNutrients.FASAT.quantity)}
-              {totalNutrients.FASAT.unit}
-            </Text>
-            <Text>
-              Fat: {Math.round(totalNutrients.FAT.quantity)}
-              {totalNutrients.FAT.unit}
-            </Text>
-            <Text>
-              Iron: {Math.round(totalNutrients.FE.quantity)}
-              {totalNutrients.FE.unit}
-            </Text>
-            <Text>
-              Folate Equivalent: {Math.round(totalNutrients.FOLDFE.quantity)}
-              {totalNutrients.FOLDFE.unit}
-            </Text>
-            <Text>
-              Folate Food: {Math.round(totalNutrients.FOLFD.quantity)}
-              {totalNutrients.FOLFD.unit}
-            </Text>
-            <Text>
-              Potassium: {Math.round(totalNutrients.K.quantity)}
-              {totalNutrients.K.unit}
-            </Text>
-            <Text>
-              Magnesium: {Math.round(totalNutrients.MG.quantity)}
-              {totalNutrients.MG.unit}
-            </Text>
-            <Text>
-              Sodium: {Math.round(totalNutrients.NA.quantity)}
-              {totalNutrients.NA.unit}
-            </Text>
-            <Text>
-              Niacin: {Math.round(totalNutrients.NIA.quantity)}
-              {totalNutrients.NIA.unit}
-            </Text>
-            <Text>
-              Phosphorus: {Math.round(totalNutrients.P.quantity)}
-              {totalNutrients.P.unit}
-            </Text>
-            <Text>
-              Protein: {Math.round(totalNutrients.PROCNT.quantity)}
-              {totalNutrients.PROCNT.unit}
-            </Text>
-            <Text>
-              Riboflavin (B2): {Math.round(totalNutrients.RIBF.quantity)}
-              {totalNutrients.RIBF.unit}
-            </Text>
-            <Text>
-              Thiamin (B2): {Math.round(totalNutrients.THIA.quantity)}
-              {totalNutrients.THIA.unit}
-            </Text>
-            <Text>
-              Vitamin B6: {Math.round(totalNutrients.VITB6A.quantity)}
-              {totalNutrients.VITB6A.unit}
-            </Text>
-            <Text>
-              Water:{Math.round(totalNutrients.WATER.quantity)}
-              {totalNutrients.WATER.unit}
-            </Text>
-            <Text>
-              Zinc: {Math.round(totalNutrients.FAT.quantity)}
-              {totalNutrients.FAT.unit}
-            </Text>
+            <Text style={styles.title}>TOTAL NUTRIENTS:</Text>
+            <TotalNutrientsBar
+              data={finalDataForTotalNutrients}
+              startData={startDataForTotalNutrients}
+              quantity={totalNutrientsQuantities}
+              label={totalNutrientsLabels}
+              unit={totalNutrientsUnits}
+            />
           </View>
         </ScrollView>
       );
