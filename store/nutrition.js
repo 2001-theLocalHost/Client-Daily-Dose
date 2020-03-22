@@ -11,6 +11,7 @@ export const gotNutrition = nutrition => ({
 const url = 'https://api.edamam.com/api/nutrition-data';
 
 const urlEncoded = arr => {
+  arr.splice(-1, 1);
   let stringify = arr
     .join(',')
     .split(' ')

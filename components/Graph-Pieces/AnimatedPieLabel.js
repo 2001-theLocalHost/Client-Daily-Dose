@@ -5,17 +5,17 @@ export default function AnimatedPieLabel(props) {
   return (
     <View style={styles.topLabelContainer}>
       <View style={styles.innerLabelContainer}>
-        <View style={styles.square1} />
-        <Text>Carb: {props.carbs} KCal</Text>
+        <View style={styles.squareCarbs} />
+        <Text>Carbs: {props.carbs} KCal</Text>
       </View>
 
       <View style={styles.innerLabelContainer}>
-        <View style={styles.square2} />
+        <View style={styles.squareFat} />
         <Text>Fat: {props.fat} KCal</Text>
       </View>
 
       <View style={styles.innerLabelContainer}>
-        <View style={styles.square3} />
+        <View style={styles.squareProtein} />
         <Text>Protein: {props.protein} KCal</Text>
       </View>
     </View>
@@ -31,19 +31,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  square1: {
+  squareCarbs: {
     width: 10,
     height: 10,
-    backgroundColor: '#0d2f51',
+    backgroundColor: '#FF7F4B',
   },
-  square2: {
+  squareFat: {
     width: 10,
     height: 10,
-    backgroundColor: '#28BD8B',
+    backgroundColor: '#E2CA2B',
   },
-  square3: {
+  squareProtein: {
     width: 10,
     height: 10,
-    backgroundColor: '#F66A6A',
+    backgroundColor: '#E35052',
   },
 });

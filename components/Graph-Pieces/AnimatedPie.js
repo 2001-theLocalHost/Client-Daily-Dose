@@ -25,12 +25,13 @@ export default class AnimatedPie extends React.Component {
     this.animate();
   }
 
-  donutGraphData(carb, fat, protein) {
-    let sum = carb + fat + protein;
+  donutGraphData(carbs, fat, protein) {
+    let sum = carbs + fat + protein;
+
     let data = [
-      { number: Math.round((carb / sum) * 100), color: '#0d2f51' },
-      { number: Math.round((fat / sum) * 100), color: '#28BD8B' },
-      { number: Math.round((protein / sum) * 100), color: '#F66A6A' },
+      { number: Math.round((carbs / sum) * 100), color: '#FF7F4B' },
+      { number: Math.round((fat / sum) * 100), color: '#E2CA2B' },
+      { number: Math.round((protein / sum) * 100), color: '#E35052' },
     ];
     return data;
   }
@@ -55,7 +56,7 @@ export default class AnimatedPie extends React.Component {
 
     return (
       <View>
-        <SVG width={270} height={300} viewBox={`-100 -100 150 150`}>
+        <SVG width={300} height={250} viewBox={`-175 -60 280 160`}>
           {/* viewBox prop indicates placement of the vector art */}
           <G>
             {/*G is a container used to group other SVG elements.*/}

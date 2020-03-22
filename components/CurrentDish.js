@@ -2,12 +2,22 @@ import React from 'react';
 import { StyleSheet, Text, ScrollView, View } from 'react-native';
 import AnimatedPie from './Graph-Pieces/AnimatedPie';
 import AnimatedPieLabel from './Graph-Pieces/AnimatedPieLabel';
-import TotalNutrientsBar from './Graph-Pieces/TotalNutrients-Bar';
+import TotalDailyBar from './Graph-Pieces/TotalDailyBar';
+import TotalNutrientsBar from './Graph-Pieces/TotalNutrientsBar';
 
 export default class CurrentDish extends React.Component {
   constructor() {
     super();
     this.state = {};
+  }
+
+  cleanStr(dietLabelArr, healthLabelsArr) {
+    let newArr = [...dietLabelArr, ...healthLabelsArr];
+
+    let tempArr = newArr.map(el => {
+      return el.split('_').join(' ');
+    });
+    return tempArr.join(', ');
   }
 
   render() {
@@ -41,61 +51,39 @@ export default class CurrentDish extends React.Component {
       return (
         <ScrollView>
           <View>
-            <Text style={styles.name}>DISH NAME</Text>
+            <Text style={styles.head}>DISH NAME</Text>
             <Text>Breakfast/Lunch/Dinner here</Text>
-            <Text style={styles.ingredients}>
+            <Text style={styles.subhead}>
               ingredients and portion size here
             </Text>
             <View>
-              <Text>Image here</Text>
+              <Text style={styles.subhead}>Image here</Text>
               {/* <Image source={{ uri: 'x' }} style={styles.image} /> */}
+            </View>
+            <Text>Health Labels:</Text>
+            <Text>{this.cleanStr(healthLabels, dietLabels)}</Text>
+          </View>
+
+          <View style={styles.graph}>
+            <Text style={styles.title}>TOTAL CALORIES BREAKDOWN:</Text>
+            <Text style={styles.title}>{calories}KCAL</Text>
+            <View>
+              <AnimatedPie
+                carbs={totalNutrientsKCal.CHOCDF_KCAL.quantity}
+                fat={totalNutrientsKCal.FAT_KCAL.quantity}
+                protein={totalNutrientsKCal.PROCNT_KCAL.quantity}
+              />
+              <AnimatedPieLabel
+                carbs={totalNutrientsKCal.CHOCDF_KCAL.quantity}
+                fat={totalNutrientsKCal.FAT_KCAL.quantity}
+                protein={totalNutrientsKCal.PROCNT_KCAL.quantity}
+              />
             </View>
           </View>
 
-          <View>
-            <Text>Calories: {calories}</Text>
-            {/* {healthLabels
-            ? healthLabels.map(el => {
-                <Text key={el}>{el}</Text>;
-              })
-            : null}
-          {dietLabels
-            ? dietLabels.map(el => {
-                <Text key={el}>{el}</Text>;
-              })
-            : null}
-          {cautions
-            ? cautions.map(el => {
-                <Text key={el}>{el}</Text>;
-              })
-            : null} */}
-          </View>
-
-          <View style={styles.donutGraph}>
-            <AnimatedPie
-              carbs={totalNutrientsKCal.CHOCDF_KCAL.quantity}
-              fat={totalNutrientsKCal.FAT_KCAL.quantity}
-              protein={totalNutrientsKCal.PROCNT_KCAL.quantity}
-            />
-            <AnimatedPieLabel
-              carbs={totalNutrientsKCal.CHOCDF_KCAL.quantity}
-              fat={totalNutrientsKCal.FAT_KCAL.quantity}
-              protein={totalNutrientsKCal.PROCNT_KCAL.quantity}
-            />
-            {/* <Text>
-              Calories from Carb: {totalNutrientsKCal.CHOCDF_KCAL.quantity} kCal
-            </Text>
-            <Text>
-              Calories from Fat: {totalNutrientsKCal.FAT_KCAL.quantity} kCal
-            </Text>
-            <Text>
-              Calories from Protein: {totalNutrientsKCal.PROCNT_KCAL.quantity}{' '}
-              kCal
-            </Text> */}
-          </View>
-
           <View style={styles.barGraph}>
-            {/* <TotalDaily-Bar
+            <Text style={styles.title}>TOTAL DAILY:</Text>
+            <TotalDailyBar
               data={[
                 totalDaily.CA.quantity,
                 totalDaily.CHOCDF.quantity,
@@ -115,7 +103,7 @@ export default class CurrentDish extends React.Component {
                 totalDaily.VITB6A.quantity,
                 totalDaily.ZN.quantity,
               ]}
-            /> */}
+            />
           </View>
 
           <View style={styles.barGraph}>
@@ -213,24 +201,27 @@ export default class CurrentDish extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  name: {
+  head: {
+    fontSize: 30,
+  },
+  subHead: {
     fontSize: 20,
   },
-  ingredients: {
-    fontSize: 15,
+  title: {
+    fontSize: 20,
   },
   image: {
     width: 50,
     height: 50,
   },
-  donutGraph: {
-    marginTop: 15,
+  graph: {
+    marginTop: 40,
     marginBottom: 0,
-    width: 500,
+    width: 400,
     height: 400,
   },
   barGraph: {
-    marginTop: 15,
+    marginTop: 60,
     marginBottom: 15,
     width: 500,
   },
