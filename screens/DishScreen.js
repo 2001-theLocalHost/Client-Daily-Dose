@@ -1,11 +1,14 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, View } from 'react-native';
 import { TabView, TabBar } from 'react-native-tab-view';
 
 import CurrentDish from '../components/CurrentDish';
 import CurrentIngredient from '../components/CurrentIngredient';
 import { fetchNutrition } from '../store/nutrition'; //fetchDish
+import { Modal } from 'react-native-paper';
+import { createDish } from '../store/savedDishIngredients'
+import { Formik } from 'formik';
 
 const initialLayout = { width: Dimensions.get('window').width };
 
@@ -51,6 +54,7 @@ class DishScreen extends React.Component {
 
   render() {
     return (
+
       <TabView
         navigationState={{ index: this.state.index, routes: this.state.routes }}
         renderScene={this.renderScene}
@@ -76,6 +80,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   fetchNutritionDispatch: () => dispatch(fetchNutrition()),
   // fetchDishDispatch: () => dispatch(fetchDish())
+  createDish: (nutritionInfo, dish) => dispatch(createDish(nutritionInfo, dish))
 });
 
 const ConnectedDishScreen = connect(
@@ -83,3 +88,10 @@ const ConnectedDishScreen = connect(
   mapDispatchToProps
 )(DishScreen);
 export default ConnectedDishScreen;
+
+
+// Insert button that brings you to Save Meal Modal.
+// Add modalOpen: false to state.
+// On click of button setState --> modalOpen: true.
+
+// No SaveDish component. Instead add all form info from SaveDish directly onto this page inside the Modal. So the form button can use this state and reset state to false, and redirect to MealDiary.

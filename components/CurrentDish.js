@@ -1,10 +1,24 @@
 import React from 'react';
-import { StyleSheet, Text, ScrollView, View } from 'react-native';
+import { StyleSheet, Text, ScrollView, View, Button, TextInput } from 'react-native';
+import { createDish } from '../store/savedDishIngredients'
+import SaveDish from './SaveDish'
+import { connect } from 'react-redux';
 
-export default class CurrentDish extends React.Component {
+class CurrentDish extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      modalOpen: false,
+    };
+    this.onSave = this.onSave.bind(this)
+  }
+  onSave(values) {
+    this.setState({
+      modalOpen: false
+    })
+    console.log('HELLO I SUBMITTED', values)
+    this.props.createDish(this.props.dishNut, values)
+    // redirect to mealDiary)
   }
 
   render() {
@@ -37,9 +51,10 @@ export default class CurrentDish extends React.Component {
     } else {
       return (
         <ScrollView>
-          {console.log(totalDaily)}
+          <SaveDish modalOpen={this.state.modalOpen} onSave={(values) => {this.onSave(values)}}/>
           <View>
             <Text style={styles.name}>DISH NAME</Text>
+            <Button title='Save Meal' onPress={() => {this.setState({modalOpen: true})}}/>
             <Text>Breakfast/Lunch/Dinner here</Text>
             <Text style={styles.ingredients}>
               ingredients and portion size here
@@ -200,6 +215,16 @@ export default class CurrentDish extends React.Component {
     }
   }
 }
+
+const mapStateToProps = (state) => ({
+
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  createDish: (nutritionInfo, dishInfo) => {dispatch(createDish(nutritionInfo, dishInfo))}
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CurrentDish)
 
 const styles = StyleSheet.create({
   name: {

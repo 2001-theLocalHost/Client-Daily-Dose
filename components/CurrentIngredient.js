@@ -1,16 +1,30 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
+import SaveDish from './SaveDish'
 
 export default class CurrentIngredient extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      modalOpen: false
+    };
+    this.onSave = this.onSave.bind(this)
+  }
+  onSave() {
+    this.setState({
+      modalOpen: false
+    })
+    console.log('HELLO I SUBMITTED')
+    // this.props.createDish(this.props.dishNut, values)
+    // redirect to mealDiary)
   }
 
   render() {
     return (
       <View>
+        <SaveDish modalOpen={this.state.modalOpen} onSave={this.onSave}/>
         <Text style={styles.name}>DISH NAME</Text>
+        <Button title='Save Meal' onPress={() => {this.setState({modalOpen: true})}}/>
         <Text style={styles.ingredients}>ingredients listed here</Text>
       </View>
     );
