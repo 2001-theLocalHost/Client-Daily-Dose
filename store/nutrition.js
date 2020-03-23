@@ -22,7 +22,8 @@ const urlEncoded = arr => {
 export const fetchNutrition = userDish => {
   return async dispatch => {
     try {
-      let stringify = urlEncoded(userDish);
+      let copy = [...userDish];
+      let stringify = urlEncoded(copy);
       let { data } = await axios.get(url, {
         params: {
           app_id: ED_APIID,

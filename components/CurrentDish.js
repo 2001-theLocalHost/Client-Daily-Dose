@@ -159,17 +159,12 @@ can delete later if we find better way */
         difference
       );
 
-      console.log('thirdTime userDish', this.props.userDish);
-
       let justIngredients = this.props.userDish.slice(
         0,
         this.props.userDish.length - 1
       );
 
       let justDishName = this.dishName(this.props.userDish);
-
-      console.log('justIngredients', justIngredients);
-      console.log('justDishName', justDishName);
 
       return (
         <ScrollView>
@@ -183,10 +178,9 @@ can delete later if we find better way */
               );
             })}
             <View>
-              <Text style={styles.subhead}>Image here</Text>
               {/* <Image source={{ uri: 'x' }} style={styles.image} /> */}
             </View>
-            <Text>Health Labels:</Text>
+            <Text style={styles.title}>Health Labels:</Text>
             <Text>{this.cleanStr(healthLabels, dietLabels)}</Text>
           </View>
 
@@ -235,9 +229,6 @@ can delete later if we find better way */
 const styles = StyleSheet.create({
   head: {
     fontSize: 30,
-  },
-  subHead: {
-    fontSize: 20,
   },
   title: {
     fontSize: 20,
