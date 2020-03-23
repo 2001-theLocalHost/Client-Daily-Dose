@@ -11,8 +11,8 @@ const app = new Clarifai.App({apiKey: '51299dbad48e410fbf0107a0b261fa24'});
 
 class UploadImg extends React.Component {
   state = {
-    image: null, 
-    photo: null,
+    imageB64: null,
+    imageUri: null
   };
 
   componentDidMount() {
@@ -22,8 +22,8 @@ class UploadImg extends React.Component {
 
   submitImage = () => {
     console.log('submitting', this.state.image)
-    
-    app.models.predict("bd367be194cf45149e75f01d59f77ba7", this.state.image).then(
+
+    app.models.predict("bd367be194cf45149e75f01d59f77ba7", {base64: this.state.imageB64}).then(
     function(response) {
       console.log(response)
     },
@@ -34,16 +34,14 @@ class UploadImg extends React.Component {
   }
 
   render() {
-    let { image } = this.state;
-    // console.log('image?', image)
 
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text style={styles.getStartedText}>
           Let's start analyzing!
          </Text>
-        
-        {image == null ? (
+
+        {this.state.imageUri === null ? (
           <View style={styles.uploadButtons}>
           <TouchableOpacity
             onPress={this.takePicture}
@@ -61,7 +59,7 @@ class UploadImg extends React.Component {
         ): (
           <View>
             <View style={styles.uploadButtons}>
-            <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+            <Image source={{ uri: this.state.imageUri }} style={{ width: 200, height: 200 }} />
             <TouchableOpacity
             style={styles.button}
             onPress={this.submitImage}
@@ -69,7 +67,7 @@ class UploadImg extends React.Component {
             <Text style={styles.buttonText}>Submit</Text>
             </TouchableOpacity>
             </View>
-          
+
           <View style={styles.uploadButtonsagain}>
           <TouchableOpacity
             onPress={this.takePicture}
@@ -114,11 +112,13 @@ class UploadImg extends React.Component {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1
+      quality: 1,
+      base64: true
     });
     if (!result.cancelled) {
-      console.log(result)
-      this.setState({ image: result.uri });
+      console.log('I AM RESULT', result)
+      this.setState({ imageB64: result.base64,
+        imageUri: result.uri });
     }
   };
 
@@ -133,7 +133,9 @@ class UploadImg extends React.Component {
         allowsMultipleSelection: true,
       })
       if (!result.cancelled) {
-        this.setState({ image: result.uri });
+        console.log('I AM RESULT', result)
+        this.setState({ imageB64: result.base64,
+        imageUri: result.uri });
       }
     }
     catch (error) {
