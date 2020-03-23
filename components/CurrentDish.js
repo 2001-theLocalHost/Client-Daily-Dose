@@ -1,12 +1,30 @@
 import React from 'react';
-import { StyleSheet, Text, ScrollView, View } from 'react-native';
+import { StyleSheet, Text, ScrollView, View, Button, TextInput } from 'react-native';
+import { createDish } from '../store/savedDishIngredients'
+import SaveDish from './SaveDish'
+import { connect } from 'react-redux';
 import AnimatedPie from './Graph-Pieces/AnimatedPie';
 import AnimatedPieLabel from './Graph-Pieces/AnimatedPieLabel';
 import TotalDailyBar from './Graph-Pieces/TotalDailyBar';
 import TotalNutrientsBar from './Graph-Pieces/TotalNutrientsBar';
 
-export default class CurrentDish extends React.Component {
-  /* capitalizing just dish name */
+class CurrentDish extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      modalOpen: false,
+    };
+    this.onSave = this.onSave.bind(this)
+  }
+  onSave(values) {
+    this.setState({
+      modalOpen: false
+    })
+    console.log('HELLO I SUBMITTED', values)
+    this.props.createDish(this.props.dishNut, values)
+    // redirect to mealDiary)
+  }
+
   dishName(userData) {
     let name = userData
       .slice(-1)
@@ -62,7 +80,7 @@ export default class CurrentDish extends React.Component {
     return final;
   }
 
-  /* making startData for StackedGraph for animation purposes; 
+  /* making startData for StackedGraph for animation purposes;
 can delete later if we find better way */
   startData(label, quant, diff) {
     let final = [];
@@ -168,6 +186,10 @@ can delete later if we find better way */
 
       return (
         <ScrollView>
+          <SaveDish modalOpen={this.state.modalOpen} onSave={(values) => {this.onSave(values)}}/>
+          <View>
+            <Text style={styles.name}>DISH NAME</Text>
+            <Button title='Save Meal' onPress={() => {this.setState({modalOpen: true})}}/>
           <View>
             <Text style={styles.head}>{justDishName}</Text>
             {justIngredients.map((el, index) => {
@@ -220,11 +242,22 @@ can delete later if we find better way */
               unit={totalNutrientsUnits}
             />
           </View>
+          </View>
         </ScrollView>
       );
     }
   }
 }
+
+const mapStateToProps = (state) => ({
+
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  createDish: (nutritionInfo, dishInfo) => {dispatch(createDish(nutritionInfo, dishInfo))}
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CurrentDish)
 
 const styles = StyleSheet.create({
   head: {
