@@ -6,6 +6,19 @@ import TotalDailyBar from './Graph-Pieces/TotalDailyBar';
 import TotalNutrientsBar from './Graph-Pieces/TotalNutrientsBar';
 
 export default class CurrentDish extends React.Component {
+  /* capitalizing just dish name */
+  dishName(userData) {
+    let name = userData
+      .slice(-1)
+      .join(' ')
+      .split(' ');
+
+    let capitalizedName = name.map(el => {
+      return el[0].toUpperCase() + el.slice(1);
+    });
+    return capitalizedName.join(' ');
+  }
+
   /* combining health and diet labels with underscores */
   cleanStr(dietLabelArr, healthLabelsArr) {
     let newArr = [...dietLabelArr, ...healthLabelsArr];
@@ -146,14 +159,29 @@ can delete later if we find better way */
         difference
       );
 
+      console.log('thirdTime userDish', this.props.userDish);
+
+      let justIngredients = this.props.userDish.slice(
+        0,
+        this.props.userDish.length - 1
+      );
+
+      let justDishName = this.dishName(this.props.userDish);
+
+      console.log('justIngredients', justIngredients);
+      console.log('justDishName', justDishName);
+
       return (
         <ScrollView>
           <View>
-            <Text style={styles.head}>DISH NAME</Text>
-            <Text>Breakfast/Lunch/Dinner here</Text>
-            <Text style={styles.subhead}>
-              ingredients and portion size here
-            </Text>
+            <Text style={styles.head}>{justDishName}</Text>
+            {justIngredients.map((el, index) => {
+              return (
+                <Text key={index} style={styles.subhead}>
+                  - {el}
+                </Text>
+              );
+            })}
             <View>
               <Text style={styles.subhead}>Image here</Text>
               {/* <Image source={{ uri: 'x' }} style={styles.image} /> */}
