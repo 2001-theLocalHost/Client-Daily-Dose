@@ -2,17 +2,11 @@ import axios from 'axios';
 import { ED_APIKEY, ED_APIID } from '../secret';
 
 const GOT_NUTRITION = 'GOT_NUTRITION';
-// const GOT_INGR_NUTRITION = 'GOT_INGR_NUTRITION';
 
 export const gotNutrition = nutrition => ({
   type: GOT_NUTRITION,
   nutrition,
 });
-
-// export const gotIngrNutrition = ingrNutrition => ({
-//   type: GOT_INGR_NUTRITION,
-//   ingrNutrition,
-// });
 
 const url = 'https://api.edamam.com/api/nutrition-data';
 
@@ -25,15 +19,16 @@ const urlEncoded = arr => {
   return stringify;
 };
 
-export const fetchNutrition = () => {
+export const fetchNutrition = userDish => {
   return async dispatch => {
     try {
-      // let stringify = urlEncoded(X)
+      let copy = [...userDish];
+      let stringify = urlEncoded(copy);
       let { data } = await axios.get(url, {
         params: {
           app_id: ED_APIID,
           app_key: ED_APIKEY,
-          ingr: '1%20cup%20rice', // pass stringify here
+          ingr: stringify,
         },
       });
       console.log('pineapple', data);
