@@ -31,7 +31,8 @@ export const createDish = (nutritionInfo, dishInfo) => {
     try {
       console.log('I SAVED YOUR DISH')
       // const dish
-      // const newDish = await axios.post('**insert heroku route**', dish)
+      const newDish = await axios.get('https://daily-dose-server.herokuapp.com/api/users')
+      console.log(newDish)
       // dispatch(saveDish(newDish))
     } catch (error) {
         console.error(error)
