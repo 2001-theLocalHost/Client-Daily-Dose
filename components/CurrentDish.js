@@ -25,8 +25,6 @@ class CurrentDish extends React.Component {
     // redirect to mealDiary)
   }
 
-export default class CurrentDish extends React.Component {
-  /* capitalizing just dish name */
   dishName(userData) {
     let name = userData
       .slice(-1)

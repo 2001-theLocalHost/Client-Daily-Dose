@@ -6,9 +6,8 @@ import { TabView, TabBar } from 'react-native-tab-view';
 import CurrentDish from '../components/CurrentDish';
 import CurrentIngredient from '../components/CurrentIngredient';
 import { fetchNutrition } from '../store/nutrition'; //fetchDish
-import { Modal } from 'react-native-paper';
 import { createDish } from '../store/savedDishIngredients'
-import { Formik } from 'formik';
+
 
 const initialLayout = { width: Dimensions.get('window').width };
 
@@ -84,9 +83,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchNutritionDispatch: () => dispatch(fetchNutrition()),
+  // fetchNutritionDispatch: () => dispatch(fetchNutrition()),
   // fetchDishDispatch: () => dispatch(fetchDish())
-  createDish: (nutritionInfo, dish) => dispatch(createDish(nutritionInfo, dish))
+  createDish: (nutritionInfo, dish) => dispatch(createDish(nutritionInfo, dish)),
   fetchNutritionDispatch: userDish => dispatch(fetchNutrition(userDish)),
 });
 
