@@ -25,13 +25,19 @@ class DishScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchNutritionDispatch();
+    console.log('firsttime userDish', this.props.userDish);
+    this.props.fetchNutritionDispatch(this.props.userDish);
   }
 
   renderScene = ({ route }) => {
     switch (route.key) {
       case 'Dish':
-        return <CurrentDish dishNut={this.props.dishNut} />;
+        return (
+          <CurrentDish
+            dishNut={this.props.dishNut}
+            userDish={this.props.userDish}
+          />
+        );
       case 'Kale':
         return <CurrentIngredient ingredientsNut={this.props.ingredientsNut} />;
     }
@@ -70,12 +76,11 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   dishNut: state.nutrition.dishNut,
-  // dish: state.nutrition.dish
+  userDish: state.dishes.consolidatedData,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchNutritionDispatch: () => dispatch(fetchNutrition()),
-  // fetchDishDispatch: () => dispatch(fetchDish())
+  fetchNutritionDispatch: userDish => dispatch(fetchNutrition(userDish)),
 });
 
 const ConnectedDishScreen = connect(
