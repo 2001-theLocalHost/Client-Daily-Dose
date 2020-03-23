@@ -3,6 +3,10 @@ import { StyleSheet, Text, ScrollView, View, Button, TextInput } from 'react-nat
 import { createDish } from '../store/savedDishIngredients'
 import SaveDish from './SaveDish'
 import { connect } from 'react-redux';
+import AnimatedPie from './Graph-Pieces/AnimatedPie';
+import AnimatedPieLabel from './Graph-Pieces/AnimatedPieLabel';
+import TotalDailyBar from './Graph-Pieces/TotalDailyBar';
+import TotalNutrientsBar from './Graph-Pieces/TotalNutrientsBar';
 
 class CurrentDish extends React.Component {
   constructor() {
@@ -19,14 +23,8 @@ class CurrentDish extends React.Component {
     console.log('HELLO I SUBMITTED', values)
     this.props.createDish(this.props.dishNut, values)
     // redirect to mealDiary)
-import { StyleSheet, Text, ScrollView, View } from 'react-native';
-import AnimatedPie from './Graph-Pieces/AnimatedPie';
-import AnimatedPieLabel from './Graph-Pieces/AnimatedPieLabel';
-import TotalDailyBar from './Graph-Pieces/TotalDailyBar';
-import TotalNutrientsBar from './Graph-Pieces/TotalNutrientsBar';
+  }
 
-export default class CurrentDish extends React.Component {
-  /* combining health and diet labels with underscores */
   cleanStr(dietLabelArr, healthLabelsArr) {
     let newArr = [...dietLabelArr, ...healthLabelsArr];
     let tempArr = newArr.map(el => {
@@ -221,6 +219,7 @@ can delete later if we find better way */
               label={totalNutrientsLabels}
               unit={totalNutrientsUnits}
             />
+          </View>
           </View>
         </ScrollView>
       );
