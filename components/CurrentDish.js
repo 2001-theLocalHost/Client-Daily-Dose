@@ -25,6 +25,21 @@ class CurrentDish extends React.Component {
     // redirect to mealDiary)
   }
 
+export default class CurrentDish extends React.Component {
+  /* capitalizing just dish name */
+  dishName(userData) {
+    let name = userData
+      .slice(-1)
+      .join(' ')
+      .split(' ');
+
+    let capitalizedName = name.map(el => {
+      return el[0].toUpperCase() + el.slice(1);
+    });
+    return capitalizedName.join(' ');
+  }
+
+  /* combining health and diet labels with underscores */
   cleanStr(dietLabelArr, healthLabelsArr) {
     let newArr = [...dietLabelArr, ...healthLabelsArr];
     let tempArr = newArr.map(el => {
@@ -164,6 +179,13 @@ can delete later if we find better way */
         difference
       );
 
+      let justIngredients = this.props.userDish.slice(
+        0,
+        this.props.userDish.length - 1
+      );
+
+      let justDishName = this.dishName(this.props.userDish);
+
       return (
         <ScrollView>
           <SaveDish modalOpen={this.state.modalOpen} onSave={(values) => {this.onSave(values)}}/>
@@ -171,16 +193,18 @@ can delete later if we find better way */
             <Text style={styles.name}>DISH NAME</Text>
             <Button title='Save Meal' onPress={() => {this.setState({modalOpen: true})}}/>
           <View>
-            <Text style={styles.head}>DISH NAME</Text>
-            <Text>Breakfast/Lunch/Dinner here</Text>
-            <Text style={styles.subhead}>
-              ingredients and portion size here
-            </Text>
+            <Text style={styles.head}>{justDishName}</Text>
+            {justIngredients.map((el, index) => {
+              return (
+                <Text key={index} style={styles.subhead}>
+                  - {el}
+                </Text>
+              );
+            })}
             <View>
-              <Text style={styles.subhead}>Image here</Text>
               {/* <Image source={{ uri: 'x' }} style={styles.image} /> */}
             </View>
-            <Text>Health Labels:</Text>
+            <Text style={styles.title}>Health Labels:</Text>
             <Text>{this.cleanStr(healthLabels, dietLabels)}</Text>
           </View>
 
@@ -240,9 +264,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(CurrentDish)
 const styles = StyleSheet.create({
   head: {
     fontSize: 30,
-  },
-  subHead: {
-    fontSize: 20,
   },
   title: {
     fontSize: 20,
