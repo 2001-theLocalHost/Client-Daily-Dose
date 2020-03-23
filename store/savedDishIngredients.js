@@ -26,8 +26,8 @@ const saveIngredient = (ingredient) => {
 // thunk createDish takes in nutrition info plus form info
 // and creates newDish
 
-export const createDish = (nutritionInfo, dishInfo) => {
-  return dispatch => {
+export const createDish =  (nutritionInfo, dishInfo) => {
+  return async dispatch => {
     try {
       console.log('I SAVED YOUR DISH')
       // const dish
@@ -40,8 +40,8 @@ export const createDish = (nutritionInfo, dishInfo) => {
   }
 }
 
-export const createIngredient = (nutritionInfo, ingredientInfo) => {
-  return dispatch => {
+export const createIngredient =  (nutritionInfo, ingredientInfo) => {
+  return async dispatch => {
     try {
       // const ingredient; // combine nutritionInfo and dishInfo into object
       // const newIngredient = await axios.post('**insert heroku route**', ingredient)
