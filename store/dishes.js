@@ -1,11 +1,20 @@
 import axios from 'axios';
 
 //ACTION TYPE
-const FINALIZE_INGREDIENT = 'FINALIZE_INGREDIENT';
+const GET_INGREDIENTS = 'GET_INGREDIENTS';
+
+const FINALIZE_INGREDIENT = "FINALIZE_INGREDIENT"
 
 const CONSOLIDATE_DATA = 'CONSOLIDATE_DATA';
 
 //ACTION CREATOR
+const getIngredients = ingredients => {
+    return {
+       type: GET_INGREDIENTS,
+       ingredients
+    };
+ };
+
 const finalizingIngredients = (ingredients, userIngredients, dishName) => {
   return {
     type: FINALIZE_INGREDIENT,
@@ -21,7 +30,18 @@ const consolidatingDataForAPI = consolidated => {
     consolidated,
   };
 };
+
 //THUNK
+export const getIngredientsThunk = foodImageUrl => {
+    return async dispatch => {
+       try {
+          
+       } catch (error) {
+          console.error(error);
+       }
+    };
+ };
+
 export const finalizeIngredients = (ingredients, userIngredients, dishName) => {
   return dispatch => {
     try {
