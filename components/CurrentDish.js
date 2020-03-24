@@ -1,7 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, ScrollView, View, Button, TextInput } from 'react-native';
-import { createDish } from '../store/savedDishIngredients'
-import SaveDish from './SaveDish'
+import {
+  StyleSheet,
+  Text,
+  ScrollView,
+  View,
+  Button,
+  TextInput,
+} from 'react-native';
+import { createDish } from '../store/savedDishIngredients';
+import SaveDish from './SaveDish';
 import { connect } from 'react-redux';
 import AnimatedPie from './Graph-Pieces/AnimatedPie';
 import AnimatedPieLabel from './Graph-Pieces/AnimatedPieLabel';
@@ -14,14 +21,14 @@ class CurrentDish extends React.Component {
     this.state = {
       modalOpen: false,
     };
-    this.onSave = this.onSave.bind(this)
+    this.onSave = this.onSave.bind(this);
   }
   onSave(values) {
     this.setState({
-      modalOpen: false
-    })
-    console.log('HELLO I SUBMITTED', values)
-    this.props.createDish(this.props.dishNut, values)
+      modalOpen: false,
+    });
+    console.log('HELLO I SUBMITTED', values);
+    this.props.createDish(this.props.dishNut, values);
     // redirect to mealDiary)
   }
 
@@ -107,7 +114,7 @@ can delete later if we find better way */
 
   render() {
     const {
-      dishNut: {
+      finalIngrStr: {
         calories,
         healthLabels,
         dietLabels,
@@ -117,7 +124,7 @@ can delete later if we find better way */
         totalNutrientsKCal,
       },
     } = this.props;
-    console.log('INSIDE OF CURRENTDISH 1',this.props.dishNut)
+    console.log('INSIDE OF CURRENTDISH 1', this.props.finalIngrStr);
     if (
       !calories ||
       !healthLabels ||
@@ -134,7 +141,7 @@ can delete later if we find better way */
       );
     } else {
       /* Total Daily Quantities/Units/Labels in arrays */
-      console.log('INSIDE OF CURRENTDISH 2',this.props.dishNut)
+      console.log('INSIDE OF CURRENTDISH 2', this.props.dishNut);
       let totalDailyKeys = Object.keys(totalDaily);
       let totalDailyQuantities = totalDailyKeys.map(el => {
         return totalDaily[el].quantity;
@@ -187,62 +194,72 @@ can delete later if we find better way */
 
       return (
         <ScrollView>
-          <SaveDish modalOpen={this.state.modalOpen} onSave={(values) => {this.onSave(values)}}/>
+          <SaveDish
+            modalOpen={this.state.modalOpen}
+            onSave={values => {
+              this.onSave(values);
+            }}
+          />
           <View>
             <Text style={styles.name}>DISH NAME</Text>
-            <Button title='Save Meal' onPress={() => {this.setState({modalOpen: true})}}/>
-          <View>
-            <Text style={styles.head}>{justDishName}</Text>
-            {justIngredients.map((el, index) => {
-              return (
-                <Text key={index} style={styles.subhead}>
-                  - {el}
-                </Text>
-              );
-            })}
-            <View>
-              {/* <Image source={{ uri: 'x' }} style={styles.image} /> */}
-            </View>
-            <Text style={styles.title}>Health Labels:</Text>
-            <Text>{this.cleanStr(healthLabels, dietLabels)}</Text>
-          </View>
-
-          <View style={styles.graph}>
-            <Text style={styles.title}>TOTAL CALORIES BREAKDOWN:</Text>
-            <Text style={styles.title}>{calories}KCAL</Text>
-            <View>
-              <AnimatedPie
-                carbs={totalNutrientsKCal.CHOCDF_KCAL.quantity}
-                fat={totalNutrientsKCal.FAT_KCAL.quantity}
-                protein={totalNutrientsKCal.PROCNT_KCAL.quantity}
-              />
-              <AnimatedPieLabel
-                carbs={totalNutrientsKCal.CHOCDF_KCAL.quantity}
-                fat={totalNutrientsKCal.FAT_KCAL.quantity}
-                protein={totalNutrientsKCal.PROCNT_KCAL.quantity}
-              />
-            </View>
-          </View>
-
-          <View style={styles.barGraph}>
-            <Text style={styles.title}>TOTAL DAILY %:</Text>
-            <TotalDailyBar
-              label={totalDailyLabels}
-              quantity={totalDailyQuantities}
-              unit={totalDailyUnits}
+            <Button
+              title="Save Meal"
+              onPress={() => {
+                this.setState({ modalOpen: true });
+              }}
             />
-          </View>
+            <View>
+              <Text style={styles.head}>{justDishName}</Text>
+              {justIngredients.map((el, index) => {
+                return (
+                  <Text key={index} style={styles.subhead}>
+                    - {el}
+                  </Text>
+                );
+              })}
+              <View>
+                {/* <Image source={{ uri: 'x' }} style={styles.image} /> */}
+              </View>
+              <Text style={styles.title}>Health Labels:</Text>
+              <Text>{this.cleanStr(healthLabels, dietLabels)}</Text>
+            </View>
 
-          <View style={styles.barGraph}>
-            <Text style={styles.title}>TOTAL NUTRIENTS:</Text>
-            <TotalNutrientsBar
-              data={finalDataForTotalNutrients}
-              startData={startDataForTotalNutrients}
-              quantity={totalNutrientsQuantities}
-              label={totalNutrientsLabels}
-              unit={totalNutrientsUnits}
-            />
-          </View>
+            <View style={styles.graph}>
+              <Text style={styles.title}>TOTAL CALORIES BREAKDOWN:</Text>
+              <Text style={styles.title}>{calories}KCAL</Text>
+              <View>
+                <AnimatedPie
+                  carbs={totalNutrientsKCal.CHOCDF_KCAL.quantity}
+                  fat={totalNutrientsKCal.FAT_KCAL.quantity}
+                  protein={totalNutrientsKCal.PROCNT_KCAL.quantity}
+                />
+                <AnimatedPieLabel
+                  carbs={totalNutrientsKCal.CHOCDF_KCAL.quantity}
+                  fat={totalNutrientsKCal.FAT_KCAL.quantity}
+                  protein={totalNutrientsKCal.PROCNT_KCAL.quantity}
+                />
+              </View>
+            </View>
+
+            <View style={styles.barGraph}>
+              <Text style={styles.title}>TOTAL DAILY %:</Text>
+              <TotalDailyBar
+                label={totalDailyLabels}
+                quantity={totalDailyQuantities}
+                unit={totalDailyUnits}
+              />
+            </View>
+
+            <View style={styles.barGraph}>
+              <Text style={styles.title}>TOTAL NUTRIENTS:</Text>
+              <TotalNutrientsBar
+                data={finalDataForTotalNutrients}
+                startData={startDataForTotalNutrients}
+                quantity={totalNutrientsQuantities}
+                label={totalNutrientsLabels}
+                unit={totalNutrientsUnits}
+              />
+            </View>
           </View>
         </ScrollView>
       );
@@ -250,15 +267,15 @@ can delete later if we find better way */
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({});
 
-})
+const mapDispatchToProps = dispatch => ({
+  createDish: (nutritionInfo, dishInfo) => {
+    dispatch(createDish(nutritionInfo, dishInfo));
+  },
+});
 
-const mapDispatchToProps = (dispatch) => ({
-  createDish: (nutritionInfo, dishInfo) => {dispatch(createDish(nutritionInfo, dishInfo))}
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(CurrentDish)
+export default connect(mapStateToProps, mapDispatchToProps)(CurrentDish);
 
 const styles = StyleSheet.create({
   head: {

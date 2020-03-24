@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, Dimensions, View } from 'react-native';
+import { StyleSheet, Dimensions, View, ScrollView } from 'react-native';
 import { TabView, TabBar } from 'react-native-tab-view';
 
 import CurrentDish from '../components/CurrentDish';
 import CurrentIngredient from '../components/CurrentIngredient';
-import { fetchNutrition } from '../store/nutrition'; //fetchDish
-import { createDish } from '../store/savedDishIngredients'
-
+import { fetchNutrition, fetchIngredient } from '../store/nutrition';
+import { createDish } from '../store/savedDishIngredients';
+import { ingrNameFunc, portionQuantFunc } from '../utilityFunctions';
 
 const initialLayout = { width: Dimensions.get('window').width };
 
@@ -19,7 +19,7 @@ class DishScreen extends React.Component {
       routes: [
         { key: 'Dish', title: 'Dish' },
         { key: 'Kale', title: 'Kale' },
-      ]
+      ],
     };
     this.renderScene = this.renderScene.bind(this);
     this.renderTabBar = this.renderTabBar.bind(this);
@@ -27,10 +27,22 @@ class DishScreen extends React.Component {
   }
 
   componentDidMount() {
-    console.log('firsttime userDish', this.props.userDish);
-    let dishName = this.props.userDish.slice(-1).join('')
-    this.props.fetchNutritionDispatch(dishName, 'imageUrl', this.props.userDish);
-    console.log('INSIDE COMPONENT AGAIN', this.props.dishNut)
+    this.props.fetchNutritionDispatch(
+      this.props.dishName,
+      'imageUrl',
+      this.props.finalIngrStr
+    );
+
+    console.log('lollipop', this.props.finalIngrObj);
+    let ingrNameArr = ingrNameFunc(this.props.finalIngrObj);
+
+    let portionQuantArr = portionQuantFunc(this.props.finalIngrObj);
+
+    this.props.fetchIngredientDispatch(
+      ingrNameArr,
+      portionQuantArr,
+      this.props.finalIngrStr
+    );
   }
 
   renderScene = ({ route }) => {
@@ -39,11 +51,11 @@ class DishScreen extends React.Component {
         return (
           <CurrentDish
             dishNut={this.props.dishNut}
-            userDish={this.props.userDish}
+            finalIngrStr={this.props.finalIngrStr}
           />
         );
       case 'Kale':
-        return <CurrentIngredient ingredientsNut={this.props.ingredientsNut} />;
+        return <CurrentIngredient ingrNut={this.props.ingrNut} />;
     }
   };
 
@@ -52,6 +64,7 @@ class DishScreen extends React.Component {
       {...props}
       indicatorStyle={{ backgroundColor: '#E2CA2B' }}
       style={{ backgroundColor: '#659B0E' }}
+      scrollEnabled={true}
     />
   );
 
@@ -60,10 +73,14 @@ class DishScreen extends React.Component {
   };
 
   render() {
-    return (
+    console.log('INSIDE DISHSCREEN', this.props.ingrNut);
 
+    return (
       <TabView
-        navigationState={{ index: this.state.index, routes: this.state.routes }}
+        navigationState={{
+          index: this.state.index,
+          routes: this.state.routes,
+        }}
         renderScene={this.renderScene}
         renderTabBar={this.renderTabBar}
         onIndexChange={this.handleIndexChange}
@@ -80,15 +97,22 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  dishNut: state.nutrition.dishNut,
-  userDish: state.dishes.consolidatedData,
+  dishNut: state.nutrition.dishNut, // API data formatted for DB
+  ingrNut: state.nutrition.ingrNut,
+  dishName: state.dishes.dishName, // 'Kale Salad'
+  finalIngrObj: state.dishes.finalIngredients,
+  finalIngrStr: state.dishes.consolidatedData, // ['1 oz rice', '2 oz rice cake']
 });
 
 const mapDispatchToProps = dispatch => ({
   // fetchNutritionDispatch: () => dispatch(fetchNutrition()),
   // fetchDishDispatch: () => dispatch(fetchDish())
-  createDish: (nutritionInfo, dish) => dispatch(createDish(nutritionInfo, dish)),
-  fetchNutritionDispatch: (dishName, dishUrl, userDish) => dispatch(fetchNutrition(dishName, dishUrl, userDish)),
+  createDish: (nutritionInfo, dish) =>
+    dispatch(createDish(nutritionInfo, dish)),
+  fetchNutritionDispatch: (dishName, dishUrl, finalIngrStr) =>
+    dispatch(fetchNutrition(dishName, dishUrl, finalIngrStr)),
+  fetchIngredientDispatch: (ingrNameArr, portionQuantArr, finalIngrStr) =>
+    dispatch(fetchIngredient(ingrNameArr, portionQuantArr, finalIngrStr)),
 });
 
 const ConnectedDishScreen = connect(
@@ -96,7 +120,6 @@ const ConnectedDishScreen = connect(
   mapDispatchToProps
 )(DishScreen);
 export default ConnectedDishScreen;
-
 
 // Insert button that brings you to Save Meal Modal.
 // Add modalOpen: false to state.
