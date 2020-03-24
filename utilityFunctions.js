@@ -1,3 +1,5 @@
+import nutritionKey from './nutritionKey.json'
+
 export const routes = (arr) => {
   let final = []
   let temp = []
@@ -74,6 +76,12 @@ export const convertData = (dishName, dishUrl, nutritionData) => {
     }
   });
 
+  for (let key in nutritionKey) {
+    if (!dishObject[key]) {
+      dishObject[key] = 0
+    }
+  }
+
   return dishObject;
 };
 
@@ -128,3 +136,16 @@ export const convertIngrData = (ingrName, portionQuant, nutritionData) => {
 
   return ingrObject;
 };
+
+
+export const capitalize = (userData) => {
+  let name = userData
+    .slice(-1)
+    .join(' ')
+    .split(' ');
+
+  let capitalizedName = name.map(el => {
+    return el[0].toUpperCase() + el.slice(1);
+  });
+  return capitalizedName.join(' ');
+}

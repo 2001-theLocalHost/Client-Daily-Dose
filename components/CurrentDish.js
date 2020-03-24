@@ -23,34 +23,13 @@ class CurrentDish extends React.Component {
     };
     this.onSave = this.onSave.bind(this);
   }
+
   onSave(values) {
     this.setState({
       modalOpen: false,
     });
     console.log('HELLO I SUBMITTED', values);
     this.props.createDish(this.props.dishNut, values);
-    // redirect to mealDiary)
-  }
-
-  dishName(userData) {
-    let name = userData
-      .slice(-1)
-      .join(' ')
-      .split(' ');
-
-    let capitalizedName = name.map(el => {
-      return el[0].toUpperCase() + el.slice(1);
-    });
-    return capitalizedName.join(' ');
-  }
-
-  /* combining health and diet labels with underscores */
-  cleanStr(dietLabelArr, healthLabelsArr) {
-    let newArr = [...dietLabelArr, ...healthLabelsArr];
-    let tempArr = newArr.map(el => {
-      return el.split('_').join(' ');
-    });
-    return tempArr.join(', ');
   }
 
   /* given goalsArr and mealsArr - get the difference in Array */
@@ -113,26 +92,132 @@ can delete later if we find better way */
   }
 
   render() {
-    const {
-      finalIngrStr: {
-        calories,
-        healthLabels,
-        dietLabels,
-        cautions,
-        totalDaily,
-        totalNutrients,
-        totalNutrientsKCal,
-      },
-    } = this.props;
-    console.log('INSIDE OF CURRENTDISH 1', this.props.finalIngrStr);
+    console.log('HELLO I AM YOUR DISHNUT', this.props.dishNut)
+    let name
+          let imgUrl
+          let mealTypes
+          let healthLabels
+          let CHOCDF_KCAL
+          let FAT_KCAL
+          let PROCNT_KCAL
+          let calories
+          let CA
+          let CHOCDF
+          let FAMS
+          let FAPU
+          let FASAT
+          let FAT
+          let FE
+          let FOLDFE
+          let FOLFD
+          let K
+          let MG
+          let NA
+          let NIA
+          let P
+          let PROCNT
+          let RIBF
+          let THIA
+          let VITB6A
+          let WATER
+          let ZN
+          let CHOLE
+          let FATRN
+          let FIBTG
+          let FOLAC
+          let SUGAR
+          let TOCPHA
+          let VITA_RAE
+          let VITB12
+          let VITC
+          let VITD
+          let VITK1
+    if (this.props.dishNut) {
+      const {
+        dishNut: {
+          name,
+          imgUrl,
+          mealTypes,
+          healthLabels,
+          CHOCDF_KCAL,
+          FAT_KCAL,
+          PROCNT_KCAL,
+          calories,
+          CA,
+          CHOCDF,
+          FAMS,
+          FAPU,
+          FASAT,
+          FAT,
+          FE,
+          FOLDFE,
+          FOLFD,
+          K,
+          MG,
+          NA,
+          NIA,
+          P,
+          PROCNT,
+          RIBF,
+          THIA,
+          VITB6A,
+          WATER,
+          ZN,
+          CHOLE,
+          FATRN,
+          FIBTG,
+          FOLAC,
+          SUGAR,
+          TOCPHA,
+          VITA_RAE,
+          VITB12,
+          VITC,
+          VITD,
+          VITK1
+        }
+      } = this.props
+    }
+    console.log('i am name', name)
     if (
-      !calories ||
+      !name ||
+      !imgUrl ||
+      !mealTypes ||
       !healthLabels ||
-      !dietLabels ||
-      !cautions ||
-      !totalDaily ||
-      !totalNutrients ||
-      !totalNutrientsKCal
+      !CHOCDF_KCAL ||
+      !FAT_KCAL ||
+      !PROCNT_KCAL ||
+      !calories ||
+      !CA ||
+      !CHOCDF ||
+      !FAMS ||
+      !FAPU ||
+      !FASAT ||
+      !FAT ||
+      !FE ||
+      !FOLDFE ||
+      !FOLFD ||
+      !K ||
+      !MG ||
+      !NA ||
+      !NIA ||
+      !P ||
+      !PROCNT ||
+      !RIBF ||
+      !THIA ||
+      !VITB6A ||
+      !WATER ||
+      !ZN ||
+      !CHOLE ||
+      !FATRN ||
+      !FIBTG ||
+      !FOLAC ||
+      !SUGAR ||
+      !TOCPHA ||
+      !VITA_RAE ||
+      !VITB12 ||
+      !VITC ||
+      !VITD ||
+      !VITK1
     ) {
       return (
         <View>
@@ -140,57 +225,32 @@ can delete later if we find better way */
         </View>
       );
     } else {
-      /* Total Daily Quantities/Units/Labels in arrays */
-      console.log('INSIDE OF CURRENTDISH 2', this.props.dishNut);
-      let totalDailyKeys = Object.keys(totalDaily);
-      let totalDailyQuantities = totalDailyKeys.map(el => {
-        return totalDaily[el].quantity;
-      });
-      let totalDailyUnits = totalDailyKeys.map(el => {
-        return totalDaily[el].unit;
-      });
-      let totalDailyLabels = totalDailyKeys.map(el => {
-        return totalDaily[el].label;
-      });
+      // /* Fake NutrientGoals in Array */
+      // let nutrientGoals = Array(21).fill(100);
 
-      /* Total Nutrients Quantities/Units/Labels in arrays */
-      let totalNutrientsKeys = Object.keys(totalNutrients);
-      let totalNutrientsQuantities = totalNutrientsKeys.map(el => {
-        return totalNutrients[el].quantity;
-      });
-      let totalNutrientsUnits = totalNutrientsKeys.map(el => {
-        return totalNutrients[el].unit;
-      });
-      let totalNutrientsLabels = totalNutrientsKeys.map(el => {
-        return totalNutrients[el].label;
-      });
+      // /* Difference of Goal & Nutrient Quantities in Array */
+      // let difference = this.difference(nutrientGoals, totalNutrientsQuantities);
 
-      /* Fake NutrientGoals in Array */
-      let nutrientGoals = Array(21).fill(100);
+      // /* Final data for TotalNutrients StackBarGraph */
+      // let finalDataForTotalNutrients = this.finalData(
+      //   totalNutrientsLabels,
+      //   totalNutrientsQuantities,
+      //   difference
+      // );
 
-      /* Difference of Goal & Nutrient Quantities in Array */
-      let difference = this.difference(nutrientGoals, totalNutrientsQuantities);
+      // /* Start data for TotalNutrients StackBarGraph */
+      // let startDataForTotalNutrients = this.startData(
+      //   totalNutrientsLabels,
+      //   totalNutrientsQuantities,
+      //   difference
+      // );
 
-      /* Final data for TotalNutrients StackBarGraph */
-      let finalDataForTotalNutrients = this.finalData(
-        totalNutrientsLabels,
-        totalNutrientsQuantities,
-        difference
-      );
+      // let justIngredients = this.props.userDish.slice(
+      //   0,
+      //   this.props.userDish.length - 1
+      // );
 
-      /* Start data for TotalNutrients StackBarGraph */
-      let startDataForTotalNutrients = this.startData(
-        totalNutrientsLabels,
-        totalNutrientsQuantities,
-        difference
-      );
-
-      let justIngredients = this.props.userDish.slice(
-        0,
-        this.props.userDish.length - 1
-      );
-
-      let justDishName = this.dishName(this.props.userDish);
+      // let justDishName = this.dishName(this.props.userDish);
 
       return (
         <ScrollView>
@@ -201,7 +261,7 @@ can delete later if we find better way */
             }}
           />
           <View>
-            <Text style={styles.name}>DISH NAME</Text>
+          <Text style={styles.name}>{name}</Text>
             <Button
               title="Save Meal"
               onPress={() => {
@@ -209,8 +269,8 @@ can delete later if we find better way */
               }}
             />
             <View>
-              <Text style={styles.head}>{justDishName}</Text>
-              {justIngredients.map((el, index) => {
+              <Text style={styles.head}>{name}</Text>
+              {this.props.finalIngrStr.map((el, index) => {
                 return (
                   <Text key={index} style={styles.subhead}>
                     - {el}
@@ -220,8 +280,11 @@ can delete later if we find better way */
               <View>
                 {/* <Image source={{ uri: 'x' }} style={styles.image} /> */}
               </View>
+              {healthLabels ?
+              <View>
               <Text style={styles.title}>Health Labels:</Text>
-              <Text>{this.cleanStr(healthLabels, dietLabels)}</Text>
+              <Text>{healthLabels}</Text>
+              </View> : null}
             </View>
 
             <View style={styles.graph}>
@@ -229,28 +292,28 @@ can delete later if we find better way */
               <Text style={styles.title}>{calories}KCAL</Text>
               <View>
                 <AnimatedPie
-                  carbs={totalNutrientsKCal.CHOCDF_KCAL.quantity}
-                  fat={totalNutrientsKCal.FAT_KCAL.quantity}
-                  protein={totalNutrientsKCal.PROCNT_KCAL.quantity}
+                  carbs={CHOCDF_KCAL}
+                  fat={FAT_KCAL}
+                  protein={PROCNT_KCAL}
                 />
                 <AnimatedPieLabel
-                  carbs={totalNutrientsKCal.CHOCDF_KCAL.quantity}
-                  fat={totalNutrientsKCal.FAT_KCAL.quantity}
-                  protein={totalNutrientsKCal.PROCNT_KCAL.quantity}
+                  carbs={CHOCDF_KCAL}
+                  fat={FAT_KCAL}
+                  protein={PROCNT_KCAL}
                 />
               </View>
             </View>
 
-            <View style={styles.barGraph}>
+            {/* <View style={styles.barGraph}>
               <Text style={styles.title}>TOTAL DAILY %:</Text>
               <TotalDailyBar
                 label={totalDailyLabels}
                 quantity={totalDailyQuantities}
                 unit={totalDailyUnits}
               />
-            </View>
+            </View> */}
 
-            <View style={styles.barGraph}>
+            {/* <View style={styles.barGraph}>
               <Text style={styles.title}>TOTAL NUTRIENTS:</Text>
               <TotalNutrientsBar
                 data={finalDataForTotalNutrients}
@@ -259,7 +322,7 @@ can delete later if we find better way */
                 label={totalNutrientsLabels}
                 unit={totalNutrientsUnits}
               />
-            </View>
+            </View> */}
           </View>
         </ScrollView>
       );

@@ -21,6 +21,7 @@ export const fetchNutrition = (dishName, dishUrl, userDish) => {
   return async dispatch => {
     try {
       let stringify = urlEncoded(userDish);
+      console.log('i am stringify', stringify)  // 1%20oz%20water,4%20oz%20Rice
       let { data } = await axios.get(url, {
         params: {
           app_id: ED_APIID,
@@ -58,7 +59,6 @@ export const fetchIngredient = (ingrNameArr, portionQuantArr, userDish) => {
         ingredients.push(newData);
       }
       dispatch(gotIngrNutrition(ingredients));
-      console.log('INSIDE THUNK', ingredients);
     } catch (err) {
       console.log('not able to load ingredient nutrition details', err);
     }

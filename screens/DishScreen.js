@@ -81,7 +81,6 @@ class DishScreen extends React.Component {
   }
 
   render() {
-
     return (
       <TabView
         navigationState={{
