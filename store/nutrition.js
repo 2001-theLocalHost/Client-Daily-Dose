@@ -79,7 +79,7 @@ const nutritionReducer = (state = initialState, action) => {
       };
     case GOT_INGR_NUTRITION:
       return {
-        ingrNut: action.nutrition.ingrNutrition,
+        ingrNut: action.ingrNutrition,
       };
     default:
       return state;

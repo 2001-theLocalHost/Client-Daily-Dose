@@ -1,28 +1,33 @@
-// let oneIngredientsArr = (oneIngredient(justIngredients))
-// //routes: [{key: ‘dish’, title: ‘dish’}, {key: ‘dish’, title: ‘dish’}]
-// function routes (arr) {
-//   let final = []
-//   let temp = []
-//   let innerObj = {}
-//   innerObj[‘key’] = arr[0][0]
-//   innerObj[‘title’] = arr[0][0]
-//   temp.push(innerObj)
-//   if (arr.length === 1) {
-//     temp.push({key: ‘dish’, title: ‘dish’})
-//     return temp
-//   } else {
-//      let result = routes(arr.slice(1))
-//      final = [...temp, ...result]
-//   }
-//   return final
-// }
+export const routes = (arr) => {
+  let final = []
+  let temp = []
+  let innerObj = {}
+
+  innerObj['key'] = arr[0]
+  innerObj['title'] = arr[0]
+
+  temp.push(innerObj)
+
+  if (arr.length === 1) {
+    return temp
+  } else {
+     let result = routes(arr.slice(1))
+     final = [...temp, ...result]
+  }
+  return final
+}
 
 export const urlEncoded = arr => {
-  let stringify = arr
+  if (Array.isArray(arr)) {
+    let stringify = arr
     .join(',')
     .split(' ')
     .join('%20');
   return stringify;
+  } else {
+    return arr.split(' ').join('%20')
+  }
+
 };
 
 export const cleanStr = (dietLabelArr, healthLabelsArr) => {

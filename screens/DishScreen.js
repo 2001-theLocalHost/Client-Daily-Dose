@@ -7,7 +7,7 @@ import CurrentDish from '../components/CurrentDish';
 import CurrentIngredient from '../components/CurrentIngredient';
 import { fetchNutrition, fetchIngredient } from '../store/nutrition';
 import { createDish } from '../store/savedDishIngredients';
-import { ingrNameFunc, portionQuantFunc } from '../utilityFunctions';
+import { ingrNameFunc, portionQuantFunc, routes } from '../utilityFunctions';
 
 const initialLayout = { width: Dimensions.get('window').width };
 
@@ -17,26 +17,26 @@ class DishScreen extends React.Component {
     this.state = {
       index: 0,
       routes: [
-        { key: 'Dish', title: 'Dish' },
-        { key: 'Kale', title: 'Kale' },
+        { key: 'Dish', title: 'Dish' }
       ],
     };
     this.renderScene = this.renderScene.bind(this);
     this.renderTabBar = this.renderTabBar.bind(this);
     this.handleIndexChange = this.handleIndexChange.bind(this);
+    this.createRoutes = this.createRoutes.bind(this)
   }
 
   componentDidMount() {
+    let ingrNameArr = ingrNameFunc(this.props.finalIngrObj);
+    let portionQuantArr = portionQuantFunc(this.props.finalIngrObj);
+
+    this.createRoutes(ingrNameArr)
+
     this.props.fetchNutritionDispatch(
       this.props.dishName,
       'imageUrl',
       this.props.finalIngrStr
     );
-
-    console.log('lollipop', this.props.finalIngrObj);
-    let ingrNameArr = ingrNameFunc(this.props.finalIngrObj);
-
-    let portionQuantArr = portionQuantFunc(this.props.finalIngrObj);
 
     this.props.fetchIngredientDispatch(
       ingrNameArr,
@@ -46,16 +46,17 @@ class DishScreen extends React.Component {
   }
 
   renderScene = ({ route }) => {
-    switch (route.key) {
-      case 'Dish':
-        return (
-          <CurrentDish
-            dishNut={this.props.dishNut}
-            finalIngrStr={this.props.finalIngrStr}
-          />
-        );
-      case 'Kale':
-        return <CurrentIngredient ingrNut={this.props.ingrNut} />;
+    if (route.key === 'Dish') {
+      return (
+        <CurrentDish
+          dishNut={this.props.dishNut}
+          finalIngrStr={this.props.finalIngrStr}
+        />)
+    }
+    for (let i = 0; i < this.props.ingrNut.length; i++) {
+      if (route.key === this.props.ingrNut[i].ingredientName) {
+        return <CurrentIngredient ingrNut={this.props.ingrNut[i]} />;
+      }
     }
   };
 
@@ -72,8 +73,14 @@ class DishScreen extends React.Component {
     this.setState({ index: newIndex });
   };
 
+  createRoutes = arr => {
+    let routesObj = routes(arr)
+    this.setState({
+      routes: [{'key': 'Dish', 'title': 'Dish'}, ...routesObj]
+    })
+  }
+
   render() {
-    console.log('INSIDE DISHSCREEN', this.props.ingrNut);
 
     return (
       <TabView
