@@ -19,11 +19,11 @@ class IngredientConfirmation extends React.Component {
     this.state = {
       value: '',
       dishName: '',
-      ingredients: [{ name: '', quantity: '0', measurement: 'oz' }],
-      userAddedIngredients: [{ name: '', quantity: '0', measurement: 'oz' }],
+      ingredients: [{ name: '', quantity: '1', measurement: 'oz' }],
+      userAddedIngredients: [{ name: '', quantity: '1', measurement: 'oz' }],
     };
     this.handleChangeText = this.handleChangeText.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.addIngredient = this.addIngredient.bind(this);
     this.fetchNutrition = this.fetchNutrition.bind(this);
     this.removeIngredient = this.removeIngredient.bind(this);
     this.removeUserAddedItem = this.removeUserAddedItem.bind(this);
@@ -41,18 +41,50 @@ class IngredientConfirmation extends React.Component {
     this.setState({ value: newText });
   }
 
-  handleSubmit() {
+  addIngredient() {
     let addingIngredientClone = { ...this.state };
     addingIngredientClone.userAddedIngredients.push({
       name: this.state.value,
-      quantity: '0',
+      quantity: '1',
       measurement: 'oz',
     });
     addingIngredientClone.value = '';
     this.setState(addingIngredientClone);
   }
 
+  validateInformation () {
+    let ingredientsArr = this.state.ingredients
+    // let userIngredientsArr = this.state.userIngredients
+    // let userEmptyFields = userIngredientsArr.filter((obj) => {
+    //   if (obj.quantity === "0" || obj.quantity.length < 1) {
+    //     return true
+    //   } else {
+    //     return false
+    //   }
+    // })
+    let emptyfields = ingredientsArr.filter((obj) => {
+      if (obj.quantity === "0" || obj.quantity.length < 1) {
+        return true
+      } else {
+        return false
+      }
+    })
+
+    if (this.state.dishName === '') {
+      alert('Please Enter a Dish Name')
+      return false
+    }
+    if (emptyfields.length > 0) {
+      alert('Please Enter a Quantity for Every Ingredient')
+      return false
+    }
+    return true
+  }
+
   async fetchNutrition() {
+    if (!this.validateInformation()) {
+      return
+    } 
     await this.props.finalizeIngredients(
       this.state.ingredients,
       this.state.userAddedIngredients,
@@ -62,7 +94,7 @@ class IngredientConfirmation extends React.Component {
     if (this.props.consolidatedData.length > 1) {
       console.log(
         'ConsolidatedData formatted for API Call: ',
-        this.props.consolidatedData
+        this.props.consolidatedData, 'DISH NAME IS: ', this.props.dishName
       );
       return this.navigation.navigate('Dishes');
     }
@@ -71,12 +103,8 @@ class IngredientConfirmation extends React.Component {
   async consolidateData() {
     let finalIngredients = this.props.finalIngredients;
     let consolidated = finalIngredients.map(element => {
-      if (typeof element === 'object') {
         let stringified = `${element.quantity} ${element.measurement} ${element.name}`;
-        return stringified;
-      } else {
-        return element;
-      }
+        return stringified; 
     });
     await this.props.consolidatingData(consolidated);
   }
@@ -203,11 +231,11 @@ class IngredientConfirmation extends React.Component {
             defaultValue={this.state.value}
             onChangeText={this.handleChangeText}
           />
-          <Button onPress={this.handleSubmit} title="Add" color="#659B0E" />
+          <Button onPress={this.addIngredient} title="Add" color="#659B0E" />
         </View>
 
         <View style={styles.addItem}>
-          <Text style={styles.headerText}>Confirm Name Of Dish</Text>
+          <Text style={styles.headerText}>Confirm Name Of Dish (Required)</Text>
           <TextInput
             style={styles.ingredientView}
             placeholder="i.e. Vegan Pasta Salad"
@@ -238,6 +266,7 @@ const mapState = state => {
     userAddedIngredients: state.dishes.userAddedIngredients,
     finalIngredients: state.dishes.finalIngredients,
     consolidatedData: state.dishes.consolidatedData,
+    dishName: state.dishes.dishName
   };
 };
 
