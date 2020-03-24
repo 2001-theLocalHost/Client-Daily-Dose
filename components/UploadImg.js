@@ -4,12 +4,17 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import { connect } from 'react-redux';
-import { finalizeIngredients } from '../store/dishes';
+import { depositClarifaiData } from '../store/dishes';
+import { NavigationContainer } from '@react-navigation/native'
 
 const Clarifai = require('clarifai');
 const app = new Clarifai.App({apiKey: '51299dbad48e410fbf0107a0b261fa24'});
 
 class UploadImg extends React.Component {
+  constructor( { navigation }) {
+    super()
+    this.navigation = navigation
+  }
   state = {
     imageB64: null,
     imageUri: null
@@ -21,16 +26,20 @@ class UploadImg extends React.Component {
   }
 
   submitImage = () => {
-    console.log('submitting', this.state.image)
-
     app.models.predict("bd367be194cf45149e75f01d59f77ba7", {base64: this.state.imageB64}).then(
-    function(response) {
-      console.log(response)
+    (response) => {
+      let foodArr = response.outputs[0].data.concepts 
+       this.depositData(foodArr, this.state.imageUri)
     },
     function(err) {
       console.log('there was an error', err)
     }
   );
+  }
+
+  async depositData (data, uri) {
+    await this.props.depositClarifaiData(data, uri)
+    return this.navigation.navigate('ConfirmIngredients')
   }
 
   render() {
@@ -100,7 +109,7 @@ class UploadImg extends React.Component {
 
   getCameraPermissionAsync = async () => {
     if (Constants.platform.ios) {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      const { status } = await Permissions.askAsync(Permissions.CAMERA);
       if (status !== 'granted') {
         alert('Sorry, we need camera roll permissions to make this work!');
       }
@@ -116,7 +125,6 @@ class UploadImg extends React.Component {
       base64: true
     });
     if (!result.cancelled) {
-      console.log('I AM RESULT', result)
       this.setState({ imageB64: result.base64,
         imageUri: result.uri });
     }
@@ -133,7 +141,6 @@ class UploadImg extends React.Component {
         allowsMultipleSelection: true,
       })
       if (!result.cancelled) {
-        console.log('I AM RESULT', result)
         this.setState({ imageB64: result.base64,
         imageUri: result.uri });
       }
@@ -145,8 +152,8 @@ class UploadImg extends React.Component {
 }
 
 const mapDispatch = dispatch => ({
-  finalizeIngredients: ingredients => {
-    dispatch(finalizeIngredients(ingredients));
+  depositClarifaiData: (data, uri) => {
+    dispatch(depositClarifaiData(data, uri));
   }
 });
 
