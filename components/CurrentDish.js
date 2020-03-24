@@ -117,7 +117,7 @@ can delete later if we find better way */
         totalNutrientsKCal,
       },
     } = this.props;
-
+    console.log('INSIDE OF CURRENTDISH 1',this.props.dishNut)
     if (
       !calories ||
       !healthLabels ||
@@ -134,6 +134,7 @@ can delete later if we find better way */
       );
     } else {
       /* Total Daily Quantities/Units/Labels in arrays */
+      console.log('INSIDE OF CURRENTDISH 2',this.props.dishNut)
       let totalDailyKeys = Object.keys(totalDaily);
       let totalDailyQuantities = totalDailyKeys.map(el => {
         return totalDaily[el].quantity;

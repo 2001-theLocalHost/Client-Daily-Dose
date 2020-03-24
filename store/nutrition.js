@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ED_APIKEY, ED_APIID } from '../secret';
+import {cleanStr, convertData} from '../utilityFunctions';
 
 const GOT_NUTRITION = 'GOT_NUTRITION';
 
@@ -19,7 +20,7 @@ const urlEncoded = arr => {
   return stringify;
 };
 
-export const fetchNutrition = userDish => {
+export const fetchNutrition = (dishName, dishUrl, userDish) => {
   return async dispatch => {
     try {
       let copy = [...userDish];
@@ -31,8 +32,9 @@ export const fetchNutrition = userDish => {
           ingr: stringify,
         },
       });
-      console.log('pineapple', data);
-      dispatch(gotNutrition(data));
+      let newData = convertData(dishName, dishUrl, data)
+      console.log('THIS IS NEWDATA AGAIN', newData)
+      dispatch(gotNutrition(newData));
     } catch (err) {
       console.log('not able to load nutrition details', err);
     }

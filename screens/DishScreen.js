@@ -19,7 +19,7 @@ class DishScreen extends React.Component {
       routes: [
         { key: 'Dish', title: 'Dish' },
         { key: 'Kale', title: 'Kale' },
-      ],
+      ]
     };
     this.renderScene = this.renderScene.bind(this);
     this.renderTabBar = this.renderTabBar.bind(this);
@@ -28,7 +28,9 @@ class DishScreen extends React.Component {
 
   componentDidMount() {
     console.log('firsttime userDish', this.props.userDish);
-    this.props.fetchNutritionDispatch(this.props.userDish);
+    let dishName = this.props.userDish.slice(-1).join('')
+    this.props.fetchNutritionDispatch(dishName, 'imageUrl', this.props.userDish);
+    console.log('INSIDE COMPONENT AGAIN', this.props.dishNut)
   }
 
   renderScene = ({ route }) => {
@@ -86,7 +88,7 @@ const mapDispatchToProps = dispatch => ({
   // fetchNutritionDispatch: () => dispatch(fetchNutrition()),
   // fetchDishDispatch: () => dispatch(fetchDish())
   createDish: (nutritionInfo, dish) => dispatch(createDish(nutritionInfo, dish)),
-  fetchNutritionDispatch: userDish => dispatch(fetchNutrition(userDish)),
+  fetchNutritionDispatch: (dishName, dishUrl, userDish) => dispatch(fetchNutrition(dishName, dishUrl, userDish)),
 });
 
 const ConnectedDishScreen = connect(
