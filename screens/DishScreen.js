@@ -16,21 +16,19 @@ class DishScreen extends React.Component {
     super();
     this.state = {
       index: 0,
-      routes: [
-        { key: 'Dish', title: 'Dish' }
-      ],
+      routes: [{ key: 'Dish', title: 'Dish' }],
     };
     this.renderScene = this.renderScene.bind(this);
     this.renderTabBar = this.renderTabBar.bind(this);
     this.handleIndexChange = this.handleIndexChange.bind(this);
-    this.createRoutes = this.createRoutes.bind(this)
+    this.createRoutes = this.createRoutes.bind(this);
   }
 
   componentDidMount() {
     let ingrNameArr = ingrNameFunc(this.props.finalIngrObj);
     let portionQuantArr = portionQuantFunc(this.props.finalIngrObj);
 
-    this.createRoutes(ingrNameArr)
+    this.createRoutes(ingrNameArr);
 
     this.props.fetchNutritionDispatch(
       this.props.dishName,
@@ -51,7 +49,8 @@ class DishScreen extends React.Component {
         <CurrentDish
           dishNut={this.props.dishNut}
           finalIngrStr={this.props.finalIngrStr}
-        />)
+        />
+      );
     }
     for (let i = 0; i < this.props.ingrNut.length; i++) {
       if (route.key === this.props.ingrNut[i].ingredientName) {
@@ -74,11 +73,11 @@ class DishScreen extends React.Component {
   };
 
   createRoutes = arr => {
-    let routesObj = routes(arr)
+    let routesObj = routes(arr);
     this.setState({
-      routes: [{'key': 'Dish', 'title': 'Dish'}, ...routesObj]
-    })
-  }
+      routes: [...this.state.routes, ...routesObj],
+    });
+  };
 
   render() {
     return (
@@ -103,22 +102,21 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  dishNut: state.nutrition.dishNut, // API data formatted for DB
-  ingrNut: state.nutrition.ingrNut,
   dishName: state.dishes.dishName, // 'Kale Salad'
-  finalIngrObj: state.dishes.finalIngredients,
+  imageUrl: state.dishes.imageUrl,
+  finalIngrObj: state.dishes.finalIngredients, // [{name: 'rice', quantity: '1', measurement: 'cup'}, {name: 'rice cake', quantity: '2', measurement: 'oz'}]
   finalIngrStr: state.dishes.consolidatedData, // ['1 oz rice', '2 oz rice cake']
+  dishNut: state.nutrition.dishNut, // API data formatted for DB {}
+  ingrNut: state.nutrition.ingrNut, // API data formatted for DB [{}, {}, {}]
 });
 
 const mapDispatchToProps = dispatch => ({
-  // fetchNutritionDispatch: () => dispatch(fetchNutrition()),
-  // fetchDishDispatch: () => dispatch(fetchDish())
-  createDish: (nutritionInfo, dish) =>
-    dispatch(createDish(nutritionInfo, dish)),
   fetchNutritionDispatch: (dishName, dishUrl, finalIngrStr) =>
     dispatch(fetchNutrition(dishName, dishUrl, finalIngrStr)),
   fetchIngredientDispatch: (ingrNameArr, portionQuantArr, finalIngrStr) =>
     dispatch(fetchIngredient(ingrNameArr, portionQuantArr, finalIngrStr)),
+  createDish: (nutritionInfo, dish) =>
+    dispatch(createDish(nutritionInfo, dish)),
 });
 
 const ConnectedDishScreen = connect(
