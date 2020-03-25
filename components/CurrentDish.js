@@ -136,6 +136,7 @@ can delete later if we find better way */
             onSave={values => {
               this.onSave(values);
             }}
+            dishNut={dishNut}
           />
           <View>
             <Button
@@ -208,8 +209,8 @@ can delete later if we find better way */
 }
 
 const mapDispatchToProps = dispatch => ({
-  createDish: (nutritionInfo, dishInfo) => {
-    dispatch(createDish(nutritionInfo, dishInfo));
+  createDish: (dishNut, formValues) => {
+    dispatch(createDish(dishNut, formValues));
   },
 });
 

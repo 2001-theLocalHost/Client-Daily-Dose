@@ -25,13 +25,13 @@ export default class CurrentIngredient extends React.Component {
     const { ingrNut } = this.props;
     return (
       <View>
-        <SaveDish modalOpen={this.state.modalOpen} onSave={this.onSave} />
+        {/* <SaveDish modalOpen={this.state.modalOpen} onSave={this.onSave} />
         <Button
           title="Save Meal"
           onPress={() => {
             this.setState({ modalOpen: true });
           }}
-        />
+        /> */}
         <View>
           <Text style={styles.name}>{ingrNut.ingredientName}</Text>
           <Text style={styles.ingredients}>
@@ -50,9 +50,9 @@ export default class CurrentIngredient extends React.Component {
           <Text style={styles.title}>{ingrNut.calories}KCAL</Text>
           <View>
             <AnimatedPie
-              carbs={ingrNut.CHOCDF_KCAL}
-              fat={ingrNut.FAT_KCAL}
-              protein={ingrNut.PROCNT_KCAL}
+                carbs={ingrNut.CHOCDF_KCAL > 0 ? ingrNut.CHOCDF_KCAL : 0.1}
+                fat={ingrNut.FAT_KCAL > 0 ? ingrNut.FAT_KCAL : 0.1}
+                protein={ingrNut.PROCNT_KCAL > 0 ? ingrNut.PROCNT_KCAL : 0.11}
             />
             <AnimatedPieLabel
               carbs={ingrNut.CHOCDF_KCAL}

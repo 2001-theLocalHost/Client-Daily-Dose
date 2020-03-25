@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {saveDishValues} from '../utilityFunctions'
 
 // ACTION TYPES
 
@@ -26,14 +27,14 @@ const saveIngredient = (ingredient) => {
 // thunk createDish takes in nutrition info plus form info
 // and creates newDish
 
-export const createDish =  (nutritionInfo, dishInfo) => {
+export const createDish =  (dishNut, formvalues) => {
   return async dispatch => {
     try {
-      console.log('I SAVED YOUR DISH')
-      // const dish
-      const newDish = await axios.get('https://daily-dose-server.herokuapp.com/api/users')
-      console.log(newDish)
-      // dispatch(saveDish(newDish))
+      console.log('BEFORE', dishNut, formvalues)
+      console.log('AFTER', dishNut, formvalues)
+      // const newDish = await axios.post('https://daily-dose-server.herokuapp.com/api/dishes', updatedDish)
+      const newDish = await axios.post('http://localhost:8080/api/dishes', dishNut)
+      console.log('I AM THE NEWDISH NOW HEY HEY HEY', newDish)
     } catch (error) {
         console.error(error)
     }

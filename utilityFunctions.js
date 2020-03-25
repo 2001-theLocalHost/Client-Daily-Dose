@@ -146,3 +146,11 @@ export const capitalize = userData => {
   });
   return capitalizedName.join(' ');
 };
+
+export const saveDishValues = (original, updated) => {
+  for (let key in updated) {
+    if (updated[key] !== original[key]) {
+      original[key] = updated[key]
+    }
+  }
+}
