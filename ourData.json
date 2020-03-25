@@ -1,0 +1,234 @@
+Object {
+    "calories": 4104,
+    "cautions": Array [],
+    "dietLabels": Array [
+      "LOW_FAT",
+    ],
+    "healthLabels": Array [
+      "SUGAR_CONSCIOUS",
+      "VEGAN",
+      "VEGETARIAN",
+      "PEANUT_FREE",
+      "TREE_NUT_FREE",
+      "ALCOHOL_FREE",
+      "SULPHITE_FREE",
+    ],
+    "totalDaily": Object {
+      "CA": Object {
+        "label": "Calcium",
+        "quantity": 10.26,
+        "unit": "%",
+      },
+      "CHOCDF": Object {
+        "label": "Carbs",
+        "quantity": 301.492,
+        "unit": "%",
+      },
+      "ENERC_KCAL": Object {
+        "label": "Energy",
+        "quantity": 205.2,
+        "unit": "%",
+      },
+      "FASAT": Object {
+        "label": "Saturated",
+        "quantity": 9.006,
+        "unit": "%",
+      },
+      "FAT": Object {
+        "label": "Fat",
+        "quantity": 10.172307692307694,
+        "unit": "%",
+      },
+      "FE": Object {
+        "label": "Iron",
+        "quantity": 50.66666666666667,
+        "unit": "%",
+      },
+      "FOLDFE": Object {
+        "label": "Folate equivalent (total)",
+        "quantity": 25.65,
+        "unit": "%",
+      },
+      "K": Object {
+        "label": "Potassium",
+        "quantity": 20.859574468085107,
+        "unit": "%",
+      },
+      "MG": Object {
+        "label": "Magnesium",
+        "quantity": 95,
+        "unit": "%",
+      },
+      "NA": Object {
+        "label": "Sodium",
+        "quantity": 0.475,
+        "unit": "%",
+      },
+      "NIA": Object {
+        "label": "Niacin (B3)",
+        "quantity": 114.00000000000001,
+        "unit": "%",
+      },
+      "P": Object {
+        "label": "Phosphorus",
+        "quantity": 175.88571428571427,
+        "unit": "%",
+      },
+      "PROCNT": Object {
+        "label": "Protein",
+        "quantity": 150.708,
+        "unit": "%",
+      },
+      "RIBF": Object {
+        "label": "Riboflavin (B2)",
+        "quantity": 42.09230769230769,
+        "unit": "%",
+      },
+      "THIA": Object {
+        "label": "Thiamin (B1)",
+        "quantity": 66.50000000000001,
+        "unit": "%",
+      },
+      "VITB6A": Object {
+        "label": "Vitamin B6",
+        "quantity": 127.15384615384616,
+        "unit": "%",
+      },
+      "ZN": Object {
+        "label": "Zinc",
+        "quantity": 120.21818181818183,
+        "unit": "%",
+      },
+    },
+    "totalNutrients": Object {
+      "CA": Object {
+        "label": "Calcium",
+        "quantity": 102.60000000000001,
+        "unit": "mg",
+      },
+      "CHOCDF": Object {
+        "label": "Carbs",
+        "quantity": 904.4760000000001,
+        "unit": "g",
+      },
+      "ENERC_KCAL": Object {
+        "label": "Energy",
+        "quantity": 4104,
+        "unit": "kcal",
+      },
+      "FAMS": Object {
+        "label": "Monounsaturated",
+        "quantity": 2.0634,
+        "unit": "g",
+      },
+      "FAPU": Object {
+        "label": "Polyunsaturated",
+        "quantity": 1.7670000000000001,
+        "unit": "g",
+      },
+      "FASAT": Object {
+        "label": "Saturated",
+        "quantity": 1.8012000000000001,
+        "unit": "g",
+      },
+      "FAT": Object {
+        "label": "Fat",
+        "quantity": 6.612,
+        "unit": "g",
+      },
+      "FE": Object {
+        "label": "Iron",
+        "quantity": 9.120000000000001,
+        "unit": "mg",
+      },
+      "FOLDFE": Object {
+        "label": "Folate equivalent (total)",
+        "quantity": 102.60000000000001,
+        "unit": "µg",
+      },
+      "FOLFD": Object {
+        "label": "Folate (food)",
+        "quantity": 102.60000000000001,
+        "unit": "µg",
+      },
+      "K": Object {
+        "label": "Potassium",
+        "quantity": 980.4,
+        "unit": "mg",
+      },
+      "MG": Object {
+        "label": "Magnesium",
+        "quantity": 399,
+        "unit": "mg",
+      },
+      "NA": Object {
+        "label": "Sodium",
+        "quantity": 11.4,
+        "unit": "mg",
+      },
+      "NIA": Object {
+        "label": "Niacin (B3)",
+        "quantity": 18.240000000000002,
+        "unit": "mg",
+      },
+      "P": Object {
+        "label": "Phosphorus",
+        "quantity": 1231.2,
+        "unit": "mg",
+      },
+      "PROCNT": Object {
+        "label": "Protein",
+        "quantity": 75.354,
+        "unit": "g",
+      },
+      "RIBF": Object {
+        "label": "Riboflavin (B2)",
+        "quantity": 0.5472,
+        "unit": "mg",
+      },
+      "THIA": Object {
+        "label": "Thiamin (B1)",
+        "quantity": 0.7980000000000002,
+        "unit": "mg",
+      },
+      "VITB6A": Object {
+        "label": "Vitamin B6",
+        "quantity": 1.653,
+        "unit": "mg",
+      },
+      "WATER": Object {
+        "label": "Water",
+        "quantity": 146.946,
+        "unit": "g",
+      },
+      "ZN": Object {
+        "label": "Zinc",
+        "quantity": 13.224,
+        "unit": "mg",
+      },
+    },
+    "totalNutrientsKCal": Object {
+      "CHOCDF_KCAL": Object {
+        "label": "Calories from carbohydrates",
+        "quantity": 3732,
+        "unit": "kcal",
+      },
+      "ENERC_KCAL": Object {
+        "label": "Energy",
+        "quantity": 4104,
+        "unit": "kcal",
+      },
+      "FAT_KCAL": Object {
+        "label": "Calories from fat",
+        "quantity": 61,
+        "unit": "kcal",
+      },
+      "PROCNT_KCAL": Object {
+        "label": "Calories from protein",
+        "quantity": 311,
+        "unit": "kcal",
+      },
+    },
+    "totalWeight": 1140,
+    "uri": "http://www.edamam.com/ontologies/edamam.owl#recipe_c47a580705724eb9b3ad638b318aa8a8",
+  }

@@ -19,16 +19,25 @@ export const routes = arr => {
   return final;
 };
 
-export const urlEncoded = arr => {
-  if (Array.isArray(arr)) {
-    let stringify = arr
-      .join(',')
-      .split(' ')
-      .join('%20');
-    return stringify;
-  } else {
-    return arr.split(' ').join('%20');
+// export const urlEncoded = arr => {
+//   if (Array.isArray(arr)) {
+//     let stringify = arr
+//       .join(',')
+//       .split(' ')
+//       .join('%20');
+//     return stringify;
+//   } else {
+//     return arr.split(' ').join('%20');
+//   }
+// };
+
+export const combine = ingredients => {
+  let str = '';
+  for (let i = 0; i < ingredients.length; i++) {
+    str += ingredients[i] += ', ';
   }
+
+  return str.slice(0, str.length - 2);
 };
 
 export const cleanStr = (dietLabelArr, healthLabelsArr) => {
@@ -135,11 +144,8 @@ export const convertIngrData = (ingrName, portionQuant, nutritionData) => {
   return ingrObject;
 };
 
-export const capitalize = userData => {
-  let name = userData
-    .slice(-1)
-    .join(' ')
-    .split(' ');
+export const capitalize = str => {
+  let name = str.split(' ');
 
   let capitalizedName = name.map(el => {
     return el[0].toUpperCase() + el.slice(1);

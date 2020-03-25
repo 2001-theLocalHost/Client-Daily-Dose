@@ -9,6 +9,7 @@ import {
   Image,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { capitalize } from '../utilityFunctions';
 import { createDish } from '../store/savedDishIngredients';
 import SaveDish from './SaveDish';
 import AnimatedPie from './Graph-Pieces/AnimatedPie';
@@ -95,7 +96,7 @@ can delete later if we find better way */
   render() {
     const { dishNut } = this.props;
 
-    if (!this.props.dishNut) {
+    if (!this.props.dishNut || !this.props.dishNut.name) {
       return (
         <View>
           <Text>Loading....</Text>
@@ -146,7 +147,7 @@ can delete later if we find better way */
             />
           </View>
           <View>
-            <Text style={styles.head}>{dishNut.name}</Text>
+            <Text style={styles.head}>{capitalize(dishNut.name)}</Text>
             {this.props.finalIngrStr.map((el, index) => {
               return (
                 <Text key={index} style={styles.subhead}>
@@ -170,9 +171,9 @@ can delete later if we find better way */
             <Text style={styles.title}>{dishNut.calories}KCAL</Text>
             <View>
               <AnimatedPie
-                carbs={dishNut.CHOCDF_KCAL > 0 ? dishNut.CHOCDF_KCAL : 0.1}
-                fat={dishNut.FAT_KCAL > 0 ? dishNut.FAT_KCAL : 0.1}
-                protein={dishNut.PROCNT_KCAL > 0 ? dishNut.PROCNT_KCAL : 0.11}
+                carbs={dishNut.CHOCDF_KCAL > 0 ? dishNut.CHOCDF_KCAL : 1}
+                fat={dishNut.FAT_KCAL > 0 ? dishNut.FAT_KCAL : 1}
+                protein={dishNut.PROCNT_KCAL > 0 ? dishNut.PROCNT_KCAL : 1}
               />
               <AnimatedPieLabel
                 carbs={dishNut.CHOCDF_KCAL}
