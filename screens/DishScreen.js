@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, Dimensions, View, ScrollView } from 'react-native';
+import { StyleSheet, Dimensions, View, Text } from 'react-native';
 import { TabView, TabBar } from 'react-native-tab-view';
 
 import CurrentDish from '../components/CurrentDish';
@@ -32,7 +32,7 @@ class DishScreen extends React.Component {
 
     this.props.fetchNutritionDispatch(
       this.props.dishName,
-      'imageUrl',
+      this.props.imageUrl,
       this.props.finalIngrStr
     );
 

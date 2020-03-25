@@ -6,10 +6,11 @@ import {
   View,
   Button,
   TextInput,
+  Image,
 } from 'react-native';
+import { connect } from 'react-redux';
 import { createDish } from '../store/savedDishIngredients';
 import SaveDish from './SaveDish';
-import { connect } from 'react-redux';
 import AnimatedPie from './Graph-Pieces/AnimatedPie';
 import AnimatedPieLabel from './Graph-Pieces/AnimatedPieLabel';
 import TotalDailyBar from './Graph-Pieces/TotalDailyBar';
@@ -24,13 +25,13 @@ class CurrentDish extends React.Component {
     this.onSave = this.onSave.bind(this);
   }
 
-  // onSave(values) {
-  //   this.setState({
-  //     modalOpen: false,
-  //   });
-  //   console.log('HELLO I SUBMITTED', values);
-  //   this.props.createDish(this.props.dishNut, values);
-  // }
+  onSave(values) {
+    this.setState({
+      modalOpen: false,
+    });
+    console.log('HELLO I SUBMITTED', values);
+    this.props.createDish(this.props.dishNut, values);
+  }
 
   /* given goalsArr and mealsArr - get the difference in Array */
   // difference(goalsArr, currentArr) {
@@ -92,134 +93,9 @@ can delete later if we find better way */
   // }
 
   render() {
-    // let name
-    //       let imgUrl
-    //       let mealTypes
-    //       let healthLabels
-    //       let CHOCDF_KCAL
-    //       let FAT_KCAL
-    //       let PROCNT_KCAL
-    //       let calories
-    //       let CA
-    //       let CHOCDF
-    //       let FAMS
-    //       let FAPU
-    //       let FASAT
-    //       let FAT
-    //       let FE
-    //       let FOLDFE
-    //       let FOLFD
-    //       let K
-    //       let MG
-    //       let NA
-    //       let NIA
-    //       let P
-    //       let PROCNT
-    //       let RIBF
-    //       let THIA
-    //       let VITB6A
-    //       let WATER
-    //       let ZN
-    //       let CHOLE
-    //       let FATRN
-    //       let FIBTG
-    //       let FOLAC
-    //       let SUGAR
-    //       let TOCPHA
-    //       let VITA_RAE
-    //       let VITB12
-    //       let VITC
-    //       let VITD
-    //       let VITK1
-    // if (this.props.dishNut) {
-    // }
-    // console.log('i am name', name)
+    const { dishNut } = this.props;
 
-    const {
-      dishNut: {
-        name,
-        imgUrl,
-        mealTypes,
-        healthLabels,
-        CHOCDF_KCAL,
-        FAT_KCAL,
-        PROCNT_KCAL,
-        calories,
-        CA,
-        CHOCDF,
-        FAMS,
-        FAPU,
-        FASAT,
-        FAT,
-        FE,
-        FOLDFE,
-        FOLFD,
-        K,
-        MG,
-        NA,
-        NIA,
-        P,
-        PROCNT,
-        RIBF,
-        THIA,
-        VITB6A,
-        WATER,
-        ZN,
-        CHOLE,
-        FATRN,
-        FIBTG,
-        FOLAC,
-        SUGAR,
-        TOCPHA,
-        VITA_RAE,
-        VITB12,
-        VITC,
-        VITD,
-        VITK1,
-      },
-    } = this.props;
-
-    if (
-      !name ||
-      !imgUrl ||
-      !mealTypes ||
-      !healthLabels ||
-      !CHOCDF_KCAL ||
-      !FAT_KCAL ||
-      !PROCNT_KCAL ||
-      !calories ||
-      !CA ||
-      !CHOCDF ||
-      !FAMS ||
-      !FAPU ||
-      !FASAT ||
-      !FAT ||
-      !FE ||
-      !FOLDFE ||
-      !FOLFD ||
-      !K ||
-      !MG ||
-      !NA ||
-      !NIA ||
-      !P ||
-      !PROCNT ||
-      !RIBF ||
-      !THIA ||
-      !VITB6A ||
-      !WATER ||
-      !ZN ||
-      !CHOLE ||
-      !FATRN ||
-      !FIBTG ||
-      !FOLAC ||
-      !SUGAR ||
-      !TOCPHA ||
-      !VITA_RAE ||
-      !VITB12 ||
-      !VITC ||
-      !VITD ||
-      !VITK1
-    ) {
+    if (!this.props.dishNut) {
       return (
         <View>
           <Text>Loading....</Text>
@@ -255,23 +131,22 @@ can delete later if we find better way */
 
       return (
         <ScrollView>
-          {/* <SaveDish
+          <SaveDish
             modalOpen={this.state.modalOpen}
             onSave={values => {
               this.onSave(values);
             }}
           />
           <View>
-            <Text style={styles.name}>{name}</Text>
             <Button
               title="Save Meal"
               onPress={() => {
                 this.setState({ modalOpen: true });
               }}
             />
-            </View> */}
+          </View>
           <View>
-            <Text style={styles.head}>{name}</Text>
+            <Text style={styles.head}>{dishNut.name}</Text>
             {this.props.finalIngrStr.map((el, index) => {
               return (
                 <Text key={index} style={styles.subhead}>
@@ -280,29 +155,29 @@ can delete later if we find better way */
               );
             })}
             <View>
-              {/* <Image source={{ uri: 'x' }} style={styles.image} /> */}
+              <Image source={{ uri: dishNut.imgUrl }} style={styles.image} />
             </View>
-            {healthLabels ? (
+            {dishNut.healthLabels ? (
               <View>
                 <Text style={styles.title}>Health Labels:</Text>
-                <Text>{healthLabels}</Text>
+                <Text>{dishNut.healthLabels}</Text>
               </View>
             ) : null}
           </View>
 
           <View style={styles.graph}>
             <Text style={styles.title}>TOTAL CALORIES BREAKDOWN:</Text>
-            <Text style={styles.title}>{calories}KCAL</Text>
+            <Text style={styles.title}>{dishNut.calories}KCAL</Text>
             <View>
               <AnimatedPie
-                carbs={CHOCDF_KCAL}
-                fat={FAT_KCAL}
-                protein={PROCNT_KCAL}
+                carbs={dishNut.CHOCDF_KCAL > 0 ? dishNut.CHOCDF_KCAL : 0.1}
+                fat={dishNut.FAT_KCAL > 0 ? dishNut.FAT_KCAL : 0.1}
+                protein={dishNut.PROCNT_KCAL > 0 ? dishNut.PROCNT_KCAL : 0.11}
               />
               <AnimatedPieLabel
-                carbs={CHOCDF_KCAL}
-                fat={FAT_KCAL}
-                protein={PROCNT_KCAL}
+                carbs={dishNut.CHOCDF_KCAL}
+                fat={dishNut.FAT_KCAL}
+                protein={dishNut.PROCNT_KCAL}
               />
             </View>
           </View>
@@ -332,15 +207,13 @@ can delete later if we find better way */
   }
 }
 
-const mapStateToProps = state => ({});
-
 const mapDispatchToProps = dispatch => ({
   createDish: (nutritionInfo, dishInfo) => {
     dispatch(createDish(nutritionInfo, dishInfo));
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CurrentDish);
+export default connect(null, mapDispatchToProps)(CurrentDish);
 
 const styles = StyleSheet.create({
   head: {
@@ -350,8 +223,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   image: {
-    width: 50,
-    height: 50,
+    width: 150,
+    height: 150,
   },
   graph: {
     marginTop: 40,

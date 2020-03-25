@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import SaveDish from './SaveDish';
+import AnimatedPie from './Graph-Pieces/AnimatedPie';
+import AnimatedPieLabel from './Graph-Pieces/AnimatedPieLabel';
 
 export default class CurrentIngredient extends React.Component {
   constructor() {
@@ -20,21 +22,44 @@ export default class CurrentIngredient extends React.Component {
   }
 
   render() {
-    console.log('INSIDE CURRENTINGR', this.props.ingrNut);
+    const { ingrNut } = this.props;
     return (
       <View>
         <SaveDish modalOpen={this.state.modalOpen} onSave={this.onSave} />
-    <Text style={styles.name}>{this.props.ingrNut.ingredientName}</Text>
         <Button
           title="Save Meal"
           onPress={() => {
             this.setState({ modalOpen: true });
           }}
         />
-        <Text style={styles.ingredients}>ingredients listed here</Text>
         <View>
-          <Text style={styles.name}>DISH NAME</Text>
-          <Text style={styles.ingredients}>ingredients listed here</Text>
+          <Text style={styles.name}>{ingrNut.ingredientName}</Text>
+          <Text style={styles.ingredients}>
+            Portion Size: {ingrNut.portionSize}
+          </Text>
+          {ingrNut.healthLabels ? (
+            <View>
+              <Text style={styles.title}>Health Labels:</Text>
+              <Text>{ingrNut.healthLabels}</Text>
+            </View>
+          ) : null}
+        </View>
+
+        <View style={styles.graph}>
+          <Text style={styles.title}>TOTAL CALORIES BREAKDOWN:</Text>
+          <Text style={styles.title}>{ingrNut.calories}KCAL</Text>
+          <View>
+            <AnimatedPie
+              carbs={ingrNut.CHOCDF_KCAL}
+              fat={ingrNut.FAT_KCAL}
+              protein={ingrNut.PROCNT_KCAL}
+            />
+            <AnimatedPieLabel
+              carbs={ingrNut.CHOCDF_KCAL}
+              fat={ingrNut.FAT_KCAL}
+              protein={ingrNut.PROCNT_KCAL}
+            />
+          </View>
         </View>
       </View>
     );

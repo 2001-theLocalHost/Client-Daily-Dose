@@ -1,35 +1,34 @@
-import nutritionKey from './nutritionKey.json'
+import nutritionKey from './nutritionKey.json';
 
-export const routes = (arr) => {
-  let final = []
-  let temp = []
-  let innerObj = {}
+export const routes = arr => {
+  let final = [];
+  let temp = [];
+  let innerObj = {};
 
-  innerObj['key'] = arr[0]
-  innerObj['title'] = arr[0]
+  innerObj['key'] = arr[0];
+  innerObj['title'] = arr[0];
 
-  temp.push(innerObj)
+  temp.push(innerObj);
 
   if (arr.length === 1) {
-    return temp
+    return temp;
   } else {
-     let result = routes(arr.slice(1))
-     final = [...temp, ...result]
+    let result = routes(arr.slice(1));
+    final = [...temp, ...result];
   }
-  return final
-}
+  return final;
+};
 
 export const urlEncoded = arr => {
   if (Array.isArray(arr)) {
     let stringify = arr
-    .join(',')
-    .split(' ')
-    .join('%20');
-  return stringify;
+      .join(',')
+      .split(' ')
+      .join('%20');
+    return stringify;
   } else {
-    return arr.split(' ').join('%20')
+    return arr.split(' ').join('%20');
   }
-
 };
 
 export const cleanStr = (dietLabelArr, healthLabelsArr) => {
@@ -78,7 +77,7 @@ export const convertData = (dishName, dishUrl, nutritionData) => {
 
   for (let key in nutritionKey) {
     if (!dishObject[key]) {
-      dishObject[key] = 0
+      dishObject[key] = 0;
     }
   }
 
@@ -87,7 +86,6 @@ export const convertData = (dishName, dishUrl, nutritionData) => {
 
 export const ingrNameFunc = finalIngrArr => {
   return finalIngrArr.map(eachIngrObj => {
-    console.log('candy', eachIngrObj.name);
     return eachIngrObj.name; // ['rice', 'rice cake']
   });
 };
@@ -137,8 +135,7 @@ export const convertIngrData = (ingrName, portionQuant, nutritionData) => {
   return ingrObject;
 };
 
-
-export const capitalize = (userData) => {
+export const capitalize = userData => {
   let name = userData
     .slice(-1)
     .join(' ')
@@ -148,4 +145,4 @@ export const capitalize = (userData) => {
     return el[0].toUpperCase() + el.slice(1);
   });
   return capitalizedName.join(' ');
-}
+};

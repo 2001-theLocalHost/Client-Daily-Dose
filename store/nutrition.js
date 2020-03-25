@@ -21,7 +21,7 @@ export const fetchNutrition = (dishName, dishUrl, userDish) => {
   return async dispatch => {
     try {
       let stringify = urlEncoded(userDish);
-      console.log('i am stringify', stringify)  // 1%20oz%20water,4%20oz%20Rice
+      console.log('i am stringify', stringify); //1%20oz%20water,4%20oz%20Rice
       let { data } = await axios.get(url, {
         params: {
           app_id: ED_APIID,
@@ -41,7 +41,6 @@ export const fetchIngredient = (ingrNameArr, portionQuantArr, userDish) => {
   //ingrNameArr => ['rice', 'rice cake']
   //portionQuant => ['1 cup', '1 oz']
   //userDish => consolidatedData => ['1 cup rice', '1 oz rice cake']
-
   return async dispatch => {
     try {
       let ingredients = [];
@@ -54,7 +53,6 @@ export const fetchIngredient = (ingrNameArr, portionQuantArr, userDish) => {
             ingr: stringify,
           },
         });
-
         let newData = convertIngrData(ingrNameArr[i], portionQuantArr[i], data);
         ingredients.push(newData);
       }
@@ -79,6 +77,7 @@ const nutritionReducer = (state = initialState, action) => {
       };
     case GOT_INGR_NUTRITION:
       return {
+        ...state,
         ingrNut: action.ingrNutrition,
       };
     default:
