@@ -30,12 +30,9 @@ const saveIngredient = (ingredient) => {
 export const createDish =  (dishNut, formvalues) => {
   return async dispatch => {
     try {
-      console.log('BEFORE', dishNut)
       saveDishValues(dishNut, formvalues)
-      console.log('AFTER', dishNut)
       // const newDish = await axios.post('https://daily-dose-server.herokuapp.com/api/dishes', updatedDish)
       const newDish = await axios.post('http://localhost:8080/api/dishes', dishNut)
-      console.log('I AM THE NEWDISH NOW HEY HEY HEY', newDish)
     } catch (error) {
         console.error(error)
     }

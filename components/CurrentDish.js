@@ -29,7 +29,6 @@ class CurrentDish extends React.Component {
     this.setState({
       modalOpen: false,
     });
-    console.log('HELLO I SUBMITTED', values);
     this.props.createDish(this.props.dishNut, values);
   }
 

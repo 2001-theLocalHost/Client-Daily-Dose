@@ -1,37 +1,18 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
-import SaveDish from './SaveDish';
 import AnimatedPie from './Graph-Pieces/AnimatedPie';
 import AnimatedPieLabel from './Graph-Pieces/AnimatedPieLabel';
 
 export default class CurrentIngredient extends React.Component {
   constructor() {
     super();
-    this.state = {
-      modalOpen: false,
-    };
-    this.onSave = this.onSave.bind(this);
-  }
-  onSave() {
-    this.setState({
-      modalOpen: false,
-    });
-    console.log('HELLO I SUBMITTED');
-    // this.props.createDish(this.props.dishNut, values)
-    // redirect to mealDiary)
+    this.state = {};
   }
 
   render() {
     const { ingrNut } = this.props;
     return (
       <View>
-        {/* <SaveDish modalOpen={this.state.modalOpen} onSave={this.onSave} />
-        <Button
-          title="Save Meal"
-          onPress={() => {
-            this.setState({ modalOpen: true });
-          }}
-        /> */}
         <View>
           <Text style={styles.name}>{ingrNut.ingredientName}</Text>
           <Text style={styles.ingredients}>
