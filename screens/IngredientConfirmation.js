@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
+import { capitalize } from '../utilityFunctions';
 import { finalizeIngredients, consolidatingData } from '../store/dishes';
 
 class IngredientConfirmation extends React.Component {
@@ -18,7 +19,7 @@ class IngredientConfirmation extends React.Component {
     this.navigation = navigation;
     this.state = {
       value: '',
-      dishName: '',
+      name: '',
       ingredients: [{ name: '', quantity: '1', measurement: 'oz' }],
       userAddedIngredients: [{ name: '', quantity: '1', measurement: 'oz' }],
     };
@@ -52,8 +53,8 @@ class IngredientConfirmation extends React.Component {
     this.setState(addingIngredientClone);
   }
 
-  validateInformation () {
-    let ingredientsArr = this.state.ingredients
+  validateInformation() {
+    let ingredientsArr = this.state.ingredients;
     // let userIngredientsArr = this.state.userIngredients
     // let userEmptyFields = userIngredientsArr.filter((obj) => {
     //   if (obj.quantity === "0" || obj.quantity.length < 1) {
@@ -62,39 +63,39 @@ class IngredientConfirmation extends React.Component {
     //     return false
     //   }
     // })
-    let emptyfields = ingredientsArr.filter((obj) => {
-      if (obj.quantity === "0" || obj.quantity.length < 1) {
-        return true
+    let emptyfields = ingredientsArr.filter(obj => {
+      if (obj.quantity === '0' || obj.quantity.length < 1) {
+        return true;
       } else {
-        return false
+        return false;
       }
-    })
+    });
 
     if (this.state.dishName === '') {
-      alert('Please Enter a Dish Name')
-      return false
+      alert('Please Enter a Dish Name');
+      return false;
     }
     if (emptyfields.length > 0) {
-      alert('Please Enter a Quantity for Every Ingredient')
-      return false
+      alert('Please Enter a Quantity for Every Ingredient');
+      return false;
     }
-    return true
+    return true;
   }
 
   async fetchNutrition() {
     if (!this.validateInformation()) {
-      return
-    } 
+      return;
+    }
     await this.props.finalizeIngredients(
       this.state.ingredients,
       this.state.userAddedIngredients,
-      this.state.dishName
+      this.state.name
     );
     await this.consolidateData();
     if (this.props.consolidatedData.length > 1) {
       console.log(
         'ConsolidatedData formatted for API Call: ',
-        this.props.consolidatedData, 'DISH NAME IS: ', this.props.dishName
+        this.props.consolidatedData, 'DISH NAME IS: ', this.props.name
       );
       return this.navigation.navigate('Dishes');
     }
@@ -103,8 +104,8 @@ class IngredientConfirmation extends React.Component {
   async consolidateData() {
     let finalIngredients = this.props.finalIngredients;
     let consolidated = finalIngredients.map(element => {
-        let stringified = `${element.quantity} ${element.measurement} ${element.name}`;
-        return stringified; 
+      let stringified = `${element.quantity} ${element.measurement} ${element.name}`;
+      return stringified;
     });
     await this.props.consolidatingData(consolidated);
   }
@@ -239,10 +240,10 @@ class IngredientConfirmation extends React.Component {
           <TextInput
             style={styles.ingredientView}
             placeholder="i.e. Vegan Pasta Salad"
-            value={this.state.dishName}
+            value={this.state.name}
             onChangeText={text => {
               let localStateDish = { ...this.state };
-              localStateDish.dishName = text;
+              localStateDish.name = text;
               this.setState(localStateDish);
             }}
           />
@@ -266,14 +267,14 @@ const mapState = state => {
     userAddedIngredients: state.dishes.userAddedIngredients,
     finalIngredients: state.dishes.finalIngredients,
     consolidatedData: state.dishes.consolidatedData,
-    dishName: state.dishes.dishName
+    name: state.dishes.name
   };
 };
 
 const mapDispatch = dispatch => {
   return {
-    finalizeIngredients: (ingredients, userIngredients, dishName) =>
-      dispatch(finalizeIngredients(ingredients, userIngredients, dishName)),
+    finalizeIngredients: (ingredients, userIngredients, name) =>
+      dispatch(finalizeIngredients(ingredients, userIngredients, name)),
     consolidatingData: consolidated =>
       dispatch(consolidatingData(consolidated)),
   };

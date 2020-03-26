@@ -1,8 +1,12 @@
 import React from 'react';
-import { StyleSheet, View, TextInput, Button, Modal} from 'react-native';
+import { StyleSheet, View, TextInput, Button, Modal, Text, Picker} from 'react-native';
 import { Formik } from 'formik';
 
 const SaveDish = (props) => {
+  let dishNut;
+  if (props.dishNut) {
+    dishNut = props.dishNut
+  }
   return (
     <Modal
     visible={props.modalOpen}
@@ -11,7 +15,7 @@ const SaveDish = (props) => {
       <View style={styles.form}>
         <Formik
         initialValues={{
-          dishName: '',
+          name: dishNut.name,
           mealType: ''
         }}
         onSubmit={(values) => {
@@ -20,12 +24,38 @@ const SaveDish = (props) => {
         >
           {(formikProps) => (
             <View>
+              <Text>Dish Name:</Text>
               <TextInput
                 placeholder='Dish Name'
-                //placedholder --> bring in info from confirm ingredients page
-                onChangeText={formikProps.handleChange('dishName')}
-                value={formikProps.values.dishName}
+                onChangeText={formikProps.handleChange('name')}
+                value={formikProps.values.name}
               />
+              <Text>Meal Type:</Text>
+              <Picker
+                style={styles.dropdowns}
+                itemStyle={{height: 45}}
+                selectedValue={formikProps.values.mealType}
+                onValueChange={(itemValue) => {
+                  formikProps.setFieldValue('mealType', itemValue)}}
+              >
+                <Picker.item
+                  label='Breakfast'
+                  value='Breakfast'
+                />
+                <Picker.item
+                  label='Lunch'
+                  value='Lunch'
+                />
+                <Picker.item
+                  label='Dinner'
+                  value='Dinner'
+                />
+                <Picker.item
+                  label='Snack'
+                  value='Snack'
+                />
+
+              </Picker>
               <Button title='submit' color='maroon' onPress={formikProps.handleSubmit} />
             </View>
           )}

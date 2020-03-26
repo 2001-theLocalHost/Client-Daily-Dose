@@ -1,8 +1,17 @@
 import React from 'react';
-import { StyleSheet, Text, ScrollView, View, Button, TextInput } from 'react-native';
-import { createDish } from '../store/savedDishIngredients'
-import SaveDish from './SaveDish'
+import {
+  StyleSheet,
+  Text,
+  ScrollView,
+  View,
+  Button,
+  TextInput,
+  Image,
+} from 'react-native';
 import { connect } from 'react-redux';
+import { arraysOfData, finalData, startData } from '../utilityFunctions';
+import { createDish } from '../store/savedDishIngredients';
+import SaveDish from './SaveDish';
 import AnimatedPie from './Graph-Pieces/AnimatedPie';
 import AnimatedPieLabel from './Graph-Pieces/AnimatedPieLabel';
 import TotalDailyBar from './Graph-Pieces/TotalDailyBar';
@@ -14,185 +23,101 @@ class CurrentDish extends React.Component {
     this.state = {
       modalOpen: false,
     };
-    this.onSave = this.onSave.bind(this)
+    this.onSave = this.onSave.bind(this);
   }
+
   onSave(values) {
     this.setState({
-      modalOpen: false
-    })
-    console.log('HELLO I SUBMITTED', values)
-    this.props.createDish(this.props.dishNut, values)
-    // redirect to mealDiary)
-  }
-
-  dishName(userData) {
-    let name = userData
-      .slice(-1)
-      .join(' ')
-      .split(' ');
-
-    let capitalizedName = name.map(el => {
-      return el[0].toUpperCase() + el.slice(1);
+      modalOpen: false,
     });
-    return capitalizedName.join(' ');
-  }
-
-  /* combining health and diet labels with underscores */
-  cleanStr(dietLabelArr, healthLabelsArr) {
-    let newArr = [...dietLabelArr, ...healthLabelsArr];
-    let tempArr = newArr.map(el => {
-      return el.split('_').join(' ');
-    });
-    return tempArr.join(', ');
-  }
-
-  /* given goalsArr and mealsArr - get the difference in Array */
-  difference(goalsArr, currentArr) {
-    let diffArr = [];
-    for (let i = 0; i < currentArr.length; i++) {
-      let difference = goalsArr[i] - currentArr[i];
-      diffArr.push(difference);
-    }
-    return diffArr;
-  }
-
-  /* creating finalData format to pass to StackedGraph */
-  finalData(label, quant, diff) {
-    let final = [];
-    let temp = [];
-    let innerObj = {};
-
-    innerObj[label[0]] = quant[0];
-    innerObj['current'] = quant[0];
-    innerObj['diff'] = diff[0];
-    temp.push(innerObj);
-
-    if (label.length === 1) {
-      return temp;
-    } else {
-      let result = this.finalData(
-        label.slice(1),
-        quant.slice(1),
-        diff.slice(1)
-      );
-      final = [...temp, ...result];
-    }
-    return final;
-  }
-
-  /* making startData for StackedGraph for animation purposes;
-can delete later if we find better way */
-  startData(label, quant, diff) {
-    let final = [];
-    let temp = [];
-    let innerObj = {};
-
-    innerObj[label[0]] = 0;
-    innerObj['current'] = 0;
-    innerObj['diff'] = 0;
-    temp.push(innerObj);
-
-    if (label.length === 1) {
-      return temp;
-    } else {
-      let result = this.startData(
-        label.slice(1),
-        quant.slice(1),
-        diff.slice(1)
-      );
-      final = [...temp, ...result];
-    }
-    return final;
+    this.props.createDish(this.props.dishNut, values);
   }
 
   render() {
-    const {
-      dishNut: {
-        calories,
-        healthLabels,
-        dietLabels,
-        cautions,
-        totalDaily,
-        totalNutrients,
-        totalNutrientsKCal,
-      },
-    } = this.props;
+    const { dishNut } = this.props;
 
-    if (
-      !calories ||
-      !healthLabels ||
-      !dietLabels ||
-      !cautions ||
-      !totalDaily ||
-      !totalNutrients ||
-      !totalNutrientsKCal
-    ) {
+    if (!this.props.dishNut || !this.props.dishNut.name) {
       return (
         <View>
           <Text>Loading....</Text>
         </View>
       );
     } else {
-      /* Total Daily Quantities/Units/Labels in arrays */
-      let totalDailyKeys = Object.keys(totalDaily);
-      let totalDailyQuantities = totalDailyKeys.map(el => {
-        return totalDaily[el].quantity;
-      });
-      let totalDailyUnits = totalDailyKeys.map(el => {
-        return totalDaily[el].unit;
-      });
-      let totalDailyLabels = totalDailyKeys.map(el => {
-        return totalDaily[el].label;
-      });
+      console.log('this is dishNut3', this.props.dishNut);
 
-      /* Total Nutrients Quantities/Units/Labels in arrays */
-      let totalNutrientsKeys = Object.keys(totalNutrients);
-      let totalNutrientsQuantities = totalNutrientsKeys.map(el => {
-        return totalNutrients[el].quantity;
-      });
-      let totalNutrientsUnits = totalNutrientsKeys.map(el => {
-        return totalNutrients[el].unit;
-      });
-      let totalNutrientsLabels = totalNutrientsKeys.map(el => {
-        return totalNutrients[el].label;
-      });
+      let fakeNutrientGoals = {
+        CHOCDF_KCAL: 50000,
+        FAT_KCAL: 50000,
+        PROCNT_KCAL: 50000,
+        ENERC_KCAL: 50000,
+        CA: 50000,
+        CHOCDF: 50000,
+        FAMS: 50000,
+        FAPU: 50000,
+        FASAT: 50000,
+        FAT: 50000,
+        FE: 50000,
+        FOLDFE: 50000,
+        FOLFD: 50000,
+        K: 50000,
+        MG: 50000,
+        NA: 50000,
+        NIA: 50000,
+        P: 50000,
+        PROCNT: 50000,
+        RIBF: 50000,
+        THIA: 50000,
+        VITB6A: 50000,
+        WATER: 50000,
+        ZN: 50000,
+        CHOLE: 50000,
+        FATRN: 50000,
+        FIBTG: 50000,
+        FOLAC: 50000,
+        SUGAR: 50000,
+        TOCPHA: 50000,
+        VITA_RAE: 50000,
+        VITB12: 50000,
+        VITC: 50000,
+        VITD: 50000,
+        VITK1: 50000,
+      };
 
-      /* Fake NutrientGoals in Array */
-      let nutrientGoals = Array(21).fill(100);
+      let dataInArrays = arraysOfData(this.props.dishNut, fakeNutrientGoals);
+      console.log('this is dataInArrays3', dataInArrays);
 
-      /* Difference of Goal & Nutrient Quantities in Array */
-      let difference = this.difference(nutrientGoals, totalNutrientsQuantities);
-
-      /* Final data for TotalNutrients StackBarGraph */
-      let finalDataForTotalNutrients = this.finalData(
-        totalNutrientsLabels,
-        totalNutrientsQuantities,
-        difference
+      let finalDataForStackedGraph = finalData(
+        dataInArrays[0],
+        dataInArrays[1],
+        dataInArrays[2]
       );
 
-      /* Start data for TotalNutrients StackBarGraph */
-      let startDataForTotalNutrients = this.startData(
-        totalNutrientsLabels,
-        totalNutrientsQuantities,
-        difference
+      let startDataForStackedGraph = startData(
+        dataInArrays[0],
+        dataInArrays[1],
+        dataInArrays[2]
       );
-
-      let justIngredients = this.props.userDish.slice(
-        0,
-        this.props.userDish.length - 1
-      );
-
-      let justDishName = this.dishName(this.props.userDish);
 
       return (
         <ScrollView>
-          <SaveDish modalOpen={this.state.modalOpen} onSave={(values) => {this.onSave(values)}}/>
+          <SaveDish
+            modalOpen={this.state.modalOpen}
+            onSave={values => {
+              this.onSave(values);
+            }}
+            dishNut={dishNut}
+          />
           <View>
-            <Text style={styles.name}>DISH NAME</Text>
-            <Button title='Save Meal' onPress={() => {this.setState({modalOpen: true})}}/>
+            <Button
+              title="Save Meal"
+              onPress={() => {
+                this.setState({ modalOpen: true });
+              }}
+            />
+          </View>
           <View>
-            <Text style={styles.head}>{justDishName}</Text>
-            {justIngredients.map((el, index) => {
+            <Text style={styles.head}>{dishNut.name}</Text>
+            {this.props.finalIngrStr.map((el, index) => {
               return (
                 <Text key={index} style={styles.subhead}>
                   - {el}
@@ -200,64 +125,64 @@ can delete later if we find better way */
               );
             })}
             <View>
-              {/* <Image source={{ uri: 'x' }} style={styles.image} /> */}
+              <Image source={{ uri: dishNut.imgUrl }} style={styles.image} />
             </View>
-            <Text style={styles.title}>Health Labels:</Text>
-            <Text>{this.cleanStr(healthLabels, dietLabels)}</Text>
+            {dishNut.healthLabels ? (
+              <View>
+                <Text style={styles.title}>Health Labels:</Text>
+                {dishNut.healthLabels.map((el, index) => {
+                  return <Text key={index}>- {el}</Text>;
+                })}
+              </View>
+            ) : null}
           </View>
 
           <View style={styles.graph}>
             <Text style={styles.title}>TOTAL CALORIES BREAKDOWN:</Text>
-            <Text style={styles.title}>{calories}KCAL</Text>
+            <Text style={styles.title}>{dishNut.calories}KCAL</Text>
             <View>
               <AnimatedPie
-                carbs={totalNutrientsKCal.CHOCDF_KCAL.quantity}
-                fat={totalNutrientsKCal.FAT_KCAL.quantity}
-                protein={totalNutrientsKCal.PROCNT_KCAL.quantity}
+                carbs={dishNut.CHOCDF_KCAL > 0 ? dishNut.CHOCDF_KCAL : 1}
+                fat={dishNut.FAT_KCAL > 0 ? dishNut.FAT_KCAL : 1}
+                protein={dishNut.PROCNT_KCAL > 0 ? dishNut.PROCNT_KCAL : 1}
               />
               <AnimatedPieLabel
-                carbs={totalNutrientsKCal.CHOCDF_KCAL.quantity}
-                fat={totalNutrientsKCal.FAT_KCAL.quantity}
-                protein={totalNutrientsKCal.PROCNT_KCAL.quantity}
+                carbs={dishNut.CHOCDF_KCAL}
+                fat={dishNut.FAT_KCAL}
+                protein={dishNut.PROCNT_KCAL}
               />
             </View>
-          </View>
-
-          <View style={styles.barGraph}>
-            <Text style={styles.title}>TOTAL DAILY %:</Text>
-            <TotalDailyBar
-              label={totalDailyLabels}
-              quantity={totalDailyQuantities}
-              unit={totalDailyUnits}
-            />
           </View>
 
           <View style={styles.barGraph}>
             <Text style={styles.title}>TOTAL NUTRIENTS:</Text>
             <TotalNutrientsBar
-              data={finalDataForTotalNutrients}
-              startData={startDataForTotalNutrients}
-              quantity={totalNutrientsQuantities}
-              label={totalNutrientsLabels}
-              unit={totalNutrientsUnits}
+              data={finalDataForStackedGraph}
+              startData={startDataForStackedGraph}
             />
           </View>
-          </View>
+
+          {/* <View style={styles.barGraph}>
+              <Text style={styles.title}>TOTAL DAILY %:</Text>
+              <TotalDailyBar
+                label={totalDailyLabels}
+                quantity={totalDailyQuantities}
+                unit={totalDailyUnits}
+              />
+            </View> */}
         </ScrollView>
       );
     }
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapDispatchToProps = dispatch => ({
+  createDish: (dishNut, formValues) => {
+    dispatch(createDish(dishNut, formValues));
+  },
+});
 
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  createDish: (nutritionInfo, dishInfo) => {dispatch(createDish(nutritionInfo, dishInfo))}
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(CurrentDish)
+export default connect(null, mapDispatchToProps)(CurrentDish);
 
 const styles = StyleSheet.create({
   head: {
@@ -267,8 +192,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   image: {
-    width: 50,
-    height: 50,
+    width: 150,
+    height: 150,
   },
   graph: {
     marginTop: 40,

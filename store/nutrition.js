@@ -1,47 +1,71 @@
 import axios from 'axios';
 import { ED_APIKEY, ED_APIID } from '../secret';
+import {
+  combine,
+  urlEncoded,
+  convertData,
+  convertIngrData,
+} from '../utilityFunctions';
 
 const GOT_NUTRITION = 'GOT_NUTRITION';
+const GOT_INGR_NUTRITION = 'GOT_INGR_NUTRITION';
 
 export const gotNutrition = nutrition => ({
   type: GOT_NUTRITION,
   nutrition,
 });
 
-const url = 'https://api.edamam.com/api/nutrition-data';
+export const gotIngrNutrition = ingrNutrition => ({
+  type: GOT_INGR_NUTRITION,
+  ingrNutrition,
+});
 
-const urlEncoded = arr => {
-  arr.splice(-1, 1);
-  let stringify = arr
-    .join(',')
-    .split(' ')
-    .join('%20');
-  return stringify;
-};
-
-export const fetchNutrition = userDish => {
+export const fetchNutrition = (name, dishUrl, userDish) => {
+  //userDish = consolidatedData => ['1 cup rice', '1 oz rice cake']
   return async dispatch => {
     try {
-      let copy = [...userDish];
-      let stringify = urlEncoded(copy);
-      let { data } = await axios.get(url, {
-        params: {
-          app_id: ED_APIID,
-          app_key: ED_APIKEY,
-          ingr: stringify,
-        },
-      });
-      console.log('pineapple', data);
-      dispatch(gotNutrition(data));
+      let stringify = urlEncoded(userDish); //4%20oz%20rice%20and%201%20oz%20Kale
+      console.log('this is stringify3', stringify);
+      let { data } = await axios.get(
+        `https://api.edamam.com/api/nutrition-data?app_id=${ED_APIID}&app_key=${ED_APIKEY}&ingr=${stringify}`
+      );
+      let newData = convertData(name, dishUrl, data);
+      dispatch(gotNutrition(newData));
     } catch (err) {
       console.log('not able to load nutrition details', err);
     }
   };
 };
 
+export const fetchIngredient = (ingrNameArr, portionQuantArr, userDish) => {
+  //ingrNameArr => ['rice', 'rice cake']
+  //portionQuant => ['1 cup', '1 oz']
+  //userDish => consolidatedData => ['1 cup rice', '1 oz rice cake']
+  return async dispatch => {
+    try {
+      let ingredients = [];
+      for (let i = 0; i < userDish.length; i++) {
+        let stringify = urlEncoded(userDish[i]);
+        let { data } = await axios.get(url, {
+          params: {
+            app_id: ED_APIID,
+            app_key: ED_APIKEY,
+            ingr: urlcoded,
+          },
+        });
+        let newData = convertIngrData(ingrNameArr[i], portionQuantArr[i], data);
+        ingredients.push(newData);
+      }
+      dispatch(gotIngrNutrition(ingredients));
+    } catch (err) {
+      console.log('not able to load ingredient nutrition details', err);
+    }
+  };
+};
+
 const initialState = {
   dishNut: {},
-  // ingredientsNut: [],
+  ingrNut: [],
 };
 
 const nutritionReducer = (state = initialState, action) => {
@@ -50,7 +74,11 @@ const nutritionReducer = (state = initialState, action) => {
       return {
         ...state,
         dishNut: action.nutrition,
-        // ingredientsNut: action.nutrition.ingredients,
+      };
+    case GOT_INGR_NUTRITION:
+      return {
+        ...state,
+        ingrNut: action.ingrNutrition,
       };
     default:
       return state;
