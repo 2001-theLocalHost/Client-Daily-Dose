@@ -1,6 +1,11 @@
 import axios from 'axios';
 import { ED_APIKEY, ED_APIID } from '../secret';
-import { combine, convertData, convertIngrData } from '../utilityFunctions';
+import {
+  combine,
+  urlEncoded,
+  convertData,
+  convertIngrData,
+} from '../utilityFunctions';
 
 const url = 'https://api.edamam.com/api/nutrition-data';
 const GOT_NUTRITION = 'GOT_NUTRITION';
@@ -20,21 +25,10 @@ export const fetchNutrition = (dishName, dishUrl, userDish) => {
   //userDish = consolidatedData => ['1 cup rice', '1 oz rice cake']
   return async dispatch => {
     try {
-      let combined = combine(userDish);
-      let urlcoded = encodeURIComponent(combined);
-      console.log('combined', combined);
-      console.log('urlcoded', urlcoded);
-      // let stringify = urlEncoded(userDish);
-      // console.log('i am stringify', stringify); //1%20oz%20water,4%20oz%20Rice
-      let { data } = await axios.get(url, {
-        params: {
-          app_id: ED_APIID,
-          app_key: ED_APIKEY,
-          ingr: urlcoded,
-        },
-      });
-
-      console.log('this is our data', data);
+      let stringify = urlEncoded(userDish); //4%20oz%20rice%20and%201%20oz%20Kale
+      let { data } = await axios.get(
+        `https://api.edamam.com/api/nutrition-data?app_id=${ED_APIID}&app_key=${ED_APIKEY}&ingr=${stringify}`
+      );
       let newData = convertData(dishName, dishUrl, data);
       dispatch(gotNutrition(newData));
     } catch (err) {

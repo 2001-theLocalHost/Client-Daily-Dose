@@ -9,7 +9,6 @@ import {
   Image,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { capitalize } from '../utilityFunctions';
 import { createDish } from '../store/savedDishIngredients';
 import SaveDish from './SaveDish';
 import AnimatedPie from './Graph-Pieces/AnimatedPie';
@@ -147,7 +146,7 @@ can delete later if we find better way */
             />
           </View>
           <View>
-            <Text style={styles.head}>{capitalize(dishNut.name)}</Text>
+            <Text style={styles.head}>{dishNut.name}</Text>
             {this.props.finalIngrStr.map((el, index) => {
               return (
                 <Text key={index} style={styles.subhead}>

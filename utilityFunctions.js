@@ -19,25 +19,13 @@ export const routes = arr => {
   return final;
 };
 
-// export const urlEncoded = arr => {
-//   if (Array.isArray(arr)) {
-//     let stringify = arr
-//       .join(',')
-//       .split(' ')
-//       .join('%20');
-//     return stringify;
-//   } else {
-//     return arr.split(' ').join('%20');
-//   }
-// };
-
-export const combine = ingredients => {
-  let str = '';
-  for (let i = 0; i < ingredients.length; i++) {
-    str += ingredients[i] += ', ';
+export const urlEncoded = arr => {
+  if (Array.isArray(arr)) {
+    let stringify = arr.join(',').replace(',', ' and');
+    return stringify;
+  } else {
+    return arr.split(' ').join('%20');
   }
-
-  return str.slice(0, str.length - 2);
 };
 
 export const cleanStr = (dietLabelArr, healthLabelsArr) => {
