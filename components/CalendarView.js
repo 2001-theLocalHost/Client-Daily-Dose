@@ -12,7 +12,7 @@ const CalendarView = (props) => {
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
     props.addDate(currentDate)
-    // console.log('!!!!', currentDate)
+    console.log('!!!!', currentDate)
   };
 
   const showMode = currentMode => {
@@ -28,7 +28,7 @@ const CalendarView = (props) => {
   return (
     <View>
       <View>
-        <Button onPress={showDatepicker} title="Show date picker!" />
+        <Button onPress={showDatepicker} title="Select Date" color='green' />
       </View>
       {show && (
         <DateTimePicker
