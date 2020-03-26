@@ -1,12 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, TextInput, Button, Modal, Text, CheckBox} from 'react-native';
+import { StyleSheet, View, TextInput, Button, Modal, Text, Picker} from 'react-native';
 import { Formik } from 'formik';
-import { Ionicons } from '@expo/vector-icons'
-import { Checkbox } from 'react-native-paper';
-
-// "healthLabels": "SUGAR CONSCIOUS, VEGAN, VEGETARIAN, PEANUT FREE, TREE NUT FREE",
-// "imgUrl": "file:///Users/emmafox/Library/Developer/CoreSimulator/Devices/08B5A281-0ED6-4FC1-A8CC-EE75FF206B85/data/Containers/Data/Application/18CF2E42-A9B9-4766-ACC2-796A0E5AC62F/Library/Caches/ExponentExperienceData/%2540fox-emma%252FFoodMobileApp/ImagePicker/5B69B7A3-22B7-482C-92FC-A8E736638506.jpg",
-// "name": "Stout Cake",
 
 const SaveDish = (props) => {
   console.log('inside saveDish dishnut', props.dishNut)
@@ -24,9 +18,7 @@ const SaveDish = (props) => {
         <Formik
         initialValues={{
           name: dishNut.name,
-          healthLabels: dishNut.healthLabels,
-          mealType: '',
-          check: false
+          mealType: ''
         }}
         onSubmit={(values) => {
           props.onSave(values)
@@ -40,6 +32,32 @@ const SaveDish = (props) => {
                 onChangeText={formikProps.handleChange('name')}
                 value={formikProps.values.name}
               />
+              <Text>Meal Type:</Text>
+              <Picker
+                style={styles.dropdowns}
+                itemStyle={{height: 45}}
+                selectedValue={formikProps.values.mealType}
+                onValueChange={(itemValue) => {
+                  formikProps.setFieldValue('mealType', itemValue)}}
+              >
+                <Picker.item
+                  label={'Breakfast'}
+                  value={'Breakfast'}
+                />
+                <Picker.item
+                  label={'Lunch'}
+                  value={'Lunch'}
+                />
+                <Picker.item
+                  label={'Dinner'}
+                  value={'Dinner'}
+                />
+                <Picker.item
+                  label={'Snack'}
+                  value={'Snack'}
+                />
+
+              </Picker>
               {/* <Text>Health Labels:</Text>
               <TextInput
                 placeholder='Health Labels'

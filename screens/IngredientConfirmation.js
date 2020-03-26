@@ -18,7 +18,7 @@ class IngredientConfirmation extends React.Component {
     this.navigation = navigation;
     this.state = {
       value: '',
-      dishName: '',
+      name: '',
       ingredients: [{ name: '', quantity: '1', measurement: 'oz' }],
       userAddedIngredients: [{ name: '', quantity: '1', measurement: 'oz' }],
     };
@@ -70,7 +70,7 @@ class IngredientConfirmation extends React.Component {
       }
     })
 
-    if (this.state.dishName === '') {
+    if (this.state.name === '') {
       alert('Please Enter a Dish Name')
       return false
     }
@@ -84,17 +84,17 @@ class IngredientConfirmation extends React.Component {
   async fetchNutrition() {
     if (!this.validateInformation()) {
       return
-    } 
+    }
     await this.props.finalizeIngredients(
       this.state.ingredients,
       this.state.userAddedIngredients,
-      this.state.dishName
+      this.state.name
     );
     await this.consolidateData();
     if (this.props.consolidatedData.length > 1) {
       console.log(
         'ConsolidatedData formatted for API Call: ',
-        this.props.consolidatedData, 'DISH NAME IS: ', this.props.dishName
+        this.props.consolidatedData, 'DISH NAME IS: ', this.props.name
       );
       return this.navigation.navigate('Dishes');
     }
@@ -104,7 +104,7 @@ class IngredientConfirmation extends React.Component {
     let finalIngredients = this.props.finalIngredients;
     let consolidated = finalIngredients.map(element => {
         let stringified = `${element.quantity} ${element.measurement} ${element.name}`;
-        return stringified; 
+        return stringified;
     });
     await this.props.consolidatingData(consolidated);
   }
@@ -239,10 +239,10 @@ class IngredientConfirmation extends React.Component {
           <TextInput
             style={styles.ingredientView}
             placeholder="i.e. Vegan Pasta Salad"
-            value={this.state.dishName}
+            value={this.state.name}
             onChangeText={text => {
               let localStateDish = { ...this.state };
-              localStateDish.dishName = text;
+              localStateDish.name = text;
               this.setState(localStateDish);
             }}
           />
@@ -266,14 +266,14 @@ const mapState = state => {
     userAddedIngredients: state.dishes.userAddedIngredients,
     finalIngredients: state.dishes.finalIngredients,
     consolidatedData: state.dishes.consolidatedData,
-    dishName: state.dishes.dishName
+    name: state.dishes.name
   };
 };
 
 const mapDispatch = dispatch => {
   return {
-    finalizeIngredients: (ingredients, userIngredients, dishName) =>
-      dispatch(finalizeIngredients(ingredients, userIngredients, dishName)),
+    finalizeIngredients: (ingredients, userIngredients, name) =>
+      dispatch(finalizeIngredients(ingredients, userIngredients, name)),
     consolidatingData: consolidated =>
       dispatch(consolidatingData(consolidated)),
   };

@@ -31,8 +31,8 @@ class DishScreen extends React.Component {
     this.createRoutes(ingrNameArr);
 
     this.props.fetchNutritionDispatch(
-      this.props.dishName,
-      this.props.imageUrl,
+      this.props.name,
+      this.props.imgUrl,
       this.props.finalIngrStr
     );
 
@@ -102,8 +102,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  dishName: state.dishes.dishName, // 'Kale Salad'
-  imageUrl: state.dishes.imageUrl,
+  name: state.dishes.name, // 'Kale Salad'
+  imgUrl: state.dishes.imgUrl,
   finalIngrObj: state.dishes.finalIngredients, // [{name: 'rice', quantity: '1', measurement: 'cup'}, {name: 'rice cake', quantity: '2', measurement: 'oz'}]
   finalIngrStr: state.dishes.consolidatedData, // ['1 oz rice', '2 oz rice cake']
   dishNut: state.nutrition.dishNut, // API data formatted for DB {}
@@ -111,8 +111,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchNutritionDispatch: (dishName, dishUrl, finalIngrStr) =>
-    dispatch(fetchNutrition(dishName, dishUrl, finalIngrStr)),
+  fetchNutritionDispatch: (name, dishUrl, finalIngrStr) =>
+    dispatch(fetchNutrition(name, dishUrl, finalIngrStr)),
   fetchIngredientDispatch: (ingrNameArr, portionQuantArr, finalIngrStr) =>
     dispatch(fetchIngredient(ingrNameArr, portionQuantArr, finalIngrStr)),
   createDish: (nutritionInfo, dish) =>

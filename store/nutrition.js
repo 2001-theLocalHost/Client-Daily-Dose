@@ -16,7 +16,7 @@ export const gotIngrNutrition = ingrNutrition => ({
   ingrNutrition,
 });
 
-export const fetchNutrition = (dishName, dishUrl, userDish) => {
+export const fetchNutrition = (name, dishUrl, userDish) => {
   //userDish = consolidatedData => ['1 cup rice', '1 oz rice cake']
   return async dispatch => {
     try {
@@ -29,7 +29,7 @@ export const fetchNutrition = (dishName, dishUrl, userDish) => {
           ingr: stringify,
         },
       });
-      let newData = convertData(dishName, dishUrl, data);
+      let newData = convertData(name, dishUrl, data);
       dispatch(gotNutrition(newData));
     } catch (err) {
       console.log('not able to load nutrition details', err);

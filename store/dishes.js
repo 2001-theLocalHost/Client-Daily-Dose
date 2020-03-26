@@ -16,12 +16,12 @@ const addingIngredients = (ingredients, uri) => {
     };
  };
 
-const finalizingIngredients = (ingredients, userIngredients, dishName) => {
+const finalizingIngredients = (ingredients, userIngredients, name) => {
   return {
     type: FINALIZE_INGREDIENT,
     ingredients,
     userIngredients,
-    dishName,
+    name,
   };
 };
 
@@ -44,10 +44,10 @@ export const depositClarifaiData = (data, uri) => {
   }
 }
 
-export const finalizeIngredients = (ingredients, userIngredients, dishName) => {
+export const finalizeIngredients = (ingredients, userIngredients, name) => {
   return dispatch => {
     try {
-      dispatch(finalizingIngredients(ingredients, userIngredients, dishName));
+      dispatch(finalizingIngredients(ingredients, userIngredients, name));
     } catch (error) {
       console.error(error);
     }
@@ -67,8 +67,8 @@ export const consolidatingData = consolidated => {
 
 //INITIAL STATE
 const initialState = {
-  imageUrl: '',
-  dishName: '', 
+  imgUrl: '',
+  name: '',
   ingredients: [
     // {
     //   name: 'sauce',
@@ -102,12 +102,12 @@ const reducer = (state = initialState, action) => {
       })
       let clonedIngredients = {...state}
       clonedIngredients.ingredients = newArr
-      clonedIngredients.imageUrl = action.uri
+      clonedIngredients.imgUrl = action.uri
       return clonedIngredients
     case FINALIZE_INGREDIENT:
       let clonedState = {...state}
       clonedState.finalIngredients = [...action.ingredients, ...action.userIngredients]
-      clonedState.dishName = action.dishName
+      clonedState.name = action.name
       return clonedState
     case CONSOLIDATE_DATA:
       return { ...state, consolidatedData: action.consolidated };
