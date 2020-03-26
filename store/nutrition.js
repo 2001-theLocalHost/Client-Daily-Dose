@@ -46,13 +46,9 @@ export const fetchIngredient = (ingrNameArr, portionQuantArr, userDish) => {
       let ingredients = [];
       for (let i = 0; i < userDish.length; i++) {
         let stringify = urlEncoded(userDish[i]);
-        let { data } = await axios.get(url, {
-          params: {
-            app_id: ED_APIID,
-            app_key: ED_APIKEY,
-            ingr: urlcoded,
-          },
-        });
+        let { data } = await axios.get(
+          `https://api.edamam.com/api/nutrition-data?app_id=${ED_APIID}&app_key=${ED_APIKEY}&ingr=${stringify}`
+        );
         let newData = convertIngrData(ingrNameArr[i], portionQuantArr[i], data);
         ingredients.push(newData);
       }

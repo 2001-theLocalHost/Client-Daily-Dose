@@ -1,9 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import { capitalize } from '../utilityFunctions';
-import SaveDish from './SaveDish';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import {
+  capitalize,
+  arraysOfData,
+  finalData,
+  startData,
+} from '../utilityFunctions';
 import AnimatedPie from './Graph-Pieces/AnimatedPie';
 import AnimatedPieLabel from './Graph-Pieces/AnimatedPieLabel';
+import TotalNutrientsBar from './Graph-Pieces/TotalNutrientsBar';
 
 export default class CurrentIngredient extends React.Component {
   constructor() {
@@ -13,6 +18,7 @@ export default class CurrentIngredient extends React.Component {
 
   render() {
     const { ingrNut } = this.props;
+    console.log('this is ingrNut in currentIngredient', ingrNut);
     if (!this.props.ingrNut || !this.props.ingrNut.ingredientName) {
       return (
         <View>
@@ -20,17 +26,62 @@ export default class CurrentIngredient extends React.Component {
         </View>
       );
     } else {
+      let fakeNutrientGoals = {
+        CHOCDF_KCAL: 5000,
+        FAT_KCAL: 5000,
+        PROCNT_KCAL: 5000,
+        ENERC_KCAL: 5000,
+        CA: 5000,
+        CHOCDF: 5000,
+        FAMS: 5000,
+        FAPU: 5000,
+        FASAT: 5000,
+        FAT: 5000,
+        FE: 5000,
+        FOLDFE: 5000,
+        FOLFD: 5000,
+        K: 5000,
+        MG: 5000,
+        NA: 5000,
+        NIA: 5000,
+        P: 5000,
+        PROCNT: 5000,
+        RIBF: 5000,
+        THIA: 5000,
+        VITB6A: 5000,
+        WATER: 5000,
+        ZN: 5000,
+        CHOLE: 5000,
+        FATRN: 5000,
+        FIBTG: 5000,
+        FOLAC: 5000,
+        SUGAR: 5000,
+        TOCPHA: 5000,
+        VITA_RAE: 5000,
+        VITB12: 5000,
+        VITC: 5000,
+        VITD: 5000,
+        VITK1: 5000,
+      };
+
+      let dataInArrays = arraysOfData(this.props.ingrNut, fakeNutrientGoals);
+      console.log('this is ingrNut', dataInArrays);
+
+      let finalDataForStackedGraph = finalData(
+        dataInArrays[0],
+        dataInArrays[1],
+        dataInArrays[2]
+      );
+
+      let startDataForStackedGraph = startData(
+        dataInArrays[0],
+        dataInArrays[1],
+        dataInArrays[2]
+      );
       return (
-        <View>
-          <SaveDish modalOpen={this.state.modalOpen} onSave={this.onSave} />
-          <Button
-            title="Save Meal"
-            onPress={() => {
-              this.setState({ modalOpen: true });
-            }}
-          />
+        <ScrollView>
           <View>
-            <Text style={styles.name}>
+            <Text style={styles.head}>
               {capitalize(ingrNut.ingredientName)}
             </Text>
             <Text style={styles.ingredients}>
@@ -39,7 +90,9 @@ export default class CurrentIngredient extends React.Component {
             {ingrNut.healthLabels ? (
               <View>
                 <Text style={styles.title}>Health Labels:</Text>
-                <Text>{ingrNut.healthLabels}</Text>
+                {ingrNut.healthLabels.map((el, index) => {
+                  return <Text key={index}>- {el}</Text>;
+                })}
               </View>
             ) : null}
           </View>
@@ -60,29 +113,40 @@ export default class CurrentIngredient extends React.Component {
               />
             </View>
           </View>
-        </View>
+
+          <View style={styles.barGraph}>
+            <Text style={styles.title}>TOTAL NUTRIENTS:</Text>
+            <TotalNutrientsBar
+              data={finalDataForStackedGraph}
+              startData={startDataForStackedGraph}
+            />
+          </View>
+        </ScrollView>
       );
     }
   }
 }
 
 const styles = StyleSheet.create({
-  name: {
+  head: {
+    fontSize: 30,
+  },
+  title: {
     fontSize: 20,
   },
-  ingredients: {
-    fontSize: 15,
-  },
   image: {
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 150,
   },
-  donutGraph: {
-    width: 90,
-    height: 90,
+  graph: {
+    marginTop: 40,
+    marginBottom: 0,
+    width: 400,
+    height: 400,
   },
   barGraph: {
-    width: 100,
-    height: 200,
+    marginTop: 60,
+    marginBottom: 15,
+    width: 500,
   },
 });
