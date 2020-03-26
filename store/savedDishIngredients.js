@@ -32,26 +32,24 @@ export const createDish =  (dishNut, formvalues, ingredientArray) => {
     try {
       saveDishValues(dishNut, formvalues)
       // const newDish = await axios.post('https://daily-dose-server.herokuapp.com/api/dishes', updatedDish)
-      const newDish = await axios.post('http://localhost:8080/api/dishes', dishNut)
-      console.log('inside thunk', ingredientArray)
-      // let newIngredients = []
-      // ingredientArray.forEach((ingredient) => {
-      //   let newIngredient = await axios.post('http://localhost:8080/api/ingredients', ingredient)
-      //   newIngredients.push(newIngredients)
-      // })
-      // console.log('I AM NEW INGREDIENTS', newIngredients)
-    } catch (error) {
-        console.error(error)
-    }
-  }
-}
 
-export const createIngredient =  (nutritionInfo, ingredientInfo) => {
-  return async dispatch => {
-    try {
-      // const ingredient; // combine nutritionInfo and dishInfo into object
-      // const newIngredient = await axios.post('**insert heroku route**', ingredient)
-      dispatch(saveDish(newIngredient))
+      // create dish, deconstruct the data, set it to newDish variable
+      const {data} = await axios.post('http://localhost:8080/api/dishes', dishNut)
+      const newDish = data
+
+      // create empty array, loop through ingredientArray, create ingredient
+      // deconstruct the data, set it to newIngredient variable
+      await ingredientArray.forEach(async (ingredient) => {
+        let {data} = await axios.post('http://localhost:8080/api/ingredients', ingredient)
+        let newIngredient = data
+
+        // await newDish.addIngredient(data)
+
+        // checking for magic methods and nothing appears but they do appear in post route console.log
+        console.log('HI IM MAGIC', Object.keys(newestDish.__proto__));
+        console.log('hi im ingredient magic', Object.keys(data.__proto__))
+      })
+
     } catch (error) {
         console.error(error)
     }

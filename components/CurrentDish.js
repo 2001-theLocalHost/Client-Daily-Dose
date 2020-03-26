@@ -36,6 +36,8 @@ class CurrentDish extends React.Component {
       modalOpen: false,
     });
     this.props.createDish(this.props.dishNut, values, this.props.ingrNut);
+
+    // redirect to meal diary of today's date
   }
 
   render() {

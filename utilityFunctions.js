@@ -129,6 +129,12 @@ export const convertIngrData = (ingrName, portionQuant, nutritionData) => {
     }
   });
 
+  for (let key in nutritionKey) {
+    if (!ingrObject[key]) {
+      ingrObject[key] = 0;
+    }
+  }
+
   return ingrObject;
 };
 
