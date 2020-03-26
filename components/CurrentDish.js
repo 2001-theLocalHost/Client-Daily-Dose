@@ -9,6 +9,7 @@ import {
   Image,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { arraysOfData, finalData, startData } from '../utilityFunctions';
 import { createDish } from '../store/savedDishIngredients';
 import SaveDish from './SaveDish';
 import AnimatedPie from './Graph-Pieces/AnimatedPie';
@@ -33,65 +34,6 @@ class CurrentDish extends React.Component {
     this.props.createDish(this.props.dishNut, values);
   }
 
-  /* given goalsArr and mealsArr - get the difference in Array */
-  // difference(goalsArr, currentArr) {
-  //   let diffArr = [];
-  //   for (let i = 0; i < currentArr.length; i++) {
-  //     let difference = goalsArr[i] - currentArr[i];
-  //     diffArr.push(difference);
-  //   }
-  //   return diffArr;
-  // }
-
-  /* creating finalData format to pass to StackedGraph */
-  // finalData(label, quant, diff) {
-  //   let final = [];
-  //   let temp = [];
-  //   let innerObj = {};
-
-  //   innerObj[label[0]] = quant[0];
-  //   innerObj['current'] = quant[0];
-  //   innerObj['diff'] = diff[0];
-  //   temp.push(innerObj);
-
-  //   if (label.length === 1) {
-  //     return temp;
-  //   } else {
-  //     let result = this.finalData(
-  //       label.slice(1),
-  //       quant.slice(1),
-  //       diff.slice(1)
-  //     );
-  //     final = [...temp, ...result];
-  //   }
-  //   return final;
-  // }
-
-  /* making startData for StackedGraph for animation purposes;
-can delete later if we find better way */
-  // startData(label, quant, diff) {
-  //   let final = [];
-  //   let temp = [];
-  //   let innerObj = {};
-
-  //   innerObj[label[0]] = 0;
-  //   innerObj['current'] = 0;
-  //   innerObj['diff'] = 0;
-  //   temp.push(innerObj);
-
-  //   if (label.length === 1) {
-  //     return temp;
-  //   } else {
-  //     let result = this.startData(
-  //       label.slice(1),
-  //       quant.slice(1),
-  //       diff.slice(1)
-  //     );
-  //     final = [...temp, ...result];
-  //   }
-  //   return final;
-  // }
-
   render() {
     const { dishNut } = this.props;
 
@@ -102,32 +44,60 @@ can delete later if we find better way */
         </View>
       );
     } else {
-      // /* Fake NutrientGoals in Array */
-      // let nutrientGoals = Array(21).fill(100);
+      console.log('this is dishNut', this.props.dishNut);
+      console.log('this is dataInArrays', dataInArrays);
 
-      // /* Difference of Goal & Nutrient Quantities in Array */
-      // let difference = this.difference(nutrientGoals, totalNutrientsQuantities);
+      let fakeNutrientGoals = {
+        CHOCDF_KCAL: 5000000,
+        FAT_KCAL: 5000000,
+        PROCNT_KCAL: 5000000,
+        ENERC_KCAL: 5000000,
+        CA: 5000000,
+        CHOCDF: 5000000,
+        FAMS: 5000000,
+        FAPU: 5000000,
+        FASAT: 5000000,
+        FAT: 5000000,
+        FE: 5000000,
+        FOLDFE: 5000000,
+        FOLFD: 5000000,
+        K: 5000000,
+        MG: 5000000,
+        NA: 5000000,
+        NIA: 5000000,
+        P: 5000000,
+        PROCNT: 5000000,
+        RIBF: 5000000,
+        THIA: 5000000,
+        VITB6A: 5000000,
+        WATER: 5000000,
+        ZN: 5000000,
+        CHOLE: 5000000,
+        FATRN: 5000000,
+        FIBTG: 5000000,
+        FOLAC: 5000000,
+        SUGAR: 5000000,
+        TOCPHA: 5000000,
+        VITA_RAE: 5000000,
+        VITB12: 5000000,
+        VITC: 5000000,
+        VITD: 5000000,
+        VITK1: 5000000,
+      };
 
-      // /* Final data for TotalNutrients StackBarGraph */
-      // let finalDataForTotalNutrients = this.finalData(
-      //   totalNutrientsLabels,
-      //   totalNutrientsQuantities,
-      //   difference
-      // );
+      let dataInArrays = arraysOfData(this.props.dishNut, fakeNutrientGoals);
 
-      // /* Start data for TotalNutrients StackBarGraph */
-      // let startDataForTotalNutrients = this.startData(
-      //   totalNutrientsLabels,
-      //   totalNutrientsQuantities,
-      //   difference
-      // );
+      let finalDataForStackedGraph = finalData(
+        dataInArrays[0],
+        dataInArrays[1],
+        datatInArrays[2]
+      );
 
-      // let justIngredients = this.props.userDish.slice(
-      //   0,
-      //   this.props.userDish.length - 1
-      // );
-
-      // let justDishName = this.dishName(this.props.userDish);
+      let startDataForStackedGraph = startData(
+        dataInArrays[0],
+        dataInArrays[1],
+        datatInArrays[2]
+      );
 
       return (
         <ScrollView>
@@ -160,7 +130,9 @@ can delete later if we find better way */
             {dishNut.healthLabels ? (
               <View>
                 <Text style={styles.title}>Health Labels:</Text>
-                <Text>{dishNut.healthLabels}</Text>
+                {dishNut.healthLabels.map((el, index) => {
+                  return <Text key={index}>- {el}</Text>;
+                })}
               </View>
             ) : null}
           </View>
@@ -182,23 +154,20 @@ can delete later if we find better way */
             </View>
           </View>
 
+          <View style={styles.barGraph}>
+            <Text style={styles.title}>TOTAL NUTRIENTS:</Text>
+            <TotalNutrientsBar
+              data={finalDataForStackedGraph}
+              startData={startDataForStackedGraph}
+            />
+          </View>
+
           {/* <View style={styles.barGraph}>
               <Text style={styles.title}>TOTAL DAILY %:</Text>
               <TotalDailyBar
                 label={totalDailyLabels}
                 quantity={totalDailyQuantities}
                 unit={totalDailyUnits}
-              />
-            </View> */}
-
-          {/* <View style={styles.barGraph}>
-              <Text style={styles.title}>TOTAL NUTRIENTS:</Text>
-              <TotalNutrientsBar
-                data={finalDataForTotalNutrients}
-                startData={startDataForTotalNutrients}
-                quantity={totalNutrientsQuantities}
-                label={totalNutrientsLabels}
-                unit={totalNutrientsUnits}
               />
             </View> */}
         </ScrollView>
