@@ -55,18 +55,18 @@ export const convertData = (dishName, dishUrl, nutritionData) => {
   let totalNutrientKeys = Object.keys(nutritionData.totalNutrients);
   totalNutrientKeys.map(ele => {
     if (nutritionData.totalNutrients[ele].unit === 'mg') {
-      return (dishObject[ele] = nutritionData.totalNutrients[
+      return (dishObject[ele] = parseFloat(nutritionData.totalNutrients[
         ele
-      ].quantity.toFixed(4));
+      ].quantity.toFixed(4)));
     } else if (nutritionData.totalNutrients[ele].unit === 'g') {
       let newQuantity = nutritionData.totalNutrients[ele].quantity * 1000;
-      return (dishObject[ele] = newQuantity.toFixed(4));
+      return (dishObject[ele] = parseFloat(newQuantity.toFixed(4)));
     } else if (nutritionData.totalNutrients[ele].unit === 'µg') {
       let newQuantity = nutritionData.totalNutrients[ele].quantity / 1000;
-      return (dishObject[ele] = newQuantity.toFixed(4));
+      return (dishObject[ele] = parseFloat(newQuantity.toFixed(4)));
     } else if (nutritionData.totalNutrients[ele].unit === 'IU') {
       let newQuantity = nutritionData.totalNutrients[ele].quantity / 40 / 1000;
-      return (dishObject[ele] = newQuantity.toFixed(4));
+      return (dishObject[ele] = parseFloat(newQuantity.toFixed(4)));
     } else {
       return;
     }
@@ -112,18 +112,18 @@ export const convertIngrData = (ingrName, portionQuant, nutritionData) => {
   let totalNutrientKeys = Object.keys(nutritionData.totalNutrients);
   totalNutrientKeys.map(ele => {
     if (nutritionData.totalNutrients[ele].unit === 'mg') {
-      return (ingrObject[ele] = nutritionData.totalNutrients[
+      return (ingrObject[ele] = parseFloat(nutritionData.totalNutrients[
         ele
-      ].quantity.toFixed(4));
+      ].quantity.toFixed(4)));
     } else if (nutritionData.totalNutrients[ele].unit === 'g') {
       let newQuantity = nutritionData.totalNutrients[ele].quantity * 1000;
-      return (ingrObject[ele] = newQuantity.toFixed(4));
+      return (ingrObject[ele] = parseFloat(newQuantity.toFixed(4)));
     } else if (nutritionData.totalNutrients[ele].unit === 'µg') {
       let newQuantity = nutritionData.totalNutrients[ele].quantity / 1000;
-      return (ingrObject[ele] = newQuantity.toFixed(4));
+      return (ingrObject[ele] = parseFloat(newQuantity.toFixed(4)));
     } else if (nutritionData.totalNutrients[ele].unit === 'IU') {
       let newQuantity = nutritionData.totalNutrients[ele].quantity / 40 / 1000;
-      return (ingrObject[ele] = newQuantity.toFixed(4));
+      return (ingrObject[ele] = parseFloat(newQuantity.toFixed(4)));
     } else {
       return;
     }
@@ -209,3 +209,15 @@ export const startData = (label, quant, diff) => {
   }
   return final;
 };
+
+export const saveDishValues = (original, updated) => {
+  for (let key in updated) {
+    if (updated[key] !== original[key]) {
+      original[key] = updated[key]
+    }
+    if (!original[key]) {
+      original[key] = updated[key]
+    }
+  }
+}
+

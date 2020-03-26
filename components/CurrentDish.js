@@ -35,11 +35,14 @@ class CurrentDish extends React.Component {
     this.setState({
       modalOpen: false,
     });
-    this.props.createDish(this.props.dishNut, values);
+    this.props.createDish(this.props.dishNut, values, this.props.ingrNut);
   }
 
   render() {
     const { dishNut } = this.props;
+    const { ingrNut } = this.props;
+    console.log('inside currentdish destructured', ingrNut)
+    console.log('inside currentDish', this.props.ingrNut)
 
     if (!this.props.dishNut || !this.props.dishNut.name) {
       return (
@@ -179,8 +182,8 @@ class CurrentDish extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  createDish: (dishNut, formValues) => {
-    dispatch(createDish(dishNut, formValues));
+  createDish: (dishNut, formValues, ingredientArray) => {
+    dispatch(createDish(dishNut, formValues, ingredientArray));
   },
 });
 

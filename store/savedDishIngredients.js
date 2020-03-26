@@ -27,12 +27,19 @@ const saveIngredient = (ingredient) => {
 // thunk createDish takes in nutrition info plus form info
 // and creates newDish
 
-export const createDish =  (dishNut, formvalues) => {
+export const createDish =  (dishNut, formvalues, ingredientArray) => {
   return async dispatch => {
     try {
       saveDishValues(dishNut, formvalues)
       // const newDish = await axios.post('https://daily-dose-server.herokuapp.com/api/dishes', updatedDish)
       const newDish = await axios.post('http://localhost:8080/api/dishes', dishNut)
+      console.log('inside thunk', ingredientArray)
+      // let newIngredients = []
+      // ingredientArray.forEach((ingredient) => {
+      //   let newIngredient = await axios.post('http://localhost:8080/api/ingredients', ingredient)
+      //   newIngredients.push(newIngredients)
+      // })
+      // console.log('I AM NEW INGREDIENTS', newIngredients)
     } catch (error) {
         console.error(error)
     }
