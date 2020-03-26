@@ -21,10 +21,7 @@ export const routes = arr => {
 
 export const urlEncoded = arr => {
   if (Array.isArray(arr)) {
-    let stringify = arr
-      .join(',')
-      .split(' ')
-      .join('%20');
+    let stringify = arr.join(',').replace(',', ' and ');
     return stringify;
   } else {
     return arr.split(' ').join('%20');
@@ -36,7 +33,7 @@ export const cleanStr = (dietLabelArr, healthLabelsArr) => {
   let tempArr = newArr.map(el => {
     return el.split('_').join(' ');
   });
-  return tempArr
+  return tempArr;
 };
 
 export const convertData = (name, dishUrl, nutritionData) => {
@@ -134,11 +131,8 @@ export const convertIngrData = (ingrName, portionQuant, nutritionData) => {
   return ingrObject;
 };
 
-export const capitalize = userData => {
-  let name = userData
-    .slice(-1)
-    .join(' ')
-    .split(' ');
+export const capitalize = str => {
+  let name = str.split(' ');
 
   let capitalizedName = name.map(el => {
     return el[0].toUpperCase() + el.slice(1);
@@ -156,3 +150,71 @@ export const saveDishValues = (original, updated) => {
     }
   }
 }
+export const arraysOfData = (currentDish, goal) => {
+  let finalArr = [];
+  let dishNutQuant = [];
+  let dishNutLabel = [];
+  let diffNutQuant = [];
+
+  for (let label in currentDish) {
+    let goalQuant = goal[label];
+    let currentQuant = currentDish[label];
+    if (
+      label !== 'CHOCDF_KCAL' &&
+      label !== 'PROCNT_KCAL' &&
+      label !== 'FAT_KCAL' &&
+      label !== 'calories' &&
+      label !== 'healthLabels' &&
+      label !== 'ingredientName' &&
+      label !== 'portionSize' &&
+      label !== 'name' &&
+      label !== 'imgUrl'
+    ) {
+      dishNutLabel.push(label);
+      dishNutQuant.push(currentQuant);
+      diffNutQuant.push(goalQuant - currentQuant);
+    }
+  }
+
+  finalArr.push(dishNutLabel, dishNutQuant, diffNutQuant);
+
+  return finalArr;
+};
+
+export const finalData = (label, quant, diff) => {
+  let final = [];
+  let temp = [];
+  let innerObj = {};
+
+  innerObj[label[0]] = quant[0];
+  innerObj['current'] = quant[0];
+  innerObj['diff'] = diff[0];
+  temp.push(innerObj);
+
+  if (label.length === 1) {
+    return temp;
+  } else {
+    let result = finalData(label.slice(1), quant.slice(1), diff.slice(1));
+    final = [...temp, ...result];
+  }
+  return final;
+};
+
+export const startData = (label, quant, diff) => {
+  let final = [];
+  let temp = [];
+  let innerObj = {};
+
+  innerObj[label[0]] = 0;
+  innerObj['current'] = 0;
+  innerObj['diff'] = 0;
+  temp.push(innerObj);
+
+  if (label.length === 1) {
+    return temp;
+  } else {
+    let result = startData(label.slice(1), quant.slice(1), diff.slice(1));
+    final = [...temp, ...result];
+  }
+  return final;
+};

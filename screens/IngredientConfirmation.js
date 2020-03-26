@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
+import { capitalize } from '../utilityFunctions';
 import { finalizeIngredients, consolidatingData } from '../store/dishes';
 
 class IngredientConfirmation extends React.Component {
@@ -52,8 +53,8 @@ class IngredientConfirmation extends React.Component {
     this.setState(addingIngredientClone);
   }
 
-  validateInformation () {
-    let ingredientsArr = this.state.ingredients
+  validateInformation() {
+    let ingredientsArr = this.state.ingredients;
     // let userIngredientsArr = this.state.userIngredients
     // let userEmptyFields = userIngredientsArr.filter((obj) => {
     //   if (obj.quantity === "0" || obj.quantity.length < 1) {
@@ -62,28 +63,28 @@ class IngredientConfirmation extends React.Component {
     //     return false
     //   }
     // })
-    let emptyfields = ingredientsArr.filter((obj) => {
-      if (obj.quantity === "0" || obj.quantity.length < 1) {
-        return true
+    let emptyfields = ingredientsArr.filter(obj => {
+      if (obj.quantity === '0' || obj.quantity.length < 1) {
+        return true;
       } else {
-        return false
+        return false;
       }
-    })
+    });
 
-    if (this.state.name === '') {
-      alert('Please Enter a Dish Name')
-      return false
+    if (this.state.dishName === '') {
+      alert('Please Enter a Dish Name');
+      return false;
     }
     if (emptyfields.length > 0) {
-      alert('Please Enter a Quantity for Every Ingredient')
-      return false
+      alert('Please Enter a Quantity for Every Ingredient');
+      return false;
     }
-    return true
+    return true;
   }
 
   async fetchNutrition() {
     if (!this.validateInformation()) {
-      return
+      return;
     }
     await this.props.finalizeIngredients(
       this.state.ingredients,
@@ -103,8 +104,8 @@ class IngredientConfirmation extends React.Component {
   async consolidateData() {
     let finalIngredients = this.props.finalIngredients;
     let consolidated = finalIngredients.map(element => {
-        let stringified = `${element.quantity} ${element.measurement} ${element.name}`;
-        return stringified;
+      let stringified = `${element.quantity} ${element.measurement} ${element.name}`;
+      return stringified;
     });
     await this.props.consolidatingData(consolidated);
   }
