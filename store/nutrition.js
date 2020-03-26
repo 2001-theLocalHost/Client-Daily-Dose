@@ -26,7 +26,7 @@ export const fetchNutrition = (dishName, dishUrl, userDish) => {
   return async dispatch => {
     try {
       let stringify = urlEncoded(userDish); //4%20oz%20rice%20and%201%20oz%20Kale
-      console.log('this is stringify', stringify);
+      console.log('this is stringify3', stringify);
       let { data } = await axios.get(
         `https://api.edamam.com/api/nutrition-data?app_id=${ED_APIID}&app_key=${ED_APIKEY}&ingr=${stringify}`
       );
@@ -46,8 +46,7 @@ export const fetchIngredient = (ingrNameArr, portionQuantArr, userDish) => {
     try {
       let ingredients = [];
       for (let i = 0; i < userDish.length; i++) {
-        let urlcoded = encodeURIComponent(userDish[i]);
-        // let stringify = urlEncoded(userDish[i]);
+        let stringify = urlEncoded(userDish[i]);
         let { data } = await axios.get(url, {
           params: {
             app_id: ED_APIID,

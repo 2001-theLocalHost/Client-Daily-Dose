@@ -158,7 +158,8 @@ export const arraysOfData = (currentDish, goal) => {
       label !== 'healthLabels' &&
       label !== 'ingredientName' &&
       label !== 'portionSize' &&
-      label !== 'name'
+      label !== 'name' &&
+      label !== 'imgUrl'
     ) {
       dishNutLabel.push(label);
       dishNutQuant.push(currentQuant);
@@ -184,7 +185,7 @@ export const finalData = (label, quant, diff) => {
   if (label.length === 1) {
     return temp;
   } else {
-    let result = this.finalData(label.slice(1), quant.slice(1), diff.slice(1));
+    let result = finalData(label.slice(1), quant.slice(1), diff.slice(1));
     final = [...temp, ...result];
   }
   return final;
@@ -203,7 +204,7 @@ export const startData = (label, quant, diff) => {
   if (label.length === 1) {
     return temp;
   } else {
-    let result = this.startData(label.slice(1), quant.slice(1), diff.slice(1));
+    let result = startData(label.slice(1), quant.slice(1), diff.slice(1));
     final = [...temp, ...result];
   }
   return final;

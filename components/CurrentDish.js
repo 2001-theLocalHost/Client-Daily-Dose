@@ -44,59 +44,59 @@ class CurrentDish extends React.Component {
         </View>
       );
     } else {
-      console.log('this is dishNut', this.props.dishNut);
-      console.log('this is dataInArrays', dataInArrays);
+      console.log('this is dishNut3', this.props.dishNut);
 
       let fakeNutrientGoals = {
-        CHOCDF_KCAL: 5000000,
-        FAT_KCAL: 5000000,
-        PROCNT_KCAL: 5000000,
-        ENERC_KCAL: 5000000,
-        CA: 5000000,
-        CHOCDF: 5000000,
-        FAMS: 5000000,
-        FAPU: 5000000,
-        FASAT: 5000000,
-        FAT: 5000000,
-        FE: 5000000,
-        FOLDFE: 5000000,
-        FOLFD: 5000000,
-        K: 5000000,
-        MG: 5000000,
-        NA: 5000000,
-        NIA: 5000000,
-        P: 5000000,
-        PROCNT: 5000000,
-        RIBF: 5000000,
-        THIA: 5000000,
-        VITB6A: 5000000,
-        WATER: 5000000,
-        ZN: 5000000,
-        CHOLE: 5000000,
-        FATRN: 5000000,
-        FIBTG: 5000000,
-        FOLAC: 5000000,
-        SUGAR: 5000000,
-        TOCPHA: 5000000,
-        VITA_RAE: 5000000,
-        VITB12: 5000000,
-        VITC: 5000000,
-        VITD: 5000000,
-        VITK1: 5000000,
+        CHOCDF_KCAL: 50000,
+        FAT_KCAL: 50000,
+        PROCNT_KCAL: 50000,
+        ENERC_KCAL: 50000,
+        CA: 50000,
+        CHOCDF: 50000,
+        FAMS: 50000,
+        FAPU: 50000,
+        FASAT: 50000,
+        FAT: 50000,
+        FE: 50000,
+        FOLDFE: 50000,
+        FOLFD: 50000,
+        K: 50000,
+        MG: 50000,
+        NA: 50000,
+        NIA: 50000,
+        P: 50000,
+        PROCNT: 50000,
+        RIBF: 50000,
+        THIA: 50000,
+        VITB6A: 50000,
+        WATER: 50000,
+        ZN: 50000,
+        CHOLE: 50000,
+        FATRN: 50000,
+        FIBTG: 50000,
+        FOLAC: 50000,
+        SUGAR: 50000,
+        TOCPHA: 50000,
+        VITA_RAE: 50000,
+        VITB12: 50000,
+        VITC: 50000,
+        VITD: 50000,
+        VITK1: 50000,
       };
 
       let dataInArrays = arraysOfData(this.props.dishNut, fakeNutrientGoals);
+      console.log('this is dataInArrays3', dataInArrays);
 
       let finalDataForStackedGraph = finalData(
         dataInArrays[0],
         dataInArrays[1],
-        datatInArrays[2]
+        dataInArrays[2]
       );
 
       let startDataForStackedGraph = startData(
         dataInArrays[0],
         dataInArrays[1],
-        datatInArrays[2]
+        dataInArrays[2]
       );
 
       return (
