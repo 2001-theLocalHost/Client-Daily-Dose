@@ -36,10 +36,10 @@ export const cleanStr = (dietLabelArr, healthLabelsArr) => {
   return tempArr;
 };
 
-export const convertData = (name, dishUrl, nutritionData) => {
+export const convertData = (dishName, dishUrl, nutritionData) => {
   let dishObject = {};
 
-  dishObject.name = name;
+  dishObject.name = dishName;
   dishObject.imgUrl = dishUrl;
   dishObject.healthLabels = cleanStr(
     nutritionData.dietLabels,
@@ -55,17 +55,18 @@ export const convertData = (name, dishUrl, nutritionData) => {
   let totalNutrientKeys = Object.keys(nutritionData.totalNutrients);
   totalNutrientKeys.map(ele => {
     if (nutritionData.totalNutrients[ele].unit === 'mg') {
-      return (dishObject[ele] = parseFloat(nutritionData.totalNutrients[
-        ele].quantity.toFixed(4)));
+      return (dishObject[ele] = nutritionData.totalNutrients[
+        ele
+      ].quantity.toFixed(4));
     } else if (nutritionData.totalNutrients[ele].unit === 'g') {
       let newQuantity = nutritionData.totalNutrients[ele].quantity * 1000;
-      return (dishObject[ele] = parseFloat(newQuantity.toFixed(4)));
+      return (dishObject[ele] = newQuantity.toFixed(4));
     } else if (nutritionData.totalNutrients[ele].unit === 'µg') {
       let newQuantity = nutritionData.totalNutrients[ele].quantity / 1000;
-      return (dishObject[ele] = parseFloat(newQuantity.toFixed(4)));
+      return (dishObject[ele] = newQuantity.toFixed(4));
     } else if (nutritionData.totalNutrients[ele].unit === 'IU') {
       let newQuantity = nutritionData.totalNutrients[ele].quantity / 40 / 1000;
-      return (dishObject[ele] = parseFloat(newQuantity.toFixed(4)));
+      return (dishObject[ele] = newQuantity.toFixed(4));
     } else {
       return;
     }
@@ -140,16 +141,6 @@ export const capitalize = str => {
   return capitalizedName.join(' ');
 };
 
-export const saveDishValues = (original, updated) => {
-  for (let key in updated) {
-    if (updated[key] !== original[key]) {
-      original[key] = updated[key]
-    }
-    if (!original[key]) {
-      original[key] = updated[key]
-    }
-  }
-}
 export const arraysOfData = (currentDish, goal) => {
   let finalArr = [];
   let dishNutQuant = [];
