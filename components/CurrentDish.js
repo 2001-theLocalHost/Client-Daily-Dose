@@ -9,7 +9,12 @@ import {
   Image,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { arraysOfData, finalData, startData } from '../utilityFunctions';
+import {
+  arraysOfData,
+  finalData,
+  startData,
+  capitalize,
+} from '../utilityFunctions';
 import { createDish } from '../store/savedDishIngredients';
 import SaveDish from './SaveDish';
 import AnimatedPie from './Graph-Pieces/AnimatedPie';
@@ -43,48 +48,45 @@ class CurrentDish extends React.Component {
         </View>
       );
     } else {
-      console.log('this is dishNut3', this.props.dishNut);
-
       let fakeNutrientGoals = {
-        CHOCDF_KCAL: 50000,
-        FAT_KCAL: 50000,
-        PROCNT_KCAL: 50000,
-        ENERC_KCAL: 50000,
-        CA: 50000,
-        CHOCDF: 50000,
-        FAMS: 50000,
-        FAPU: 50000,
-        FASAT: 50000,
-        FAT: 50000,
-        FE: 50000,
-        FOLDFE: 50000,
-        FOLFD: 50000,
-        K: 50000,
-        MG: 50000,
-        NA: 50000,
-        NIA: 50000,
-        P: 50000,
-        PROCNT: 50000,
-        RIBF: 50000,
-        THIA: 50000,
-        VITB6A: 50000,
-        WATER: 50000,
-        ZN: 50000,
-        CHOLE: 50000,
-        FATRN: 50000,
-        FIBTG: 50000,
-        FOLAC: 50000,
-        SUGAR: 50000,
-        TOCPHA: 50000,
-        VITA_RAE: 50000,
-        VITB12: 50000,
-        VITC: 50000,
-        VITD: 50000,
-        VITK1: 50000,
+        CHOCDF_KCAL: 5000,
+        FAT_KCAL: 5000,
+        PROCNT_KCAL: 5000,
+        ENERC_KCAL: 5000,
+        CA: 5000,
+        CHOCDF: 5000,
+        FAMS: 5000,
+        FAPU: 5000,
+        FASAT: 5000,
+        FAT: 5000,
+        FE: 5000,
+        FOLDFE: 5000,
+        FOLFD: 5000,
+        K: 5000,
+        MG: 5000,
+        NA: 5000,
+        NIA: 5000,
+        P: 5000,
+        PROCNT: 5000,
+        RIBF: 5000,
+        THIA: 5000,
+        VITB6A: 5000,
+        WATER: 5000,
+        ZN: 5000,
+        CHOLE: 5000,
+        FATRN: 5000,
+        FIBTG: 5000,
+        FOLAC: 5000,
+        SUGAR: 5000,
+        TOCPHA: 5000,
+        VITA_RAE: 5000,
+        VITB12: 5000,
+        VITC: 5000,
+        VITD: 5000,
+        VITK1: 5000,
       };
 
       let dataInArrays = arraysOfData(this.props.dishNut, fakeNutrientGoals);
-      console.log('this is dataInArrays3', dataInArrays);
 
       let finalDataForStackedGraph = finalData(
         dataInArrays[0],
@@ -116,7 +118,7 @@ class CurrentDish extends React.Component {
             />
           </View>
           <View>
-            <Text style={styles.head}>{dishNut.name}</Text>
+            <Text style={styles.head}>{capitalize(dishNut.name)}</Text>
             {this.props.finalIngrStr.map((el, index) => {
               return (
                 <Text key={index} style={styles.subhead}>
