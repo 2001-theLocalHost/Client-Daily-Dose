@@ -6,6 +6,8 @@ import UploadImg from '../components/UploadImg'
 import LinksScreen from '../screens/LinksScreen';
 import IngredientConfirmation from '../screens/IngredientConfirmation';
 import ConnectedDishScreen from '../screens/DishScreen';
+import MealDiary from '../screens/MealDiary'
+
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
@@ -63,7 +65,19 @@ export default function BottomTabNavigator({ navigation, route }) {
           tabBarIcon: ({ focused }) => <TabBarIcon icon="ionicons" focused={focused} name="md-book" />,
         }}
       />
+
+      <BottomTab.Screen
+        name="MealDiary"
+        component={MealDiary}
+        options={{
+          title: 'MealDiary',
+          tabBarIcon: ({ focused }) => <TabBarIcon icon="ionicons" focused={focused} name="md-book" />,
+        }}
+      />
+
     </BottomTab.Navigator>
+
+    
   );
 }
 
