@@ -140,32 +140,6 @@ export const capitalize = str => {
   return capitalizedName.join(' ');
 };
 
-
-export const dataForStackGraph = (currentDish, goal) => {
-  let finalArr = [];
-  for (let label in currentDish) {
-    let goalQuant = goal[label];
-    let currentQuant = currentDish[label];
-    if (
-      label !== 'CHOCDF_KCAL' &&
-      label !== 'PROCNT_KCAL' &&
-      label !== 'FAT_KCAL' &&
-      label !== 'calories' &&
-      label !== 'healthLabels' &&
-      label !== 'ingredientName' &&
-      label !== 'portionSize' &&
-      label !== 'name' &&
-      label !== 'imgUrl'
-    ) {
-      let obj = {};
-      obj[label] = currentQuant;
-      obj[`diff${label}`] = goalQuant - currentQuant;
-      finalArr.push(obj);
-    }
-  }
-  return finalArr;
-};
-
 export const finalData = (currentDish, goal) => {
   let finalArr = [];
 
@@ -217,7 +191,11 @@ export const startData = (currentDish, goal) => {
       label !== 'ingredientName' &&
       label !== 'portionSize' &&
       label !== 'name' &&
-      label !== 'imgUrl'
+      label !== 'imgUrl' &&
+      label !== 'dishIngredient' &&
+      label !== 'id' &&
+      label !== 'createdAt' &&
+      label !== 'updatedAt'
     ) {
       let obj = {};
       obj[label] = currentQuant;
