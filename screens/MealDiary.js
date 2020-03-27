@@ -11,7 +11,7 @@ import {
     Picker,
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { fetchDishes, fetchDishInfo } from '../store/mealdiary'
+import { fetchDishes, fetchIngreInfo, depositDishInfo } from '../store/mealdiary'
 import { connect } from 'react-redux';
 import CalendarView from '../components/CalendarView'
 
@@ -53,17 +53,22 @@ addDish () {
     alert(`Created an obj with mealType and dishName (${dishToSave.name}). Can send this obj to THUNK for post request?` )
 }
 
-seeDishInfo (dishObj) {
+async seeDishInfo (dishObj) {
     //Dispatch a thunk to retrieve the Dish Data Object from backend - once Dish Data Object state is updated, navigate to DishScreen.js
-    console.log('***** dishId is ', dishObj.dishId)
+    // console.log('***** dishId is ', dishObj.dishId)
     let dishId = dishObj.dishId
-    this.props.fetchDishInfo(dishId)
+    await this.props.fetchIngreInfo(dishId)
+    // console.log('completeDISH??????', this.props.ingreArrayInfo)
+    this.props.depositDishInfo(dishObj)
+    console.log('!!!!!!!!', this.props.dishInfo)
+
     alert('Taking You To Dish View')
     //return this.navigation.navigate('Dishes')
 }
 
 
 render() {
+    // console.log('**************', this.props.breakfast)
     return (
     <ScrollView>
     <View>
@@ -161,6 +166,33 @@ render() {
             color="green"
         />
 
+        {/* SNACK VIEW */}
+        <Text style={styles.headerText}>Snack</Text>
+        {
+            this.props.snack.map((dish, index) => {
+            return (
+            <View key={index} style={styles.dishView}>
+                <Text onPress={ () => {this.seeDishInfo(dish)}}>{dish.dish.name}</Text>
+            </View>
+            )
+            })
+        }
+        <TextInput
+            style={styles.addDishField}
+            placeholder="Add A New Dish"
+            onChangeText={text => {
+                let localStateClone = {...this.state}
+                let newMeal = {name: text, mealType: 'snack'}
+                localStateClone.meal = newMeal
+                this.setState(localStateClone)
+            }}
+        />
+        <Button 
+            onPress={this.addDish}
+            title="Add Meal"
+            color="green"
+        />
+
     </View>
     </ScrollView>
     );
@@ -172,7 +204,10 @@ const mapState = state => {
     return {
         breakfast: state.mealdiary.breakfast,
         lunch: state.mealdiary.lunch,
-        dinner: state.mealdiary.dinner 
+        dinner: state.mealdiary.dinner, 
+        snack: state.mealdiary.snack, 
+        ingreArrayInfo: state.mealdiary.ingreArrayInfo, 
+        dishInfo: state.mealdiary.dishInfo
     }
 }
 
@@ -180,8 +215,10 @@ const mapDispatch = dispatch => {
     return {
         fetchDishes: (date) => 
         dispatch(fetchDishes(date)),
-        fetchDishInfo: (dishId) => 
-        dispatch(fetchDishInfo(dishId))
+        fetchIngreInfo: (dishId) => 
+        dispatch(fetchIngreInfo(dishId)),
+        depositDishInfo: (dish) => 
+        dispatch(depositDishInfo(dish))
     }
 }
 
