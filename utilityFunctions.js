@@ -1,22 +1,16 @@
 import nutritionKey from './nutritionKey.json';
 
 export const routes = arr => {
-  let final = [];
-  let temp = [];
-  let innerObj = {};
+  let newRoutes = [];
 
-  innerObj['key'] = arr[0];
-  innerObj['title'] = arr[0];
-
-  temp.push(innerObj);
-
-  if (arr.length === 1) {
-    return temp;
-  } else {
-    let result = routes(arr.slice(1));
-    final = [...temp, ...result];
+  for (let i = 0; i < arr.length; i++) {
+    let obj = {
+      title: arr[i],
+      key: arr[i],
+    };
+    newRoutes.push(obj);
   }
-  return final;
+  return newRoutes;
 };
 
 export const urlEncoded = arr => {
@@ -55,9 +49,9 @@ export const convertData = (dishName, dishUrl, nutritionData) => {
   let totalNutrientKeys = Object.keys(nutritionData.totalNutrients);
   totalNutrientKeys.map(ele => {
     if (nutritionData.totalNutrients[ele].unit === 'mg') {
-      return (dishObject[ele] = parseFloat(nutritionData.totalNutrients[
-        ele
-      ].quantity.toFixed(4)));
+      return (dishObject[ele] = parseFloat(
+        nutritionData.totalNutrients[ele].quantity.toFixed(4)
+      ));
     } else if (nutritionData.totalNutrients[ele].unit === 'g') {
       let newQuantity = nutritionData.totalNutrients[ele].quantity * 1000;
       return (dishObject[ele] = parseFloat(newQuantity.toFixed(4)));
@@ -112,9 +106,9 @@ export const convertIngrData = (ingrName, portionQuant, nutritionData) => {
   let totalNutrientKeys = Object.keys(nutritionData.totalNutrients);
   totalNutrientKeys.map(ele => {
     if (nutritionData.totalNutrients[ele].unit === 'mg') {
-      return (ingrObject[ele] = parseFloat(nutritionData.totalNutrients[
-        ele
-      ].quantity.toFixed(4)));
+      return (ingrObject[ele] = parseFloat(
+        nutritionData.totalNutrients[ele].quantity.toFixed(4)
+      ));
     } else if (nutritionData.totalNutrients[ele].unit === 'g') {
       let newQuantity = nutritionData.totalNutrients[ele].quantity * 1000;
       return (ingrObject[ele] = parseFloat(newQuantity.toFixed(4)));
@@ -213,11 +207,10 @@ export const startData = (label, quant, diff) => {
 export const saveDishValues = (original, updated) => {
   for (let key in updated) {
     if (updated[key] !== original[key]) {
-      original[key] = updated[key]
+      original[key] = updated[key];
     }
     if (!original[key]) {
-      original[key] = updated[key]
+      original[key] = updated[key];
     }
   }
-}
-
+};
