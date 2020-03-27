@@ -151,7 +151,11 @@ export const finalData = (currentDish, goal) => {
       label !== 'ingredientName' &&
       label !== 'portionSize' &&
       label !== 'name' &&
-      label !== 'imgUrl'
+      label !== 'imgUrl' &&
+      label !== 'dishIngredient' &&
+      label !== 'id' &&
+      label !== 'createdAt' &&
+      label !== 'updatedAt'
     ) {
       let obj = {};
       obj[label] = currentQuant;
