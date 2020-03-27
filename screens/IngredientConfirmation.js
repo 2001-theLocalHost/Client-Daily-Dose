@@ -71,7 +71,7 @@ class IngredientConfirmation extends React.Component {
       }
     });
 
-    if (this.state.dishName === '') {
+    if (this.state.name === '') {
       alert('Please Enter a Dish Name');
       return false;
     }
@@ -92,10 +92,21 @@ class IngredientConfirmation extends React.Component {
       this.state.name
     );
     await this.consolidateData();
+
+    //reset local state now that finalizeIngredients and consolidatedData exist in redux
+    let resetLocalState = {
+      value: '',
+      name: '',
+      ingredients: [{ name: '', quantity: '1', measurement: 'oz' }],
+      userAddedIngredients: [{ name: '', quantity: '1', measurement: 'oz' }],
+    }
+    this.setState(resetLocalState)
+
     if (this.props.consolidatedData.length > 1) {
       console.log(
         'ConsolidatedData formatted for API Call: ',
-        this.props.consolidatedData, 'DISH NAME IS: ', this.props.name
+        this.props.consolidatedData, 'DISH NAME IS: ', this.props.name, 'final ingredients is: ',
+        this.props.finalIngredients, 'Local State Is Also Cleared: ', this.state
       );
       return this.navigation.navigate('Dishes');
     }
