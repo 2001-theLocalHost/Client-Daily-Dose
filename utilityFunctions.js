@@ -147,6 +147,62 @@ export const capitalize = str => {
   return capitalizedName.join(' ');
 };
 
+
+export const startData = (label, quant, diff) => {
+  let final = [];
+  let temp = [];
+  let innerObj = {};
+
+  innerObj[label[0]] = 0;
+  innerObj['current'] = 0;
+  innerObj['diff'] = 0;
+  temp.push(innerObj);
+
+  if (label.length === 1) {
+    return temp;
+  } else {
+    let result = startData(label.slice(1), quant.slice(1), diff.slice(1));
+    final = [...temp, ...result];
+  }
+  return final;
+};
+
+export const saveDishValues = (original, updated) => {
+  for (let key in updated) {
+    if (updated[key] !== original[key]) {
+      original[key] = updated[key]
+    }
+    if (!original[key]) {
+      original[key] = updated[key]
+    }
+  }
+}
+
+export const dataForStackGraph = (currentDish, goal) => {
+  let finalArr = [];
+  for (let label in currentDish) {
+    let goalQuant = goal[label];
+    let currentQuant = currentDish[label];
+    if (
+      label !== 'CHOCDF_KCAL' &&
+      label !== 'PROCNT_KCAL' &&
+      label !== 'FAT_KCAL' &&
+      label !== 'calories' &&
+      label !== 'healthLabels' &&
+      label !== 'ingredientName' &&
+      label !== 'portionSize' &&
+      label !== 'name' &&
+      label !== 'imgUrl'
+    ) {
+      let obj = {};
+      obj[label] = currentQuant;
+      obj[`diff${label}`] = goalQuant - currentQuant;
+      finalArr.push(obj);
+    }
+  }
+  return finalArr;
+};
+
 export const arraysOfData = (currentDish, goal) => {
   let finalArr = [];
   let dishNutQuant = [];
@@ -196,34 +252,3 @@ export const finalData = (label, quant, diff) => {
   }
   return final;
 };
-
-export const startData = (label, quant, diff) => {
-  let final = [];
-  let temp = [];
-  let innerObj = {};
-
-  innerObj[label[0]] = 0;
-  innerObj['current'] = 0;
-  innerObj['diff'] = 0;
-  temp.push(innerObj);
-
-  if (label.length === 1) {
-    return temp;
-  } else {
-    let result = startData(label.slice(1), quant.slice(1), diff.slice(1));
-    final = [...temp, ...result];
-  }
-  return final;
-};
-
-export const saveDishValues = (original, updated) => {
-  for (let key in updated) {
-    if (updated[key] !== original[key]) {
-      original[key] = updated[key]
-    }
-    if (!original[key]) {
-      original[key] = updated[key]
-    }
-  }
-}
-

@@ -43,11 +43,13 @@ export const createDish =  (dishNut, formvalues, ingredientArray) => {
         let {data} = await axios.post('http://localhost:8080/api/ingredients', ingredient)
         let newIngredient = data
 
-        // await newDish.addIngredient(data)
+        // await newDish.addIngredient(newIngredient)
 
         // checking for magic methods and nothing appears but they do appear in post route console.log
-        console.log('HI IM MAGIC', Object.keys(newestDish.__proto__));
-        console.log('hi im ingredient magic', Object.keys(data.__proto__))
+        console.log('HI IM MAGIC IN THE DISH THUNK', Object.keys(newDish.__proto__));
+        console.log(newDish)
+        console.log('HI IM MAGIC IN THE INGREDIENT THUNK', Object.keys(newIngredient.__proto__))
+        console.log(newIngredient)
       })
 
     } catch (error) {
