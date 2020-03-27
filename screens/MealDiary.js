@@ -59,7 +59,7 @@ seeDishInfo (dishObj) {
     let dishId = dishObj.dishId
     this.props.fetchDishInfo(dishId)
     alert('Taking You To Dish View')
-    return this.navigation.navigate('Dishes')
+    //return this.navigation.navigate('Dishes')
 }
 
 

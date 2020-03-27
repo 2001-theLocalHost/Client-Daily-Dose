@@ -52,7 +52,6 @@ class DishScreen extends React.Component {
         />
       );
     }
-    console.log('inside renderscene', this.props.ingrNut)
     for (let i = 0; i < this.props.ingrNut.length; i++) {
       if (route.key === this.props.ingrNut[i].ingredientName) {
         return <CurrentIngredient ingrNut={this.props.ingrNut[i]} />;
@@ -81,7 +80,7 @@ class DishScreen extends React.Component {
   };
 
   render() {
-    console.log('inside dishscreen', this.props.ingrNut)
+    console.log('inside dishscreen', this.props.ingrNut);
     return (
       <TabView
         navigationState={{

@@ -26,7 +26,9 @@ export const fetchDishes = (date) => {
     return async dispatch => {
       try {
           console.log('TRYING TO MAKE AXIOS CALL', date)
-        const {data} = await Axios.get(`https://daily-dose-server.herokuapp.com/api/userDish/${date}`) 
+        //const {data} = await Axios.get(`https://daily-dose-server.herokuapp.com/api/userDish/${date}`)
+        const {data} = await Axios.get(`http://localhost:8080/api/userDish/${date}`)
+        console.log('ALL DISHES BY DAY FROM SERVER: ', data)  
         dispatch(getDishesByDate(data))
       } catch (error) {
         console.error(error)
@@ -38,7 +40,9 @@ export const fetchDishInfo = (dishId) => {
     return async dispatch => {
         try {
            console.log('PREPARING TO fetchDishInfo: ', dishId)
-           const {data} = await Axios.get(`https://daily-dose-server.herokuapp.com/api/userDish/${dishId}`)
+           //const {data} = await Axios.get(`https://daily-dose-server.herokuapp.com/api/userDish/${dishId}`)
+           const {data} = await Axios.get(`http://localhost:8080/api/userDish/dishIngredient/${dishId}`)
+           console.log('DISH WITH INGREDIENTS BY DAY FROM SERVER: ', data)  
            dispatch(getDishInfo(data)) 
         } catch (error) {
             console.error(error)
@@ -115,21 +119,21 @@ const reducer = (state = initialState, action) => {
             let clonedState = {...state}
             let dishes = action.dishes
             let breakfastcloned = dishes.filter((obj) => {
-                if (obj.mealType === 'breakfast') {
+                if (obj.mealTypes === 'breakfast') {
                     return true 
                 } else {
                     return false 
                 }
             })
             let lunchcloned = dishes.filter((obj) => {
-                if (obj.mealType === 'lunch') {
+                if (obj.mealTypes === 'lunch') {
                     return true 
                 } else {
                     return false 
                 }
             })
             let dinnercloned = dishes.filter((obj) => {
-                if (obj.mealType === 'dinner') {
+                if (obj.mealTypes === 'dinner') {
                     return true 
                 } else {
                     return false 

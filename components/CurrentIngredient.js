@@ -1,11 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import {
-  capitalize,
-  arraysOfData,
-  finalData,
-  startData,
-} from '../utilityFunctions';
+import { capitalize, finalData, startData } from '../utilityFunctions';
 import AnimatedPie from './Graph-Pieces/AnimatedPie';
 import AnimatedPieLabel from './Graph-Pieces/AnimatedPieLabel';
 import TotalNutrientsBar from './Graph-Pieces/TotalNutrientsBar';
@@ -18,7 +13,7 @@ export default class CurrentIngredient extends React.Component {
 
   render() {
     const { ingrNut } = this.props;
-    console.log('this is ingrNut in currentIngredient', ingrNut);
+
     if (!this.props.ingrNut || !this.props.ingrNut.ingredientName) {
       return (
         <View>
@@ -64,20 +59,9 @@ export default class CurrentIngredient extends React.Component {
         VITK1: 5000,
       };
 
-      let dataInArrays = arraysOfData(this.props.ingrNut, fakeNutrientGoals);
-      console.log('this is ingrNut', dataInArrays);
+      let finalDataForStackGraph = finalData(ingrNut, fakeNutrientGoals);
+      let startDataForStackGraph = startData(ingrNut, fakeNutrientGoals);
 
-      let finalDataForStackedGraph = finalData(
-        dataInArrays[0],
-        dataInArrays[1],
-        dataInArrays[2]
-      );
-
-      let startDataForStackedGraph = startData(
-        dataInArrays[0],
-        dataInArrays[1],
-        dataInArrays[2]
-      );
       return (
         <ScrollView>
           <View>
@@ -117,8 +101,8 @@ export default class CurrentIngredient extends React.Component {
           <View style={styles.barGraph}>
             <Text style={styles.title}>TOTAL NUTRIENTS:</Text>
             <TotalNutrientsBar
-              data={finalDataForStackedGraph}
-              startData={startDataForStackedGraph}
+              data={finalDataForStackGraph}
+              startData={startDataForStackGraph}
             />
           </View>
         </ScrollView>
