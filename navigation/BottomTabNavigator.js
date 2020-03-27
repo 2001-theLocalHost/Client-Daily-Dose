@@ -71,7 +71,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         component={MealDiary}
         options={{
           title: 'MealDiary',
-          tabBarIcon: ({ focused }) => <TabBarIcon icon="ionicons" focused={focused} name="md-book" />,
+          tabBarIcon: ({ focused }) => <TabBarIcon icon="ionicons" focused={focused} name="md-journal" />,
         }}
       />
 
