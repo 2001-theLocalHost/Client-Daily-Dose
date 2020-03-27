@@ -25,10 +25,10 @@ const getDishInfo = (dishObj) => {
 export const fetchDishes = (date) => {
     return async dispatch => {
       try {
-          console.log('TRYING TO MAKE AXIOS CALL', date)
+        //   console.log('TRYING TO MAKE AXIOS CALL', date)
         //const {data} = await Axios.get(`https://daily-dose-server.herokuapp.com/api/userDish/${date}`)
         const {data} = await Axios.get(`http://localhost:8080/api/userDish/${date}`)
-        console.log('ALL DISHES BY DAY FROM SERVER: ', data)  
+        // console.log('ALL DISHES BY DAY FROM SERVER: ', data)  
         dispatch(getDishesByDate(data))
       } catch (error) {
         console.error(error)
@@ -39,10 +39,10 @@ export const fetchDishes = (date) => {
 export const fetchDishInfo = (dishId) => {
     return async dispatch => {
         try {
-           console.log('PREPARING TO fetchDishInfo: ', dishId)
+        //    console.log('PREPARING TO fetchDishInfo: ', dishId)
            //const {data} = await Axios.get(`https://daily-dose-server.herokuapp.com/api/userDish/${dishId}`)
            const {data} = await Axios.get(`http://localhost:8080/api/userDish/dishIngredient/${dishId}`)
-           console.log('DISH WITH INGREDIENTS BY DAY FROM SERVER: ', data)  
+        //    console.log('DISH WITH INGREDIENTS BY DAY FROM SERVER: ', data)  
            dispatch(getDishInfo(data)) 
         } catch (error) {
             console.error(error)
@@ -57,7 +57,7 @@ const initialState = {
     breakfast: [
        {
         id: 2,
-        mealTypes: 'breakfast',
+        mealType: 'breakfast',
         date: '2020-09-21',
         createdAt: '2020-03-25T21:03:34.998Z',
         updatedAt: '2020-03-25T21:03:34.998Z',
@@ -67,7 +67,7 @@ const initialState = {
        },
        {
         id: 3,
-        mealTypes: 'breakfast',
+        mealType: 'breakfast',
         date: '2020-09-21',
         createdAt: '2020-03-25T21:03:34.998Z',
         updatedAt: '2020-03-25T21:03:34.998Z',
@@ -77,7 +77,7 @@ const initialState = {
        },
        {
         id: 4,
-        mealTypes: 'breakfast',
+        mealType: 'breakfast',
         date: '2020-09-21',
         createdAt: '2020-03-25T21:03:34.998Z',
         updatedAt: '2020-03-25T21:03:34.998Z',
@@ -89,7 +89,7 @@ const initialState = {
     lunch: [
         {
         id: 5,
-        mealTypes: 'lunch',
+        mealType: 'lunch',
         date: '2020-09-21',
         createdAt: '2020-03-25T21:03:34.998Z',
         updatedAt: '2020-03-25T21:03:34.998Z',
@@ -101,13 +101,25 @@ const initialState = {
     dinner:[
         {
         id: 6,
-        mealTypes: 'dinner',
+        mealType: 'dinner',
         date: '2020-09-21',
         createdAt: '2020-03-25T21:03:34.998Z',
         updatedAt: '2020-03-25T21:03:34.998Z',
         userId: 1,
         dishId: 6,       
         dish: {name: 'salad'},
+        }
+    ],
+    snack:[
+        {
+        id: 6,
+        mealType: 'snack',
+        date: '2020-09-21',
+        createdAt: '2020-03-25T21:03:34.998Z',
+        updatedAt: '2020-03-25T21:03:34.998Z',
+        userId: 1,
+        dishId: 6,       
+        dish: {name: 'apple'},
         }
     ]
 }
@@ -119,21 +131,28 @@ const reducer = (state = initialState, action) => {
             let clonedState = {...state}
             let dishes = action.dishes
             let breakfastcloned = dishes.filter((obj) => {
-                if (obj.mealTypes === 'breakfast') {
+                if (obj.mealType === 'Breakfast') {
                     return true 
                 } else {
                     return false 
                 }
             })
             let lunchcloned = dishes.filter((obj) => {
-                if (obj.mealTypes === 'lunch') {
+                if (obj.mealType === 'Lunch') {
                     return true 
                 } else {
                     return false 
                 }
             })
             let dinnercloned = dishes.filter((obj) => {
-                if (obj.mealTypes === 'dinner') {
+                if (obj.mealType === 'Dinner') {
+                    return true 
+                } else {
+                    return false 
+                }
+            })  
+            let snackcloned = dishes.filter((obj) => {
+                if (obj.mealType === 'Snack') {
                     return true 
                 } else {
                     return false 
@@ -142,6 +161,7 @@ const reducer = (state = initialState, action) => {
             clonedState.breakfast = breakfastcloned
             clonedState.lunch = lunchcloned
             clonedState.dinner = dinnercloned
+            clonedState.snack = snackcloned
             clonedState.dishByDate = action.dishes 
             return clonedState
         case GET_DISH_INFO:

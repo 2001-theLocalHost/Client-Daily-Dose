@@ -55,15 +55,17 @@ addDish () {
 
 seeDishInfo (dishObj) {
     //Dispatch a thunk to retrieve the Dish Data Object from backend - once Dish Data Object state is updated, navigate to DishScreen.js
-    console.log('***** dishId is ', dishObj.dishId)
+    // console.log('***** dishId is ', dishObj.dishId)
     let dishId = dishObj.dishId
     this.props.fetchDishInfo(dishId)
+    console.log('completeDISH??????', this.props.completeDishInfo)
     alert('Taking You To Dish View')
     //return this.navigation.navigate('Dishes')
 }
 
 
 render() {
+    // console.log('**************', this.props.breakfast)
     return (
     <ScrollView>
     <View>
@@ -161,6 +163,33 @@ render() {
             color="green"
         />
 
+        {/* SNACK VIEW */}
+        <Text style={styles.headerText}>Snack</Text>
+        {
+            this.props.snack.map((dish, index) => {
+            return (
+            <View key={index} style={styles.dishView}>
+                <Text onPress={ () => {this.seeDishInfo(dish)}}>{dish.dish.name}</Text>
+            </View>
+            )
+            })
+        }
+        <TextInput
+            style={styles.addDishField}
+            placeholder="Add A New Dish"
+            onChangeText={text => {
+                let localStateClone = {...this.state}
+                let newMeal = {name: text, mealType: 'snack'}
+                localStateClone.meal = newMeal
+                this.setState(localStateClone)
+            }}
+        />
+        <Button 
+            onPress={this.addDish}
+            title="Add Meal"
+            color="green"
+        />
+
     </View>
     </ScrollView>
     );
@@ -172,7 +201,9 @@ const mapState = state => {
     return {
         breakfast: state.mealdiary.breakfast,
         lunch: state.mealdiary.lunch,
-        dinner: state.mealdiary.dinner 
+        dinner: state.mealdiary.dinner, 
+        snack: state.mealdiary.snack, 
+        completeDishInfo: state.mealdiary.completeDishInfo
     }
 }
 
