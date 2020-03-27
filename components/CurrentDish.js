@@ -15,7 +15,7 @@ import {
   startData,
   capitalize,
 } from '../utilityFunctions';
-import { createDish } from '../store/savedDishIngredients';
+import { createDish } from '../store/dishes';
 import SaveDish from './SaveDish';
 import AnimatedPie from './Graph-Pieces/AnimatedPie';
 import AnimatedPieLabel from './Graph-Pieces/AnimatedPieLabel';
@@ -36,7 +36,6 @@ class CurrentDish extends React.Component {
       modalOpen: false,
     });
     this.props.createDish(this.props.dishNut, values, this.props.ingrNut);
-
     // redirect to meal diary of today's date
   }
 

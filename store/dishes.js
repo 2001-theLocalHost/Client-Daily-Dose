@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {saveDishValues} from '../utilityFunctions'
 
 //ACTION TYPE
 const ADDING_INGREDIENTS = 'ADDING_INGREDIENTS';
@@ -64,6 +65,22 @@ export const consolidatingData = consolidated => {
     }
   };
 };
+
+export const createDish =  (dishNut, formvalues, ingredientArray) => {
+  return async dispatch => {
+    try {
+      saveDishValues(dishNut, formvalues)
+      // const newDish = await axios.post('https://daily-dose-server.herokuapp.com/api/dishes', updatedDish)
+      let dataForPost = {
+        dish: dishNut,
+        ingredients: ingredientArray
+      }
+      const {data} = await axios.post('http://localhost:8080/api/dishes', dataForPost)
+    } catch (error) {
+        console.error(error)
+    }
+  }
+}
 
 //INITIAL STATE
 const initialState = {

@@ -6,7 +6,6 @@ import { TabView, TabBar } from 'react-native-tab-view';
 import CurrentDish from '../components/CurrentDish';
 import CurrentIngredient from '../components/CurrentIngredient';
 import { fetchNutrition, fetchIngredient } from '../store/nutrition';
-import { createDish } from '../store/savedDishIngredients';
 import { ingrNameFunc, portionQuantFunc, routes } from '../utilityFunctions';
 
 const initialLayout = { width: Dimensions.get('window').width };
@@ -118,8 +117,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(fetchNutrition(name, dishUrl, finalIngrStr)),
   fetchIngredientDispatch: (ingrNameArr, portionQuantArr, finalIngrStr) =>
     dispatch(fetchIngredient(ingrNameArr, portionQuantArr, finalIngrStr)),
-  createDish: (nutritionInfo, dish) =>
-    dispatch(createDish(nutritionInfo, dish)),
 });
 
 const ConnectedDishScreen = connect(
