@@ -9,12 +9,7 @@ import {
   Image,
 } from 'react-native';
 import { connect } from 'react-redux';
-import {
-  arraysOfData,
-  finalData,
-  startData,
-  capitalize,
-} from '../utilityFunctions';
+import { finalData, startData, capitalize } from '../utilityFunctions';
 import { createDish } from '../store/savedDishIngredients';
 import SaveDish from './SaveDish';
 import AnimatedPie from './Graph-Pieces/AnimatedPie';
@@ -40,9 +35,6 @@ class CurrentDish extends React.Component {
 
   render() {
     const { dishNut } = this.props;
-    const { ingrNut } = this.props;
-    console.log('inside currentdish destructured', ingrNut)
-    console.log('inside currentDish', this.props.ingrNut)
 
     if (!this.props.dishNut || !this.props.dishNut.name) {
       return (
@@ -89,19 +81,8 @@ class CurrentDish extends React.Component {
         VITK1: 5000,
       };
 
-      let dataInArrays = arraysOfData(this.props.dishNut, fakeNutrientGoals);
-
-      let finalDataForStackedGraph = finalData(
-        dataInArrays[0],
-        dataInArrays[1],
-        dataInArrays[2]
-      );
-
-      let startDataForStackedGraph = startData(
-        dataInArrays[0],
-        dataInArrays[1],
-        dataInArrays[2]
-      );
+      let finalDataForStackGraph = finalData(dishNut, fakeNutrientGoals);
+      let startDataForStackGraph = startData(dishNut, fakeNutrientGoals);
 
       return (
         <ScrollView>
@@ -162,8 +143,8 @@ class CurrentDish extends React.Component {
           <View style={styles.barGraph}>
             <Text style={styles.title}>TOTAL NUTRIENTS:</Text>
             <TotalNutrientsBar
-              data={finalDataForStackedGraph}
-              startData={startDataForStackedGraph}
+              data={finalDataForStackGraph}
+              startData={startDataForStackGraph}
             />
           </View>
 

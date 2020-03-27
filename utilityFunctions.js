@@ -2,7 +2,6 @@ import nutritionKey from './nutritionKey.json';
 
 export const routes = arr => {
   let newRoutes = [];
-
   for (let i = 0; i < arr.length; i++) {
     let obj = {
       title: arr[i],
@@ -135,18 +134,17 @@ export const capitalize = str => {
   return capitalizedName.join(' ');
 };
 
-export const arraysOfData = (currentDish, goal) => {
+export const finalData = (currentDish, goal) => {
   let finalArr = [];
-  let dishNutQuant = [];
-  let dishNutLabel = [];
-  let diffNutQuant = [];
 
   for (let label in currentDish) {
     let goalQuant = goal[label];
     let currentQuant = currentDish[label];
+
     if (
       label !== 'CHOCDF_KCAL' &&
       label !== 'PROCNT_KCAL' &&
+      label !== 'ENERC_KCAL' &&
       label !== 'FAT_KCAL' &&
       label !== 'calories' &&
       label !== 'healthLabels' &&
@@ -155,53 +153,45 @@ export const arraysOfData = (currentDish, goal) => {
       label !== 'name' &&
       label !== 'imgUrl'
     ) {
-      dishNutLabel.push(label);
-      dishNutQuant.push(currentQuant);
-      diffNutQuant.push(goalQuant - currentQuant);
+      let obj = {};
+      obj[label] = currentQuant;
+      obj['current'] = currentQuant;
+      obj['diff'] = goalQuant - currentQuant;
+      finalArr.push(obj);
     }
   }
-
-  finalArr.push(dishNutLabel, dishNutQuant, diffNutQuant);
 
   return finalArr;
 };
 
-export const finalData = (label, quant, diff) => {
-  let final = [];
-  let temp = [];
-  let innerObj = {};
+export const startData = (currentDish, goal) => {
+  let finalArr = [];
 
-  innerObj[label[0]] = quant[0];
-  innerObj['current'] = quant[0];
-  innerObj['diff'] = diff[0];
-  temp.push(innerObj);
+  for (let label in currentDish) {
+    let goalQuant = goal[label];
+    let currentQuant = currentDish[label];
 
-  if (label.length === 1) {
-    return temp;
-  } else {
-    let result = finalData(label.slice(1), quant.slice(1), diff.slice(1));
-    final = [...temp, ...result];
+    if (
+      label !== 'CHOCDF_KCAL' &&
+      label !== 'PROCNT_KCAL' &&
+      label !== 'ENERC_KCAL' &&
+      label !== 'FAT_KCAL' &&
+      label !== 'calories' &&
+      label !== 'healthLabels' &&
+      label !== 'ingredientName' &&
+      label !== 'portionSize' &&
+      label !== 'name' &&
+      label !== 'imgUrl'
+    ) {
+      let obj = {};
+      obj[label] = currentQuant;
+      obj['current'] = currentQuant;
+      obj['diff'] = goalQuant - currentQuant;
+      finalArr.push(obj);
+    }
   }
-  return final;
-};
 
-export const startData = (label, quant, diff) => {
-  let final = [];
-  let temp = [];
-  let innerObj = {};
-
-  innerObj[label[0]] = 0;
-  innerObj['current'] = 0;
-  innerObj['diff'] = 0;
-  temp.push(innerObj);
-
-  if (label.length === 1) {
-    return temp;
-  } else {
-    let result = startData(label.slice(1), quant.slice(1), diff.slice(1));
-    final = [...temp, ...result];
-  }
-  return final;
+  return finalArr;
 };
 
 export const saveDishValues = (original, updated) => {
