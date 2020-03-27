@@ -122,6 +122,12 @@ export const convertIngrData = (ingrName, portionQuant, nutritionData) => {
     }
   });
 
+  for (let key in nutritionKey) {
+    if (!ingrObject[key]) {
+      ingrObject[key] = 0;
+    }
+  }
+
   return ingrObject;
 };
 
@@ -132,6 +138,32 @@ export const capitalize = str => {
     return el[0].toUpperCase() + el.slice(1);
   });
   return capitalizedName.join(' ');
+};
+
+
+export const dataForStackGraph = (currentDish, goal) => {
+  let finalArr = [];
+  for (let label in currentDish) {
+    let goalQuant = goal[label];
+    let currentQuant = currentDish[label];
+    if (
+      label !== 'CHOCDF_KCAL' &&
+      label !== 'PROCNT_KCAL' &&
+      label !== 'FAT_KCAL' &&
+      label !== 'calories' &&
+      label !== 'healthLabels' &&
+      label !== 'ingredientName' &&
+      label !== 'portionSize' &&
+      label !== 'name' &&
+      label !== 'imgUrl'
+    ) {
+      let obj = {};
+      obj[label] = currentQuant;
+      obj[`diff${label}`] = goalQuant - currentQuant;
+      finalArr.push(obj);
+    }
+  }
+  return finalArr;
 };
 
 export const finalData = (currentDish, goal) => {
@@ -194,7 +226,6 @@ export const startData = (currentDish, goal) => {
       finalArr.push(obj);
     }
   }
-
   return finalArr;
 };
 
