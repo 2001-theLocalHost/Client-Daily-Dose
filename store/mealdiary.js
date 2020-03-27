@@ -3,7 +3,9 @@ import Axios from "axios"
 //ACTION TYPE
 const GET_DISHESBYDATE = 'GET_DISHESBYDATE'
 
-const GET_DISH_INFO = 'GET_DISH_INFO'
+const GET_NUTRITION_INFO= 'GET_NUTRITION_INFO'
+
+const DEPOSIT_DISH_INFO = 'DEPOSIT_DISH_INFO'
 
 //ACTION CREATOR
 const getDishesByDate = (dishes) => {
@@ -13,11 +15,19 @@ const getDishesByDate = (dishes) => {
     }
 }
 
-const getDishInfo = (dishObj) => {
+const getNutritionInfo = (dishObj) => {
+    // console.log('SEE DISHOBJ', dishObj)
     return {
-        type: GET_DISH_INFO,
+        type: GET_NUTRITION_INFO,
         dishObj
 
+    }
+}
+
+export const depositDishInfo = (dish) => {
+    return {
+        type: DEPOSIT_DISH_INFO,
+        dish
     }
 }
 
@@ -36,14 +46,17 @@ export const fetchDishes = (date) => {
     }
   }
 
-export const fetchDishInfo = (dishId) => {
+export const fetchIngreInfo = (dishId) => {
     return async dispatch => {
         try {
         //    console.log('PREPARING TO fetchDishInfo: ', dishId)
            //const {data} = await Axios.get(`https://daily-dose-server.herokuapp.com/api/userDish/${dishId}`)
            const {data} = await Axios.get(`http://localhost:8080/api/userDish/dishIngredient/${dishId}`)
         //    console.log('DISH WITH INGREDIENTS BY DAY FROM SERVER: ', data)  
-           dispatch(getDishInfo(data)) 
+
+           const ingreArr = data[0].dish.ingredients
+           dispatch(getNutritionInfo(ingreArr)) 
+
         } catch (error) {
             console.error(error)
         }
@@ -52,7 +65,8 @@ export const fetchDishInfo = (dishId) => {
 
 //INITIAL STATE
 const initialState = {
-    completeDishInfo: {}, //this will be used to load nutritional data on Dish Screen
+    ingreArrayInfo: {}, //this will be used to load nutritional data on Dish Screen
+    dishInfo: {}, 
     dishByDate: [], 
     breakfast: [
        {
@@ -164,10 +178,14 @@ const reducer = (state = initialState, action) => {
             clonedState.snack = snackcloned
             clonedState.dishByDate = action.dishes 
             return clonedState
-        case GET_DISH_INFO:
+        case GET_NUTRITION_INFO:
             let stateClone = {...state}
-            stateClone.completeDishInfo = action.dishObj
+            stateClone.ingreArrayInfo = action.dishObj
             return stateClone
+        case DEPOSIT_DISH_INFO:
+            let copystateClone = {...state}
+            copystateClone.dishInfo = action.dish
+            return copystateClone
         default:
             return state;
     }
