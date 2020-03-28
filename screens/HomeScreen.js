@@ -8,28 +8,35 @@ import {
   View,
   ScrollView,
 } from 'react-native';
+import { connect } from 'react-redux';
 import LoginScreen from 'react-native-login-screen';
 import { login } from '../store/user';
 
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
   constructor() {
     super();
     this.state = {
       email: '',
       password: '',
     };
-    this.handleChange = this.handleChange.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  }
+  // handleChange(event) {
+  //   this.setState({
+  //     [event.target.name]: event.target.value,
+  //   });
+  // }
 
-  handleLogin(event) {
-    event.preventDefault();
-    this.props.loginDispatch(this.state.email, this.state.password);
+  handleLogin() {
+    console.log(
+      'saving username and password',
+      this.state.email,
+      this.state.password
+    );
+    this.props.loginDispatch(this.state.email, this.statepassword);
+    //need to update the URI for the axios post request /auth/login
   }
 
   render() {
@@ -40,9 +47,13 @@ export default class HomeScreen extends React.Component {
           contentContainerStyle={styles.contentContainer}
         >
           <LoginScreen
-            onPressLogin={() => alert('Login Button is pressed')}
-            usernameOnChangeText={this.handleChange}
-            passwordOnChangeText={this.handleChange}
+            onPressLogin={this.handleLogin}
+            usernameOnChangeText={text => {
+              this.setState({ ...this.state, email: text });
+            }}
+            passwordOnChangeText={text => {
+              this.setState({ ...this.state, password: text });
+            }}
             loginButtonBackgroundColor="#a2a5a9"
             // logoComponent={your - logo - component}
             // IconComponent={your - icon - component}
@@ -147,8 +158,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {};
-
+const mapStateToProps = state => ({
+  user: state.user,
+});
 const mapDispatchToProps = dispatch => ({
   loginDispatch: (email, password) => dispatch(login(email, password)),
 });
