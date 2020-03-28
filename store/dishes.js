@@ -8,6 +8,7 @@ const FINALIZE_INGREDIENT = "FINALIZE_INGREDIENT"
 
 const CONSOLIDATE_DATA = 'CONSOLIDATE_DATA';
 
+const CONSOLIDATE_DATA_FROM_MEALDIARY = 'CONSOLIDATE_DATA_FROM_MEALDIARY'
 //ACTION CREATOR
 const addingIngredients = (ingredients, uri) => {
     return {
@@ -32,6 +33,13 @@ const consolidatingDataForAPI = consolidated => {
     consolidated,
   };
 };
+
+export const consolidatingDataFromMealDiary = strings => {
+  return {
+    type: CONSOLIDATE_DATA_FROM_MEALDIARY,
+    strings
+  }
+}
 
 //THUNK
 export const depositClarifaiData = (data, uri) => {
@@ -128,6 +136,8 @@ const reducer = (state = initialState, action) => {
       return clonedState
     case CONSOLIDATE_DATA:
       return { ...state, consolidatedData: action.consolidated };
+    case CONSOLIDATE_DATA_FROM_MEALDIARY:
+      return {...state, consolidatedData: action.strings}  
     default:
       return state;
   }

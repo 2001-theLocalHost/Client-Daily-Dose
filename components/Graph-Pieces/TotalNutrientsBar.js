@@ -22,7 +22,7 @@ export default class TotalNutrientsBar extends React.PureComponent {
   render() {
     const colors = ['#FF7F4B', '#E35052'];
     const keys = ['current', 'diff'];
-
+    // console.log('WHAT IS GOING ON!!! ', this.state.data)
     return (
       <View style={styles.stackedGraph}>
         <StackedBarChart

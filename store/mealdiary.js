@@ -65,7 +65,7 @@ export const fetchIngreInfo = (dishId) => {
 
 //INITIAL STATE
 const initialState = {
-    ingreArrayInfo: {}, //this will be used to load nutritional data on Dish Screen
+    ingreArrayInfo: [], //this will be used to load nutritional data on Dish Screen
     dishInfo: {}, 
     dishByDate: [], 
     breakfast: [

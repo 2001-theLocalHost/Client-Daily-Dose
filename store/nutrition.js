@@ -10,6 +10,11 @@ import {
 const GOT_NUTRITION = 'GOT_NUTRITION';
 const GOT_INGR_NUTRITION = 'GOT_INGR_NUTRITION';
 
+
+const UPDATE_INGR_NUT_FROM_MEALDIARY = 'UPDATE_INGR_NUT_FROM_MEALDIARY' // FROM MEAL DIARY
+const UPDATE_DISH_NUT_FROM_MEALDIARY = 'UPDATE_DISH_NUT_FROM_MEALDIARY' // FROM MEAL DIARY
+const INGREDIENT_NAMES_FROM_MEALDIARY = 'INGREDIENT_NAMES_FROM_MEALDIARY' //FROM MEAL DIARY
+
 export const gotNutrition = nutrition => ({
   type: GOT_NUTRITION,
   nutrition,
@@ -19,6 +24,22 @@ export const gotIngrNutrition = ingrNutrition => ({
   type: GOT_INGR_NUTRITION,
   ingrNutrition,
 });
+
+export const updateIngrNut = (ingrNutritionMealDiary) => ({
+  type: UPDATE_INGR_NUT_FROM_MEALDIARY, 
+  ingrNutritionMealDiary
+})
+
+export const updateDishNut = (dishNutritionMealDiary) => ({
+  type: UPDATE_DISH_NUT_FROM_MEALDIARY,
+  dishNutritionMealDiary
+})
+
+export const ingredientNamesFromMealDiary = (ingredientNames) => ({
+  type: INGREDIENT_NAMES_FROM_MEALDIARY,
+  ingredientNames
+})
+
 
 export const fetchNutrition = (name, dishUrl, userDish) => {
   //userDish = consolidatedData => ['1 cup rice', '1 oz rice cake']
@@ -61,6 +82,7 @@ export const fetchIngredient = (ingrNameArr, portionQuantArr, userDish) => {
 const initialState = {
   dishNut: {},
   ingrNut: [],
+  ingredientNames: []
 };
 
 const nutritionReducer = (state = initialState, action) => {
@@ -75,6 +97,21 @@ const nutritionReducer = (state = initialState, action) => {
         ...state,
         ingrNut: action.ingrNutrition,
       };
+      case UPDATE_INGR_NUT_FROM_MEALDIARY:
+        return {
+          ...state,
+          ingrNut: action.ingrNutritionMealDiary
+        }
+      case UPDATE_DISH_NUT_FROM_MEALDIARY:
+        return {
+          ...state,
+          dishNut: action.dishNutritionMealDiary
+        }
+       case INGREDIENT_NAMES_FROM_MEALDIARY:
+         return {
+           ...state,
+           ingredientNames: action.ingredientNames
+         } 
     default:
       return state;
   }
