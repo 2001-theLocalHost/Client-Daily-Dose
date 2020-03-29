@@ -7,6 +7,7 @@ import {
   convertIngrData,
 } from '../utilityFunctions';
 
+//ACTION TYPES
 const GOT_NUTRITION = 'GOT_NUTRITION';
 const GOT_INGR_NUTRITION = 'GOT_INGR_NUTRITION';
 
@@ -15,6 +16,10 @@ const UPDATE_INGR_NUT_FROM_MEALDIARY = 'UPDATE_INGR_NUT_FROM_MEALDIARY' // FROM 
 const UPDATE_DISH_NUT_FROM_MEALDIARY = 'UPDATE_DISH_NUT_FROM_MEALDIARY' // FROM MEAL DIARY
 const INGREDIENT_NAMES_FROM_MEALDIARY = 'INGREDIENT_NAMES_FROM_MEALDIARY' //FROM MEAL DIARY
 
+const RESET_DISHNUT_FROM_INGR_CONFIRMATION = 'RESET_DISHNUT_FROM_INGR_CONFIRMATION' //FROM INGR CONFIRMATION
+const RESET_INGRNUT_FROM_INGR_CONFIRMATION = 'RESET_INGRNUT_FROM_INGR_CONFIRMATION' //FROM INGR CONFIRMATION
+
+//ACTION CREATORS
 export const gotNutrition = nutrition => ({
   type: GOT_NUTRITION,
   nutrition,
@@ -40,7 +45,17 @@ export const ingredientNamesFromMealDiary = (ingredientNames) => ({
   ingredientNames
 })
 
+export const resetDishnutFromConfirmation = (obj) => ({
+  type: RESET_DISHNUT_FROM_INGR_CONFIRMATION,
+  obj
+})
 
+export const resetIngrnutFromConfirmation = (arr) => ({
+  type: RESET_INGRNUT_FROM_INGR_CONFIRMATION ,
+  arr
+})
+
+//THUNKS
 export const fetchNutrition = (name, dishUrl, userDish) => {
   //userDish = consolidatedData => ['1 cup rice', '1 oz rice cake']
   return async dispatch => {
@@ -81,8 +96,8 @@ export const fetchIngredient = (ingrNameArr, portionQuantArr, userDish) => {
 
 const initialState = {
   dishNut: {},
-  ingrNut: [],
-  ingredientNames: []
+  ingrNut: [], 
+  ingredientNames: [] // ['rice', 'oil', 'ricecakes']
 };
 
 const nutritionReducer = (state = initialState, action) => {
@@ -112,6 +127,16 @@ const nutritionReducer = (state = initialState, action) => {
            ...state,
            ingredientNames: action.ingredientNames
          } 
+        case RESET_DISHNUT_FROM_INGR_CONFIRMATION:
+          return {
+            ...state,
+            dishNut: action.obj
+          }
+        case  RESET_INGRNUT_FROM_INGR_CONFIRMATION:
+          return {
+             ...state,
+             ingrNut: action.arr
+          }
     default:
       return state;
   }

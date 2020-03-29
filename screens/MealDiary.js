@@ -59,7 +59,7 @@ async seeDishInfo (dishObj) {
     await this.props.fetchIngreInfo(dishId) //goes to thunk in mealdiary
 
     await this.props.updateIngrNut(this.props.ingreArrayInfo) //goes to action creator in nutrition with the ingredientarray info
-    await this.props.updateDishNut(dishObj) //goes to action creator in nutrition with the dish info
+    await this.props.updateDishNut(dishObj.dish) //goes to action creator in nutrition with the dish info
 
     //creating finalIngrString
     let consolidatedStringOfIngredients = this.props.ingrNut.map((element) => {
@@ -75,7 +75,7 @@ async seeDishInfo (dishObj) {
     await this.props.consolidatingDataFromMealDiary(consolidatedStringOfIngredients)
 
 
-    alert('Taking You To Dish View')
+    
     return this.navigation.navigate('Dishes')
 }
 

@@ -11,8 +11,9 @@ import { ingrNameFunc, portionQuantFunc, routes } from '../utilityFunctions';
 const initialLayout = { width: Dimensions.get('window').width };
 
 class DishScreen extends React.Component {
-  constructor() {
+  constructor({navigation}) {
     super();
+    this.navigation = navigation;
     this.state = {
       index: 0,
       routes: [{ key: 'Dish', title: 'Dish' }],
@@ -23,31 +24,36 @@ class DishScreen extends React.Component {
     this.createRoutes = this.createRoutes.bind(this);
   }
 
-  componentDidMount() {
-    if (this.props.dishNut.name === "" && this.props.ingrNut[0].ingredientName === undefined) {
+  async fetchDataFromDbOrEdamam(){
+    if (!this.props.dishNut.name && this.props.ingrNut.length < 1) {
       let ingrNameArr = ingrNameFunc(this.props.finalIngrObj);
       let portionQuantArr = portionQuantFunc(this.props.finalIngrObj);
   
       this.createRoutes(ingrNameArr);
   
-      this.props.fetchNutritionDispatch(
+      await this.props.fetchNutritionDispatch(
         this.props.name,
         this.props.imgUrl,
         this.props.finalIngrStr
       );
   
-      this.props.fetchIngredientDispatch(
+      await this.props.fetchIngredientDispatch(
         ingrNameArr,
         portionQuantArr,
         this.props.finalIngrStr
       );
     } else {
-      // console.log('WE SHOULD BE HITTING THISS!!!')
-      // console.log('IngredientNames: ', this.props.ingredientNames, 'IngrNut: ', this.props.ingrNut, 'dishNut: ', this.props.dishNut)
       this.createRoutes(this.props.ingredientNames)
     }
-
   }
+
+  componentDidMount() {
+    this.navigation.addListener('focus', () => {
+      this.setState({routes: [{ key: 'Dish', title: 'Dish' }]})
+      this.fetchDataFromDbOrEdamam()
+    });
+  }
+
 
   renderScene = ({ route }) => {
     if (route.key === 'Dish') {
@@ -82,7 +88,7 @@ class DishScreen extends React.Component {
   createRoutes = arr => {
     let routesObj = routes(arr);
     this.setState({
-      routes: [...this.state.routes, ...routesObj],
+      routes: [...[{ key: 'Dish', title: 'Dish' }], ...routesObj],
     });
   };
 
