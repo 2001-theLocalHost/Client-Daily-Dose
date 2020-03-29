@@ -16,8 +16,6 @@ import { connect } from 'react-redux';
 import CalendarView from '../components/CalendarView'
 
 
-
-
 class MealDiary extends React.Component {
     constructor({navigation}) {
         super()
@@ -60,8 +58,8 @@ async seeDishInfo (dishObj) {
     await this.props.fetchIngreInfo(dishId)
     // console.log('completeDISH??????', this.props.ingreArrayInfo)
     this.props.depositDishInfo(dishObj)
-    console.log('!!!!!!!!', this.props.dishInfo)
-
+    // console.log('!!!!!!!!', this.props.dishInfo)
+    // console.log('???????', this.props.disObj)
     alert('Taking You To Dish View')
     //return this.navigation.navigate('Dishes')
 }
