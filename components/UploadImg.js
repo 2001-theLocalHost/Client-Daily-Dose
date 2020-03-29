@@ -22,7 +22,6 @@ class UploadImg extends React.Component {
 
   componentDidMount() {
     this.getPermissionAsync();
-    console.log('hi');
   }
 
   submitImage = () => {
@@ -44,8 +43,8 @@ class UploadImg extends React.Component {
     return this.navigation.navigate('ConfirmIngredients')
   }
 
-  async refreshScreen() {
-   await this.setState({ imageB64: null,
+refreshScreen() {
+   this.setState({ imageB64: null,
       imageUri: null })
   }
 
