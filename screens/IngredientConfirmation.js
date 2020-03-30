@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
-import { capitalize } from '../utilityFunctions';
+import { capitalize, consolidateData } from '../utilityFunctions';
 import { finalizeIngredients, consolidatingData } from '../store/dishes';
 import { resetDishnutFromConfirmation, resetIngrnutFromConfirmation } from '../store/nutrition'
 
@@ -89,8 +89,8 @@ class IngredientConfirmation extends React.Component {
       this.state.userAddedIngredients,
       this.state.name
     );
-    await this.consolidateData();
-
+    const consolidated = await consolidateData(this.props.finalIngredients);
+    await this.props.consolidatingData(consolidated);
     //reset local state now that finalizeIngredients and consolidatedData exist in redux
     let resetLocalState = {
       value: '',
@@ -100,24 +100,18 @@ class IngredientConfirmation extends React.Component {
     }
     this.setState(resetLocalState)
 
-    if (this.props.consolidatedData.length > 1) {
-      console.log(
-        'ConsolidatedData formatted for API Call: ',
-        this.props.consolidatedData, 'DISH NAME IS: ', this.props.name, 'final ingredients is: ',
-        this.props.finalIngredients, 'Local State Is Also Cleared: ', this.state
-      );
+    // if (this.props.consolidatedData.length > 1) {
+    //   console.log(
+    //     'ConsolidatedData formatted for API Call: ',
+    //     this.props.consolidatedData, 'DISH NAME IS: ', this.props.name, 'final ingredients is: ',
+    //     this.props.finalIngredients, 'Local State Is Also Cleared: ', this.state
+    //   );
+      // this.props.closeModal()
       return this.navigation.navigate('Dishes');
     }
-  }
 
-  async consolidateData() {
-    let finalIngredients = this.props.finalIngredients;
-    let consolidated = finalIngredients.map(element => {
-      let stringified = `${element.quantity} ${element.measurement} ${element.name}`;
-      return stringified;
-    });
-    await this.props.consolidatingData(consolidated);
-  }
+
+
 
   async removeIngredient(index) {
     let ingredientsClone = { ...this.state };
@@ -292,6 +286,7 @@ const mapDispatch = dispatch => {
       dispatch(resetIngrnutFromConfirmation(arr))
   };
 };
+
 
 export default connect(mapState, mapDispatch)(IngredientConfirmation);
 
