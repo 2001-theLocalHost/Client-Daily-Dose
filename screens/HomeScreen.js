@@ -14,15 +14,21 @@ import { StackActions, CommonActions } from '@react-navigation/native';
 class HomeScreen extends React.Component {
   constructor({ navigation }) {
     super();
-    this.state = {};
     this.navigation = navigation;
+    this.state = {};
     this.handleLogout = this.handleLogout.bind(this);
   }
 
   handleLogout() {
     this.props.logoutDispatch();
-    return this.navigation.dispatch(StackActions.popToTop());
+    // return this.props.navigation.dispatch(
+    //   CommonActions.reset({
+    //     index: 0,
+    //     routes: [{ name: 'Auth' }],
+    //   })
+    // );
   }
+
   render() {
     return (
       <View style={styles.container}>
