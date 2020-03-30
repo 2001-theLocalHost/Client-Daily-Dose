@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { signup } from '../store/user';
+import { Chip } from 'react-native-paper';
 
 class Signup extends React.Component {
   constructor({ navigation }) {
@@ -20,12 +21,21 @@ class Signup extends React.Component {
       password: '',
       name: '',
       sex: '',
-      dietaryPreference: '',
       birthdate: '',
       height: '',
       weight: '',
+      glutenFree: false,
+      dairyFree: false,
+      nutFree: false,
+      vegan: false,
+      vegetarian: false,
+      pescatarian: false,
+      lowCarb: false,
+      lowFat: false,
+      lowSugar: false
     };
     this.handleSignup = this.handleSignup.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
   }
 
   handleSignup() {
@@ -54,6 +64,27 @@ class Signup extends React.Component {
     this.props.signupDispatch(userInfo);
 
     return this.navigation.push('Login');
+  }
+
+  handleSelect() {
+    this.setState({
+      glutenFree: !this.state.glutenFree
+    })
+    if (chipPressed) {
+      chipPressed(this.state.glutenFree)
+    }
+    // setSelected(!selected)
+    // if (chipPressed) {
+    //   chipPressed(selected)
+    // }
+    // if () {
+    //   // change styling
+    // // re set state to true
+    // } else {
+    //   // change styling back to original
+    //   // re set state to false
+    // }
+
   }
 
   render() {
@@ -100,7 +131,22 @@ class Signup extends React.Component {
           <TextInput style={styles.text} />
 
           <Text style={styles.headerText}>Dietary Preference:</Text>
-          <TextInput style={styles.text} />
+          <View style={styles.chipContainer}>
+            <Chip selected={this.state.vegan} key={'vegan'} style={styles.chip} onPress={(vegan) => {this.handleSelect(vegan)}}>Vegan</Chip>
+            <Chip selected={this.state.vegetarian} style={styles.chip} onPress={(vegetarian) => {this.handleSelect(vegetarian)}}>Vegetarian</Chip>
+
+            <Chip selected={this.state.pescatarian} style={styles.chip} onPress={() => {
+              !this.state.pescatarian ? this.setState({pescatarian: true}) : this.setState({pescatarian: false})
+            }}>Pescatarian</Chip>
+
+            <Chip selected={this.state.glutenFree} style={styles.chip} onPress={this.handleSelect}>Gluten-Free</Chip>
+
+            <Chip selected={this.state.dairyFree} style={styles.chip} onPress={this.handleSelect}>Dairy-Free</Chip>
+            <Chip selected={this.state.nutFree} style={styles.chip} onPress={this.handleSelect}>Nut-Free</Chip>
+            <Chip selected={this.state.lowCarb} style={styles.chip} onPress={this.handleSelect}>Low-Carb</Chip>
+            <Chip selected={this.state.lowFat} style={styles.chip} onPress={this.handleSelect}>Low-Fat</Chip>
+            <Chip selected={this.state.lowSugar} style={styles.chip} onPress={this.handleSelect}>Low-Sugar</Chip>
+          </View>
 
           <View style={styles.signupButton}>
             <Button onPress={this.handleSignup} title="Sign Up" color="green" />
@@ -131,6 +177,19 @@ const styles = StyleSheet.create({
     borderColor: '#d6d7da',
     paddingTop: 12,
   },
+  chipContainer: {
+    justifyContent: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  },
+  chip: {
+    alignItems: 'center',
+    width: 105,
+    color: 'black'
+  },
+  selectedChip: {
+
+  }
 });
 
 const mapStateToProps = state => ({
