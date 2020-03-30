@@ -1,77 +1,74 @@
 import React from 'react';
-import { StyleSheet, View, TextInput, Button, Modal, Text, Picker} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  Button,
+  Modal,
+  Text,
+  Picker,
+} from 'react-native';
 import { Formik } from 'formik';
 
-const SaveDish = (props) => {
+const SaveDish = props => {
   let dishNut;
   if (props.dishNut) {
-    dishNut = props.dishNut
+    dishNut = props.dishNut;
   }
   return (
-    <Modal
-    visible={props.modalOpen}
-    animationType="slide"
-    transparent={false}>
+    <Modal visible={props.modalOpen} animationType="slide" transparent={false}>
       <View style={styles.form}>
         <Formik
-        initialValues={{
-          name: dishNut.name,
-          mealType: ''
-        }}
-        onSubmit={(values) => {
-          props.onSave(values)
-        }}
+          initialValues={{
+            name: dishNut.name,
+            mealType: '',
+          }}
+          onSubmit={values => {
+            props.onSave(values);
+          }}
         >
-          {(formikProps) => (
+          {formikProps => (
             <View>
               <Text>Dish Name:</Text>
               <TextInput
-                placeholder='Dish Name'
+                placeholder="Dish Name"
                 onChangeText={formikProps.handleChange('name')}
                 value={formikProps.values.name}
               />
               <Text>Meal Type:</Text>
               <Picker
                 style={styles.dropdowns}
-                itemStyle={{height: 45}}
+                itemStyle={{ height: 45 }}
                 selectedValue={formikProps.values.mealType}
-                onValueChange={(itemValue) => {
-                  formikProps.setFieldValue('mealType', itemValue)}}
+                onValueChange={itemValue => {
+                  formikProps.setFieldValue('mealType', itemValue);
+                }}
               >
-                <Picker.item
-                  label='Breakfast'
-                  value='Breakfast'
-                />
-                <Picker.item
-                  label='Lunch'
-                  value='Lunch'
-                />
-                <Picker.item
-                  label='Dinner'
-                  value='Dinner'
-                />
-                <Picker.item
-                  label='Snack'
-                  value='Snack'
-                />
-
+                <Picker.Item label="Breakfast" value="Breakfast" />
+                <Picker.Item label="Lunch" value="Lunch" />
+                <Picker.Item label="Dinner" value="Dinner" />
+                <Picker.Item label="Snack" value="Snack" />
               </Picker>
-              <Button title='submit' color='maroon' onPress={formikProps.handleSubmit} />
+              <Button
+                title="submit"
+                color="maroon"
+                onPress={formikProps.handleSubmit}
+              />
             </View>
           )}
         </Formik>
       </View>
     </Modal>
-  )
-}
+  );
+};
 
-export default SaveDish
+export default SaveDish;
 
 const styles = StyleSheet.create({
   form: {
     fontSize: 20,
     padding: 10,
     borderRadius: 6,
-    marginTop: 100
-  }
+    marginTop: 100,
+  },
 });

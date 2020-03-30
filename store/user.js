@@ -17,7 +17,7 @@ export const me = () => async dispatch => {
   try {
     console.log('now i am here');
     // const {data} = await axios.get('https://daily-dose-server.herokuapp.com/api/auth/me');
-    const { data } = await axios.get('http://localhost:8080/auth/me');
+    const { data } = await axios.get('http://72.225.184.90/auth/me');
     dispatch(getUser(data || defaultUser));
   } catch (err) {
     console.error(err);

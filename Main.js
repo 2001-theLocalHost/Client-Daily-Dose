@@ -17,7 +17,6 @@ const Root = createStackNavigator();
 
 function Main(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
-  const [isLoggedIn, setLoggedIn] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
   const containerRef = React.useRef();
   const { getInitialState } = useLinking(containerRef);
@@ -32,8 +31,7 @@ function Main(props) {
         // Load our initial navigation state
         setInitialNavigationState(await getInitialState());
 
-        setLoggedIn(true);
-        // this.props.loadUserInfo();
+        this.props.loadUserInfo();
 
         // Load fonts
         await Font.loadAsync({
@@ -56,7 +54,7 @@ function Main(props) {
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return null;
   } else {
-    // const loggedIn = this.props.isLoggedIn;
+    const loggedIn = props.isLoggedIn;
     return (
       <View style={styles.container}>
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
@@ -65,7 +63,7 @@ function Main(props) {
           initialState={initialNavigationState}
         >
           <Root.Navigator>
-            {isLoggedIn ? (
+            {loggedIn ? (
               <Root.Screen name="App" component={BottomTabNavigator} />
             ) : (
               <Root.Screen name="Auth" component={AuthStackScreen} />
