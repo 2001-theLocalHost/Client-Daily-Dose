@@ -17,8 +17,9 @@ const removeUser = () => ({
 export const me = () => async dispatch => {
   try {
     console.log('now i am here');
-    // const {data} = await axios.get('https://daily-dose-server.herokuapp.com/api/auth/me');
-    const { data } = await axios.get(`http://${IP}:8080/auth/me`);
+    const { data } = await axios.get(
+      'https://daily-dose-server.herokuapp.com/api/auth/me'
+    );
     dispatch(getUser(data || defaultUser));
   } catch (err) {
     console.error(err);
@@ -29,11 +30,13 @@ export const login = (email, password) => {
   return async dispatch => {
     let res;
     try {
-      // res = await Axios.post(`https://daily-dose-server.herokuapp.com/api/auth/login`)
-      res = await axios.post(`http://${IP}:8080/auth/login`, {
-        email,
-        password,
-      });
+      res = await axios.post(
+        `https://daily-dose-server.herokuapp.com/api/auth/login`,
+        {
+          email,
+          password,
+        }
+      );
     } catch (authError) {
       return dispatch(getUser(null, authError));
     }
@@ -50,8 +53,10 @@ export const signup = userInfo => {
   return async dispatch => {
     let res;
     try {
-      // res = await Axios.post(`https://daily-dose-server.herokuapp.com/api/auth/login`)
-      res = await axios.post(`http://${IP}:8080/auth/signup`, userInfo);
+      res = await axios.post(
+        `https://daily-dose-server.herokuapp.com/auth/signup`,
+        userInfo
+      );
     } catch (authError) {
       return dispatch(getUser(null, authError));
     }
@@ -68,8 +73,10 @@ export const editProfile = userInfo => {
   return async dispatch => {
     let res;
     try {
-      // res = await Axios.post(`https://daily-dose-server.herokuapp.com/api/auth/editProfile`)
-      res = await axios.put(`http://${IP}:8080/auth/editProfile`, userInfo);
+      res = await axios.put(
+        `https://daily-dose-server.herokuapp.com/auth/editProfile`,
+        userInfo
+      );
     } catch (authError) {
       return dispatch(getUser(null, authError));
     }
@@ -83,8 +90,7 @@ export const editProfile = userInfo => {
 
 export const logout = () => async dispatch => {
   try {
-    // await Axios.post(`https://daily-dose-server.herokuapp.com/api/auth/logout`)
-    await axios.post(`http://${IP}:8080/auth/logout`);
+    await axios.post(`https://daily-dose-server.herokuapp.com/auth/logout`);
     dispatch(removeUser());
     console.log('you are logged out');
   } catch (err) {
