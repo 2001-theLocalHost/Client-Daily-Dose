@@ -5,7 +5,7 @@ import ConnectedHomeScreen from '../screens/HomeScreen';
 import MealDiary from '../screens/MealDiary';
 import ConnectedDishScreen from '../screens/DishScreen';
 import UploadImg from '../components/UploadImg';
-import IngredientConfirmation from '../screens/IngredientConfirmation';
+// import IngredientConfirmation from '../screens/IngredientConfirmation';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'home';
@@ -27,8 +27,18 @@ export default function BottomTabNavigator({ navigation, route }) {
             <TabBarIcon
               icon="ionicons"
               focused={focused}
-              name="md-code-working"
+              name="md-home"
             />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="Photos"
+        component={UploadImg}
+        options={{
+          title: 'Photos',
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon icon="ionicons" focused={focused} name="md-camera" />
           ),
         }}
       />
@@ -46,28 +56,6 @@ export default function BottomTabNavigator({ navigation, route }) {
           ),
         }}
       />
-      <BottomTab.Screen
-        name="Photos"
-        component={UploadImg}
-        options={{
-          title: 'Photos',
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon icon="ionicons" focused={focused} name="md-camera" />
-          ),
-        }}
-      />
-
-      <BottomTab.Screen
-        name="ConfirmIngredients"
-        component={IngredientConfirmation}
-        options={{
-          title: 'Confirm Ingredients',
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon icon="ionicons" focused={focused} name="md-book" />
-          ),
-        }}
-      />
-
       <BottomTab.Screen
         name="Meal Diary"
         component={MealDiary}
