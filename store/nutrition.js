@@ -100,7 +100,7 @@ const initialState = {
   ingredientNames: [] // ['rice', 'oil', 'ricecakes']
 };
 
-const nutritionReducer = (state = initialState, action) => {
+const nutrition = (state = initialState, action) => {
   switch (action.type) {
     case GOT_NUTRITION:
       return {
@@ -142,7 +142,7 @@ const nutritionReducer = (state = initialState, action) => {
   }
 };
 
-export default nutritionReducer;
+export default nutrition;
 
 /* POST REQUEST (NEED JSON FILE AS REQ BODY & NEED HEADER)
 const options = {

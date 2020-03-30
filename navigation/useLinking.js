@@ -9,9 +9,9 @@ export default function(containerRef) {
         path: 'root',
         screens: {
           Home: 'home',
-          Links: 'links',
-          Settings: 'settings',
           Dish: 'dishes',
+          MealDiary: 'Meal Diary',
+          Photos: 'Photos',
         },
       },
     },

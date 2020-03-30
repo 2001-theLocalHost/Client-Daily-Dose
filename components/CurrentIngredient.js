@@ -13,6 +13,7 @@ export default class CurrentIngredient extends React.Component {
 
   render() {
     const { ingrNut } = this.props;
+    console.log('this is my ingrNut', ingrNut);
 
     if (!this.props.ingrNut || !this.props.ingrNut.ingredientName) {
       return (
