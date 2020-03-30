@@ -29,6 +29,8 @@ class UploadImg extends React.Component {
     (response) => {
       let foodArr = response.outputs[0].data.concepts 
        this.depositData(foodArr, this.state.imageUri)
+       this.refreshScreen()
+       
     },
     function(err) {
       console.log('there was an error', err)
@@ -40,6 +42,12 @@ class UploadImg extends React.Component {
     await this.props.depositClarifaiData(data, uri)
     return this.navigation.navigate('ConfirmIngredients')
   }
+
+refreshScreen() {
+   this.setState({ imageB64: null,
+      imageUri: null })
+  }
+
 
   render() {
 
@@ -75,21 +83,6 @@ class UploadImg extends React.Component {
             <Text style={styles.buttonText}>Submit</Text>
             </TouchableOpacity>
             </View>
-
-          <View style={styles.uploadButtonsagain}>
-          <TouchableOpacity
-            onPress={this.takePicture}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>Camera</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={this._pickImage}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>Gallery</Text>
-          </TouchableOpacity>
-          </View>
             </View>
         )}
       </View>
