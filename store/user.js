@@ -18,7 +18,7 @@ export const me = () => async dispatch => {
   try {
     console.log('now i am here');
     const { data } = await axios.get(
-      'https://daily-dose-server.herokuapp.com/api/auth/me'
+      'https://daily-dose-server.herokuapp.com/auth/me'
     );
     dispatch(getUser(data || defaultUser));
   } catch (err) {
@@ -31,7 +31,7 @@ export const login = (email, password) => {
     let res;
     try {
       res = await axios.post(
-        `https://daily-dose-server.herokuapp.com/api/auth/login`,
+        `https://daily-dose-server.herokuapp.com/auth/login`,
         {
           email,
           password,
