@@ -5,8 +5,6 @@ import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import { connect } from 'react-redux';
 import { depositClarifaiData } from '../store/dishes';
-import { NavigationContainer } from '@react-navigation/native'
-import IngredientConfirmation from '../screens/IngredientConfirmation'
 
 const Clarifai = require('clarifai');
 const app = new Clarifai.App({apiKey: '51299dbad48e410fbf0107a0b261fa24'});
@@ -15,11 +13,11 @@ class UploadImg extends React.Component {
   constructor( { navigation }) {
     super()
     this.navigation = navigation
+    this.state = {
+      imageB64: null,
+      imageUri: null
+    };
   }
-  state = {
-    imageB64: null,
-    imageUri: null
-  };
 
   componentDidMount() {
     this.getPermissionAsync();
@@ -35,11 +33,7 @@ class UploadImg extends React.Component {
     },
     function(err) {
       console.log('there was an error', err)
-    }
-  );
-  this.setState({
-    modalOpen: true,
-  })
+    });
   }
 
   async depositData (data, uri) {
@@ -52,21 +46,10 @@ refreshScreen() {
       imageUri: null })
   }
 
-// closeModal() {
-//   this.setState({
-//     modalOpen: false
-//   })
-// }
-
 
   render() {
 
     return (
-      <View>
-      {/* <IngredientConfirmation
-        modalOpen={this.state.modalOpen}
-        closeModal={() => {this.closeModal}}
-        /> */}
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text style={styles.getStartedText}>
           Let's start analyzing!
@@ -100,7 +83,6 @@ refreshScreen() {
             </View>
             </View>
         )}
-      </View>
       </View>
     );
   }

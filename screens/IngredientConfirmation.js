@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Platform,
   StyleSheet,
   Text,
   View,
@@ -10,7 +9,7 @@ import {
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
-import { capitalize, consolidateData } from '../utilityFunctions';
+import { consolidateData } from '../utilityFunctions';
 import { finalizeIngredients, consolidatingData } from '../store/dishes';
 import { resetDishnutFromConfirmation, resetIngrnutFromConfirmation } from '../store/nutrition'
 
@@ -38,7 +37,6 @@ class IngredientConfirmation extends React.Component {
         ingredients: this.props.ingredients,
         userAddedIngredients: this.props.userAddedIngredients,
       });
-    //resets ingrNut and dishNut in nutrition redux
       this.props.resetDishnutFromConfirmation({})
       this.props.resetIngrnutFromConfirmation([])
     })
@@ -91,7 +89,6 @@ class IngredientConfirmation extends React.Component {
     );
     const consolidated = await consolidateData(this.props.finalIngredients);
     await this.props.consolidatingData(consolidated);
-    //reset local state now that finalizeIngredients and consolidatedData exist in redux
     let resetLocalState = {
       value: '',
       name: '',
@@ -99,19 +96,8 @@ class IngredientConfirmation extends React.Component {
       userAddedIngredients: [{ name: '', quantity: '1', measurement: 'oz' }],
     }
     this.setState(resetLocalState)
-
-    // if (this.props.consolidatedData.length > 1) {
-    //   console.log(
-    //     'ConsolidatedData formatted for API Call: ',
-    //     this.props.consolidatedData, 'DISH NAME IS: ', this.props.name, 'final ingredients is: ',
-    //     this.props.finalIngredients, 'Local State Is Also Cleared: ', this.state
-    //   );
-      // this.props.closeModal()
-      return this.navigation.navigate('Dishes');
+    return this.navigation.navigate('Dishes');
     }
-
-
-
 
   async removeIngredient(index) {
     let ingredientsClone = { ...this.state };
