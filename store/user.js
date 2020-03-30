@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { IP } from '../secret';
 
 const GET_USER = 'GET_USER';
 const REMOVE_USER = 'REMOVE_USER';
@@ -17,7 +18,7 @@ export const me = () => async dispatch => {
   try {
     console.log('now i am here');
     // const {data} = await axios.get('https://daily-dose-server.herokuapp.com/api/auth/me');
-    const { data } = await axios.get('http://72.225.184.90/auth/me');
+    const { data } = await axios.get(`http://${IP}:8080/auth/me`);
     dispatch(getUser(data || defaultUser));
   } catch (err) {
     console.error(err);
@@ -29,7 +30,7 @@ export const login = (email, password) => {
     let res;
     try {
       // res = await Axios.post(`https://daily-dose-server.herokuapp.com/api/auth/login`)
-      res = await axios.post(`http://localhost:8080/auth/login`, {
+      res = await axios.post(`http://${IP}:8080/auth/login`, {
         email,
         password,
       });
@@ -38,9 +39,7 @@ export const login = (email, password) => {
     }
     try {
       dispatch(getUser(res.data));
-      // if (redirect) {
-      //   history.push(redirect)
-      // }
+      console.log('this is user', res.data);
     } catch (dispatchOrHistoryErr) {
       console.error(dispatchOrHistoryErr);
     }
@@ -52,16 +51,13 @@ export const signup = userInfo => {
     let res;
     try {
       // res = await Axios.post(`https://daily-dose-server.herokuapp.com/api/auth/login`)
-      res = await axios.post(`http://localhost:8080/auth/signup`, userInfo);
+      res = await axios.post(`http://${IP}:8080/auth/signup`, userInfo);
     } catch (authError) {
       return dispatch(getUser(null, authError));
     }
 
     try {
       dispatch(getUser(res.data));
-      // if (redirect) {
-      //   history.push(redirect)
-      // }
     } catch (dispatchOrHistoryErr) {
       console.error(dispatchOrHistoryErr);
     }
@@ -73,18 +69,12 @@ export const editProfile = userInfo => {
     let res;
     try {
       // res = await Axios.post(`https://daily-dose-server.herokuapp.com/api/auth/editProfile`)
-      res = await axios.put(
-        'https://localhost:8080/auth/editProfile',
-        userInfo
-      );
+      res = await axios.put(`http://${IP}:8080/auth/editProfile`, userInfo);
     } catch (authError) {
       return dispatch(getUser(null, authError));
     }
     try {
       dispatch(getUser(res.data));
-      // if(redirect){
-      //   history.pushState(redirect)
-      // }
     } catch (dispatchOrHistoryErr) {
       console.error(dispatchOrHistoryErr);
     }
@@ -94,9 +84,9 @@ export const editProfile = userInfo => {
 export const logout = () => async dispatch => {
   try {
     // await Axios.post(`https://daily-dose-server.herokuapp.com/api/auth/logout`)
-    await axios.post('http://localhost:8080/auth/logout');
+    await axios.post(`http://${IP}:8080/auth/logout`);
     dispatch(removeUser());
-    //   history.push('/login')
+    console.log('you are logged out');
   } catch (err) {
     console.error(err);
   }

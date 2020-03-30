@@ -5,15 +5,24 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
+  Button,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { logout } from '../store/user';
+import { StackActions, CommonActions } from '@react-navigation/native';
 
 class HomeScreen extends React.Component {
-  constructor() {
+  constructor({ navigation }) {
     super();
     this.state = {};
+    this.navigation = navigation;
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
+  handleLogout() {
+    this.props.logoutDispatch();
+    return this.navigation.dispatch(StackActions.popToTop());
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -21,7 +30,8 @@ class HomeScreen extends React.Component {
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <Text>This is USER HOME</Text>
+          <Text>Welcome, {this.props.user.name}!</Text>
+          <Button title="Logout" onPress={this.handleLogout} />
         </ScrollView>
       </View>
     );
@@ -46,5 +56,12 @@ const mapStateToProps = state => ({
   user: state.user,
 });
 
-const ConnectedHomeScreen = connect(mapStateToProps, null)(HomeScreen);
+const mapDispatchToProps = dispatch => ({
+  logoutDispatch: () => dispatch(logout()),
+});
+
+const ConnectedHomeScreen = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomeScreen);
 export default ConnectedHomeScreen;

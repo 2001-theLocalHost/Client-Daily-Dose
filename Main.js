@@ -31,7 +31,7 @@ function Main(props) {
         // Load our initial navigation state
         setInitialNavigationState(await getInitialState());
 
-        this.props.loadUserInfo();
+        props.loadUserInfo();
 
         // Load fonts
         await Font.loadAsync({

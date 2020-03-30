@@ -10,6 +10,7 @@ import {
   Button,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { StackActions, CommonActions } from '@react-navigation/native';
 import LoginScreen from 'react-native-login-screen';
 import { login } from '../store/user';
 
@@ -30,9 +31,9 @@ class Login extends React.Component {
       this.state.email,
       this.state.password
     );
-    this.props.loginDispatch(this.state.email, this.statepassword);
+    this.props.loginDispatch(this.state.email, this.state.password);
 
-    return this.navigation.navigate('UserHome');
+    return this.navigation.dispatch(StackActions.popToTop());
   }
 
   render() {
