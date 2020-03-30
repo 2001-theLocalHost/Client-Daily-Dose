@@ -64,6 +64,7 @@ class MealDiary extends React.Component {
   async seeDishInfo(dishObj) {
     //Dispatch a thunk to retrieve the Dish Data Object from backend - once Dish Data Object state is updated, navigate to DishScreen.js
     let dishId = dishObj.dishId;
+
     await this.props.fetchIngreInfo(dishId); //goes to thunk in mealdiary
 
     await this.props.updateIngrNut(this.props.ingreArrayInfo); //goes to action creator in nutrition with the ingredientarray info
