@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
+import ConnectedHomeScreen from '../screens/HomeScreen';
+import MealDiary from '../screens/MealDiary';
+import ConnectedDishScreen from '../screens/DishScreen';
 import UploadImg from '../components/UploadImg';
 import IngredientConfirmation from '../screens/IngredientConfirmation';
-import ConnectedDishScreen from '../screens/DishScreen';
-import MealDiary from '../screens/MealDiary';
 
 const BottomTab = createBottomTabNavigator();
-const INITIAL_ROUTE_NAME = 'Home';
+const INITIAL_ROUTE_NAME = 'home';
 
 export default function BottomTabNavigator({ navigation, route }) {
   // Set the header title on the parent stack navigator depending on the
@@ -20,7 +20,7 @@ export default function BottomTabNavigator({ navigation, route }) {
     <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
       <BottomTab.Screen
         name="Home"
-        component={HomeScreen}
+        component={ConnectedHomeScreen}
         options={{
           title: 'Home',
           tabBarIcon: ({ focused }) => (
@@ -47,7 +47,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         }}
       />
       <BottomTab.Screen
-        name="UploadImg"
+        name="Photos"
         component={UploadImg}
         options={{
           title: 'Photos',
@@ -69,10 +69,10 @@ export default function BottomTabNavigator({ navigation, route }) {
       />
 
       <BottomTab.Screen
-        name="MealDiary"
+        name="Meal Diary"
         component={MealDiary}
         options={{
-          title: 'MealDiary',
+          title: 'Meal Diary',
           tabBarIcon: ({ focused }) => (
             <TabBarIcon icon="ionicons" focused={focused} name="md-journal" />
           ),

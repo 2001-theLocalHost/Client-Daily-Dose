@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const GET_USER = 'GET_USER';
+const REMOVE_USER = 'REMOVE_USER';
 
 const getUser = (user, error) => ({
   type: GET_USER,
@@ -8,10 +9,16 @@ const getUser = (user, error) => ({
   error,
 });
 
+const removeUser = () => ({
+  type: REMOVE_USER,
+});
+
 export const me = () => async dispatch => {
   try {
-    const res = await axios.get('/auth/me');
-    dispatch(getUser(res.data || defaultUser));
+    console.log('now i am here');
+    // const {data} = await axios.get('https://daily-dose-server.herokuapp.com/api/auth/me');
+    const { data } = await axios.get('http://localhost:8080/auth/me');
+    dispatch(getUser(data || defaultUser));
   } catch (err) {
     console.error(err);
   }
@@ -21,7 +28,11 @@ export const login = (email, password) => {
   return async dispatch => {
     let res;
     try {
-      res = await axios.post(`/auth/login`, { email, password });
+      // res = await Axios.post(`https://daily-dose-server.herokuapp.com/api/auth/login`)
+      res = await axios.post(`http://localhost:8080/auth/login`, {
+        email,
+        password,
+      });
     } catch (authError) {
       return dispatch(getUser(null, authError));
     }
@@ -36,35 +47,60 @@ export const login = (email, password) => {
   };
 };
 
-// export const signup = (name, email, password) => {
-//   return async dispatch => {
-//     let res;
-//     try {
-//       res = await axios.post(`/auth/signup`, { name, email, password });
-//     } catch (authError) {
-//       return dispatch(getUser(null, authError));
-//     }
+export const signup = userInfo => {
+  return async dispatch => {
+    let res;
+    try {
+      // res = await Axios.post(`https://daily-dose-server.herokuapp.com/api/auth/login`)
+      res = await axios.post(`http://localhost:8080/auth/signup`, userInfo);
+    } catch (authError) {
+      return dispatch(getUser(null, authError));
+    }
 
-//     try {
-//       dispatch(getUser(res.data));
-//       // if (redirect) {
-//       //   history.push(redirect)
-//       // }
-//     } catch (dispatchOrHistoryErr) {
-//       console.error(dispatchOrHistoryErr);
-//     }
-//   };
-// };
+    try {
+      dispatch(getUser(res.data));
+      // if (redirect) {
+      //   history.push(redirect)
+      // }
+    } catch (dispatchOrHistoryErr) {
+      console.error(dispatchOrHistoryErr);
+    }
+  };
+};
 
-// export const logout = () => async dispatch => {
-//   try {
-//     await axios.post('/auth/logout');
-//     dispatch(removeUser());
-//     //   history.push('/login')
-//   } catch (err) {
-//     console.error(err);
-//   }
-// };
+export const editProfile = userInfo => {
+  return async dispatch => {
+    let res;
+    try {
+      // res = await Axios.post(`https://daily-dose-server.herokuapp.com/api/auth/editProfile`)
+      res = await axios.put(
+        'https://localhost:8080/auth/editProfile',
+        userInfo
+      );
+    } catch (authError) {
+      return dispatch(getUser(null, authError));
+    }
+    try {
+      dispatch(getUser(res.data));
+      // if(redirect){
+      //   history.pushState(redirect)
+      // }
+    } catch (dispatchOrHistoryErr) {
+      console.error(dispatchOrHistoryErr);
+    }
+  };
+};
+
+export const logout = () => async dispatch => {
+  try {
+    // await Axios.post(`https://daily-dose-server.herokuapp.com/api/auth/logout`)
+    await axios.post('http://localhost:8080/auth/logout');
+    dispatch(removeUser());
+    //   history.push('/login')
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 const defaultUser = {};
 
@@ -76,8 +112,8 @@ const user = (state = defaultUser, action) => {
       } else {
         return { ...state, error: action.error };
       }
-    //   case REMOVE_USER:
-    //     return defaultUser
+    case REMOVE_USER:
+      return defaultUser;
     default:
       return state;
   }
