@@ -22,7 +22,6 @@ class UploadImg extends React.Component {
 
   componentDidMount() {
     this.getPermissionAsync();
-    console.log('hi');
   }
 
   submitImage = () => {

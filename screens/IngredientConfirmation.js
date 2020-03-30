@@ -12,6 +12,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
 import { capitalize } from '../utilityFunctions';
 import { finalizeIngredients, consolidatingData } from '../store/dishes';
+import { resetDishnutFromConfirmation, resetIngrnutFromConfirmation } from '../store/nutrition'
 
 class IngredientConfirmation extends React.Component {
   constructor({ navigation }) {
@@ -31,11 +32,16 @@ class IngredientConfirmation extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      ...this.state,
-      ingredients: this.props.ingredients,
-      userAddedIngredients: this.props.userAddedIngredients,
-    });
+    this.navigation.addListener('focus', () => {
+      this.setState({
+        ...this.state,
+        ingredients: this.props.ingredients,
+        userAddedIngredients: this.props.userAddedIngredients,
+      });
+    //resets ingrNut and dishNut in nutrition redux
+      this.props.resetDishnutFromConfirmation({})
+      this.props.resetIngrnutFromConfirmation([])
+    })
   }
 
   handleChangeText(newText) {
@@ -55,14 +61,6 @@ class IngredientConfirmation extends React.Component {
 
   validateInformation() {
     let ingredientsArr = this.state.ingredients;
-    // let userIngredientsArr = this.state.userIngredients
-    // let userEmptyFields = userIngredientsArr.filter((obj) => {
-    //   if (obj.quantity === "0" || obj.quantity.length < 1) {
-    //     return true
-    //   } else {
-    //     return false
-    //   }
-    // })
     let emptyfields = ingredientsArr.filter(obj => {
       if (obj.quantity === '0' || obj.quantity.length < 1) {
         return true;
@@ -288,6 +286,10 @@ const mapDispatch = dispatch => {
       dispatch(finalizeIngredients(ingredients, userIngredients, name)),
     consolidatingData: consolidated =>
       dispatch(consolidatingData(consolidated)),
+    resetDishnutFromConfirmation: obj =>
+      dispatch(resetDishnutFromConfirmation(obj)),
+    resetIngrnutFromConfirmation: arr =>
+      dispatch(resetIngrnutFromConfirmation(arr))
   };
 };
 

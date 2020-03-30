@@ -11,8 +11,9 @@ import { ingrNameFunc, portionQuantFunc, routes } from '../utilityFunctions';
 const initialLayout = { width: Dimensions.get('window').width };
 
 class DishScreen extends React.Component {
-  constructor() {
+  constructor({navigation}) {
     super();
+    this.navigation = navigation;
     this.state = {
       index: 0,
       routes: [{ key: 'Dish', title: 'Dish' }],
@@ -23,24 +24,36 @@ class DishScreen extends React.Component {
     this.createRoutes = this.createRoutes.bind(this);
   }
 
-  componentDidMount() {
-    let ingrNameArr = ingrNameFunc(this.props.finalIngrObj);
-    let portionQuantArr = portionQuantFunc(this.props.finalIngrObj);
-
-    this.createRoutes(ingrNameArr);
-
-    this.props.fetchNutritionDispatch(
-      this.props.name,
-      this.props.imgUrl,
-      this.props.finalIngrStr
-    );
-
-    this.props.fetchIngredientDispatch(
-      ingrNameArr,
-      portionQuantArr,
-      this.props.finalIngrStr
-    );
+  async fetchDataFromDbOrEdamam(){
+    if (!this.props.dishNut.name && this.props.ingrNut.length < 1) {
+      let ingrNameArr = ingrNameFunc(this.props.finalIngrObj);
+      let portionQuantArr = portionQuantFunc(this.props.finalIngrObj);
+  
+      this.createRoutes(ingrNameArr);
+  
+      await this.props.fetchNutritionDispatch(
+        this.props.name,
+        this.props.imgUrl,
+        this.props.finalIngrStr
+      );
+  
+      await this.props.fetchIngredientDispatch(
+        ingrNameArr,
+        portionQuantArr,
+        this.props.finalIngrStr
+      );
+    } else {
+      this.createRoutes(this.props.ingredientNames)
+    }
   }
+
+  componentDidMount() {
+    this.navigation.addListener('focus', () => {
+      this.setState({routes: [{ key: 'Dish', title: 'Dish' }]})
+      this.fetchDataFromDbOrEdamam()
+    });
+  }
+
 
   renderScene = ({ route }) => {
     if (route.key === 'Dish') {
@@ -75,12 +88,12 @@ class DishScreen extends React.Component {
   createRoutes = arr => {
     let routesObj = routes(arr);
     this.setState({
-      routes: [...this.state.routes, ...routesObj],
+      routes: [...[{ key: 'Dish', title: 'Dish' }], ...routesObj],
     });
   };
 
   render() {
-    console.log('inside dishscreen', this.props.ingrNut);
+    //console.log('inside dishscreen', this.props.ingrNut);
     return (
       <TabView
         navigationState={{
@@ -109,6 +122,7 @@ const mapStateToProps = state => ({
   finalIngrStr: state.dishes.consolidatedData, // ['1 oz rice', '2 oz rice cake']
   dishNut: state.nutrition.dishNut, // API data formatted for DB {}
   ingrNut: state.nutrition.ingrNut, // API data formatted for DB [{}, {}, {}]
+  ingredientNames: state.nutrition.ingredientNames
 });
 
 const mapDispatchToProps = dispatch => ({
