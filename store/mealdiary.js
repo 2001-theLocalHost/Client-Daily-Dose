@@ -48,7 +48,7 @@ export const fetchIngreInfo = dishId => {
   return async dispatch => {
     try {
       const { data } = await Axios.get(
-        `https://daily-dose-server.herokuapp.com/api/userDish/${dishId}`
+        `https://daily-dose-server.herokuapp.com/api/userDish/dishIngredient/${dishId}`
       );
       //const {data} = await Axios.get(`http://localhost:8080/api/userDish/dishIngredient/${dishId}`)
       const ingreArr = data[0].dish.ingredients;
