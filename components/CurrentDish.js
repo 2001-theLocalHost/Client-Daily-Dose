@@ -41,7 +41,7 @@ class CurrentDish extends React.Component {
 
   render() {
     const { dishNut } = this.props;
-
+    
     if (!this.props.dishNut || !this.props.dishNut.name) {
       return (
         <View>

@@ -12,6 +12,8 @@ import {
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { fetchDishes, fetchIngreInfo, depositDishInfo } from '../store/mealdiary'
+import { updateIngrNut, updateDishNut, ingredientNamesFromMealDiary} from '../store/nutrition'
+import { consolidatingDataFromMealDiary } from '../store/dishes'
 import { connect } from 'react-redux';
 import CalendarView from '../components/CalendarView'
 
@@ -53,20 +55,33 @@ addDish () {
 
 async seeDishInfo (dishObj) {
     //Dispatch a thunk to retrieve the Dish Data Object from backend - once Dish Data Object state is updated, navigate to DishScreen.js
-    // console.log('***** dishId is ', dishObj.dishId)
     let dishId = dishObj.dishId
-    await this.props.fetchIngreInfo(dishId)
-    // console.log('completeDISH??????', this.props.ingreArrayInfo)
-    this.props.depositDishInfo(dishObj)
-    // console.log('!!!!!!!!', this.props.dishInfo)
-    // console.log('???????', this.props.disObj)
-    alert('Taking You To Dish View')
-    //return this.navigation.navigate('Dishes')
+
+    await this.props.fetchIngreInfo(dishId) //goes to thunk in mealdiary
+
+    await this.props.updateIngrNut(this.props.ingreArrayInfo) //goes to action creator in nutrition with the ingredientarray info
+    await this.props.updateDishNut(dishObj.dish) //goes to action creator in nutrition with the dish info
+
+    //creating finalIngrString
+    let consolidatedStringOfIngredients = this.props.ingrNut.map((element) => {
+        let stringified = `${element.portionSize} ${element.ingredientName}`
+        return stringified
+    })
+
+    //create array of ingredient names
+    let arrayOfIngrNames = this.props.ingrNut.map((obj) => {
+        return obj.ingredientName
+    })
+    await this.props.ingredientNamesFromMealDiary(arrayOfIngrNames)
+    await this.props.consolidatingDataFromMealDiary(consolidatedStringOfIngredients)
+
+
+    
+    return this.navigation.navigate('Dishes')
 }
 
 
 render() {
-    // console.log('**************', this.props.breakfast)
     return (
     <ScrollView>
     <View>
@@ -205,7 +220,11 @@ const mapState = state => {
         dinner: state.mealdiary.dinner, 
         snack: state.mealdiary.snack, 
         ingreArrayInfo: state.mealdiary.ingreArrayInfo, 
-        dishInfo: state.mealdiary.dishInfo
+        dishInfo: state.mealdiary.dishInfo,
+        dishNut: state.nutrition.dishNut,
+        ingrNut: state.nutrition.ingrNut,
+        consolidatedData: state.dishes.consolidatedData,
+        ingredientNames: state.nutrition.ingredientNames
     }
 }
 
@@ -216,7 +235,15 @@ const mapDispatch = dispatch => {
         fetchIngreInfo: (dishId) => 
         dispatch(fetchIngreInfo(dishId)),
         depositDishInfo: (dish) => 
-        dispatch(depositDishInfo(dish))
+        dispatch(depositDishInfo(dish)),
+        updateIngrNut: (ingrNutritionMealDiary) =>
+        dispatch(updateIngrNut(ingrNutritionMealDiary)),
+        updateDishNut: (dishNutritionMealDiary) =>
+        dispatch(updateDishNut(dishNutritionMealDiary)),
+        consolidatingDataFromMealDiary: (strings) => 
+        dispatch(consolidatingDataFromMealDiary(strings)),
+        ingredientNamesFromMealDiary: (ingredientNames) =>
+        dispatch(ingredientNamesFromMealDiary(ingredientNames))
     }
 }
 

@@ -8,6 +8,8 @@ const FINALIZE_INGREDIENT = "FINALIZE_INGREDIENT"
 
 const CONSOLIDATE_DATA = 'CONSOLIDATE_DATA';
 
+const CONSOLIDATE_DATA_FROM_MEALDIARY = 'CONSOLIDATE_DATA_FROM_MEALDIARY'
+
 //ACTION CREATOR
 const addingIngredients = (ingredients, uri) => {
     return {
@@ -33,11 +35,17 @@ const consolidatingDataForAPI = consolidated => {
   };
 };
 
-//THUNK
+export const consolidatingDataFromMealDiary = strings => {
+  return {
+    type: CONSOLIDATE_DATA_FROM_MEALDIARY,
+    strings
+  }
+}
+
+//THUNKS
 export const depositClarifaiData = (data, uri) => {
   return dispatch => {
     try {
-      console.log("THUNK DATA: ", uri)
       dispatch(addingIngredients(data, uri))
     } catch (error) {
       console.error(error)
@@ -87,19 +95,8 @@ const initialState = {
   imgUrl: '',
   name: '',
   ingredients: [
-    // {
-    //   name: 'sauce',
-    //   quantity: '4',
-    //   measurement: 'cup',
-    // },
-    // {
-    //   name: 'pasta',
-    //   quantity: '0',
-    //   measurement: 'oz',
-    // },
   ],
   userAddedIngredients: [
-    // { name: 'Truffles', quantity: '1', measurement: 'oz' },
   ],
   finalIngredients: [], // [{name: 'rice', quantity: '1', measurement: 'cup'}, {name: 'chickpeas', quantity: '10', measurement: 'oz'}, 'chickpeas rice']
   consolidatedData: [], //use for API call ['1 cup rice', '10 oz chickpeas']
@@ -128,6 +125,8 @@ const reducer = (state = initialState, action) => {
       return clonedState
     case CONSOLIDATE_DATA:
       return { ...state, consolidatedData: action.consolidated };
+    case CONSOLIDATE_DATA_FROM_MEALDIARY:
+      return {...state, consolidatedData: action.strings}  
     default:
       return state;
   }
