@@ -217,3 +217,12 @@ export const saveDishValues = (original, updated) => {
     }
   }
 };
+
+
+export const consolidateData = async (finalIngredients) => {
+  let consolidated = finalIngredients.map(element => {
+    let stringified = `${element.quantity} ${element.measurement} ${element.name}`;
+    return stringified;
+  });
+  return consolidated
+}
