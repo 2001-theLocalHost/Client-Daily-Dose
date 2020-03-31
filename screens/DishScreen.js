@@ -48,10 +48,14 @@ class DishScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.navigation.addListener('focus', () => {
+    this.unsubscribe = this.navigation.addListener('focus', () => {
       this.setState({routes: [{ key: 'Dish', title: 'Dish' }]})
       this.fetchDataFromDbOrEdamam()
     });
+  }
+
+  componentWillUnmount () {
+    this.unsubscribe()
   }
 
 

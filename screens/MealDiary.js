@@ -227,7 +227,6 @@ const mapState = state => {
     dishInfo: state.mealdiary.dishInfo,
     dishNut: state.nutrition.dishNut,
     ingrNut: state.nutrition.ingrNut,
-    consolidatedData: state.dishes.consolidatedData,
     ingredientNames: state.nutrition.ingredientNames,
   };
 };
