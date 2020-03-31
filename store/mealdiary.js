@@ -37,6 +37,7 @@ export const fetchDishes = date => {
         `https://daily-dose-server.herokuapp.com/api/userDish/${date}`
       );
       // const {data} = await Axios.get(`http://localhost:8080/api/userDish/${date}`)
+      console.log('data?????', data)
       dispatch(getDishesByDate(data));
     } catch (error) {
       console.error(error);
