@@ -31,11 +31,9 @@ class MealDiary extends React.Component {
     this.navigation = navigation;
     this.state = {
       date: '',
-      meal: {},
     };
     this.addDate = this.addDate.bind(this);
     this.getDishes = this.getDishes.bind(this);
-    this.addDish = this.addDish.bind(this);
     this.seeDishInfo = this.seeDishInfo.bind(this);
   }
 
@@ -51,15 +49,6 @@ class MealDiary extends React.Component {
     await this.props.fetchDishes(this.state.date);
   }
 
-  // Dispatches to add dish to database
-  addDish() {
-    let dishToSave = this.state.meal; // {mealType: 'breakfast', name: 'cheerios'}
-    //Will this pull up save dish modal and can add additional pieces of data to dish object before issuing thunk?
-    //Or should this go straight to the POST request that saves instance to database?
-    alert(
-      `Created an obj with mealType and dishName (${dishToSave.name}). Can send this obj to THUNK for post request?`
-    );
-  }
 
   async seeDishInfo(dishObj) {
     //Dispatch a thunk to retrieve the Dish Data Object from backend - once Dish Data Object state is updated, navigate to DishScreen.js
@@ -119,17 +108,6 @@ class MealDiary extends React.Component {
               </View>
             );
           })}
-          <TextInput
-            style={styles.addDishField}
-            placeholder="Add A New Dish"
-            onChangeText={text => {
-              let localStateClone = { ...this.state };
-              let newMeal = { name: text, mealType: 'breakfast' };
-              localStateClone.meal = newMeal;
-              this.setState(localStateClone);
-            }}
-          />
-          <Button onPress={this.addDish} title="Add Meal" color="green" />
 
           {/* LUNCH VIEW */}
           <Text style={styles.headerText}>Lunch</Text>
@@ -147,18 +125,6 @@ class MealDiary extends React.Component {
             );
           })}
 
-          <TextInput
-            style={styles.addDishField}
-            placeholder="Add A New Dish"
-            onChangeText={text => {
-              let localStateClone = { ...this.state };
-              let newMeal = { name: text, mealType: 'lunch' };
-              localStateClone.meal = newMeal;
-              this.setState(localStateClone);
-            }}
-          />
-          <Button onPress={this.addDish} title="Add Meal" color="green" />
-
           {/* DINNER VIEW */}
           <Text style={styles.headerText}>Dinner</Text>
           {this.props.dinner.map((dish, index) => {
@@ -174,17 +140,6 @@ class MealDiary extends React.Component {
               </View>
             );
           })}
-          <TextInput
-            style={styles.addDishField}
-            placeholder="Add A New Dish"
-            onChangeText={text => {
-              let localStateClone = { ...this.state };
-              let newMeal = { name: text, mealType: 'dinner' };
-              localStateClone.meal = newMeal;
-              this.setState(localStateClone);
-            }}
-          />
-          <Button onPress={this.addDish} title="Add Meal" color="green" />
 
           {/* SNACK VIEW */}
           <Text style={styles.headerText}>Snack</Text>
@@ -201,17 +156,6 @@ class MealDiary extends React.Component {
               </View>
             );
           })}
-          <TextInput
-            style={styles.addDishField}
-            placeholder="Add A New Dish"
-            onChangeText={text => {
-              let localStateClone = { ...this.state };
-              let newMeal = { name: text, mealType: 'snack' };
-              localStateClone.meal = newMeal;
-              this.setState(localStateClone);
-            }}
-          />
-          <Button onPress={this.addDish} title="Add Meal" color="green" />
         </View>
       </ScrollView>
     );
