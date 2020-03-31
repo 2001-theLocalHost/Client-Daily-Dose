@@ -49,7 +49,6 @@ class Signup extends React.Component {
       ],
     };
     this.handleSignup = this.handleSignup.bind(this);
-    this.handleSelect = this.handleSelect.bind(this);
     this.addDate = this.addDate.bind(this);
     this.showDateModal = this.showDateModal.bind(this);
     this.closeDateModal = this.closeDateModal.bind(this);
