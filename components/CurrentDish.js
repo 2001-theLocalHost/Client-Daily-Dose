@@ -110,9 +110,9 @@ class CurrentDish extends React.Component {
             <Text style={styles.title}>{dishNut.calories}KCAL</Text>
             <View>
               <AnimatedPie
-                carbs={dishNut.CHOCDF_KCAL > 0 ? dishNut.CHOCDF_KCAL : 1}
-                fat={dishNut.FAT_KCAL > 0 ? dishNut.FAT_KCAL : 1}
-                protein={dishNut.PROCNT_KCAL > 0 ? dishNut.PROCNT_KCAL : 1}
+                carbs={dishNut.CHOCDF_KCAL}
+                fat={dishNut.FAT_KCAL}
+                protein={dishNut.PROCNT_KCAL}
               />
               <AnimatedPieLabel
                 carbs={dishNut.CHOCDF_KCAL}

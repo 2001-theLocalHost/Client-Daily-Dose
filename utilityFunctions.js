@@ -13,8 +13,9 @@ export const routes = arr => {
 };
 
 export const urlEncoded = arr => {
+  const regex = /,/gi;
   if (Array.isArray(arr)) {
-    let stringify = arr.join(',').replace(',', ' and ');
+    let stringify = arr.join(',').replace(regex, ' and ');
     return stringify;
   } else {
     return arr.split(' ').join('%20');
@@ -218,8 +219,7 @@ export const saveDishValues = (original, updated) => {
   }
 };
 
-
-export const consolidateData = async (finalIngredients) => {
+export const consolidateData = async finalIngredients => {
   let consolidated = finalIngredients.map(element => {
     let stringified = `${element.quantity} ${element.measurement} ${element.name}`;
     return stringified;
