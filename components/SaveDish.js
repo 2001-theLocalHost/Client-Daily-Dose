@@ -21,7 +21,7 @@ const SaveDish = props => {
         <Formik
           initialValues={{
             name: dishNut.name,
-            mealType: '',
+            mealType: 'Breakfast',
           }}
           onSubmit={values => {
             props.onSave(values);
@@ -51,8 +51,13 @@ const SaveDish = props => {
               </Picker>
               <Button
                 title="submit"
-                color="maroon"
+                color="green"
                 onPress={formikProps.handleSubmit}
+              />
+              <Button
+                title="cancel"
+                color="red"
+                onPress={props.handleCancel}
               />
             </View>
           )}

@@ -5,7 +5,6 @@ import {
   ScrollView,
   View,
   Button,
-  TextInput,
   Image,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -15,8 +14,6 @@ import {
   startData,
   capitalize,
 } from '../utilityFunctions';
-import { createDish } from '../store/dishes';
-import SaveDish from './SaveDish';
 import AnimatedPie from './Graph-Pieces/AnimatedPie';
 import AnimatedPieLabel from './Graph-Pieces/AnimatedPieLabel';
 import TotalDailyBar from './Graph-Pieces/TotalDailyBar';
@@ -25,23 +22,11 @@ import TotalNutrientsBar from './Graph-Pieces/TotalNutrientsBar';
 class CurrentDish extends React.Component {
   constructor() {
     super();
-    this.state = {
-      modalOpen: false,
-    };
-    this.onSave = this.onSave.bind(this);
-  }
-
-  onSave(values) {
-    this.setState({
-      modalOpen: false,
-    });
-    this.props.createDish(this.props.dishNut, values, this.props.ingrNut);
-    // redirect to meal diary of today's date
   }
 
   render() {
     const { dishNut } = this.props;
-    
+
     if (!this.props.dishNut || !this.props.dishNut.name) {
       return (
         <View>
@@ -92,19 +77,10 @@ class CurrentDish extends React.Component {
 
       return (
         <ScrollView>
-          <SaveDish
-            modalOpen={this.state.modalOpen}
-            onSave={values => {
-              this.onSave(values);
-            }}
-            dishNut={dishNut}
-          />
           <View>
             <Button
               title="Save Meal"
-              onPress={() => {
-                this.setState({ modalOpen: true });
-              }}
+              onPress={this.props.onPress}
             />
           </View>
           <View>
