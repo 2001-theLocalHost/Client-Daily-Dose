@@ -5,12 +5,15 @@ import {
   View,
   TextInput,
   Button,
-  Picker,
   ScrollView,
+  ImageBackground
 } from 'react-native';
 import { connect } from 'react-redux';
 import { signup } from '../store/user';
-import { Chip } from 'react-native-paper';
+import CalendarModal from '../components/CalendarModal'
+import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+import {convertHeight} from '../utilityFunctions'
+
 
 class Signup extends React.Component {
   constructor({ navigation }) {
@@ -21,24 +24,37 @@ class Signup extends React.Component {
       password: '',
       name: '',
       sex: '',
-      birthdate: '',
-      height: '',
-      weight: '',
-      glutenFree: false,
-      dairyFree: false,
-      nutFree: false,
-      vegan: false,
-      vegetarian: false,
-      pescatarian: false,
-      lowCarb: false,
-      lowFat: false,
-      lowSugar: false
+      birthdate: new Date(),
+      feet: 0,
+      inches: 0,
+      weight: 0,
+      dietaryPreference: [],
+      dateModalOpen: false,
+      sexProps: [
+        {label: 'Female', value: 'female' },
+        {label: 'Male', value: 'male' },
+        {label: 'Prefer Not to Say', value: 'prefer-not-to-say'}
+      ],
+      healthProps: [
+        {label: 'Gluten-Free', value: 'gluten-free' },
+        {label: 'Vegan', value: 'vegan' },
+        {label: 'Vegetarian', value: 'vegetarian'},
+        {label: 'Dairy Free', value: 'dairy-free'},
+        {label: 'Pescatarian', value: 'pescatarian'},
+        {label: 'Paleo', value: 'paleo'},
+        {label: 'Keto', value: 'keto'}
+      ],
     };
     this.handleSignup = this.handleSignup.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
+    this.addDate = this.addDate.bind(this)
+    this.showDateModal = this.showDateModal.bind(this)
+    this.closeDateModal = this.closeDateModal.bind(this)
+    this.removeDietaryPreference = this.removeDietaryPreference.bind(this)
   }
 
   handleSignup() {
+    console.log('im your birthday', this.state.birthdate)
     const {
       email,
       password,
@@ -46,9 +62,11 @@ class Signup extends React.Component {
       sex,
       dietaryPreference,
       birthdate,
-      height,
-      weight,
+      feet,
+      inches
     } = this.state;
+    const height = convertHeight(feet, inches)
+    const weight = parseFloat(this.state.weight)
     let userInfo = {
       email,
       password,
@@ -59,10 +77,7 @@ class Signup extends React.Component {
       height,
       weight,
     };
-    console.log('checking this.state', this.state);
-    console.log('checking userInfo', userInfo);
     this.props.signupDispatch(userInfo);
-
     return this.navigation.push('Login');
   }
 
@@ -87,109 +102,338 @@ class Signup extends React.Component {
 
   }
 
+  addDate (date) {
+    this.setState({
+      birthdate: date
+    })
+  }
+
+  showDateModal () {
+    this.setState({
+      dateModalOpen: true
+    })
+  }
+
+  closeDateModal () {
+    this.setState({
+      dateModalOpen: false
+    })
+  }
+
+  removeDietaryPreference (value) {
+    let arrayCopy = [...this.state.dietaryPreference]
+    let newArray = arrayCopy.filter((element) => {
+      return element !== value
+    })
+
+    this.setState({
+      ...this.state,
+      dietaryPreference: newArray
+    })
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <ScrollView
-          style={styles.container}
-          contentContainerStyle={styles.contentContainer}
+
+      <ScrollView>
+        <View style={styles.outerContainer}>
+        <ImageBackground
+          source={{
+            uri:
+              'https://www.heart.org/-/media/aha/h4gm/article-images/fruit-and-vegetables.jpg',
+          }}
+          style={styles.image}
         >
-          <Text style={styles.headerText}>Email:</Text>
-          <TextInput
-            style={styles.text}
-            onChangeText={text => {
-              this.setState({ ...this.state, email: text });
-            }}
-          />
+          <View style={styles.container}>
 
-          <Text style={styles.headerText}>Password:</Text>
-          <TextInput
-            style={styles.text}
-            onChangeText={text => {
-              this.setState({ ...this.state, password: text });
-            }}
-          />
+            <View style={styles.textContainer}>
+              <Text style={styles.headerText}>Email:</Text>
+                <TextInput
+                  style={styles.text}
+                  onChangeText={text => {
+                    this.setState({ ...this.state, email: text });
+                  }}
+                />
+            </View>
 
-          <Text style={styles.headerText}>Name:</Text>
-          <TextInput
-            style={styles.text}
-            onChangeText={text => {
-              this.setState({ ...this.state, name: text });
-            }}
-          />
+            <View style={styles.textContainer}>
+              <Text style={styles.headerText}>Password:</Text>
+                <TextInput
+                  style={styles.text}
+                  onChangeText={text => {
+                    this.setState({ ...this.state, password: text });
+                  }}
+                />
+            </View>
 
-          <Text style={styles.headerText}>Date of Birth:</Text>
-          <TextInput style={styles.text} />
+            <View style={styles.textContainer}>
+              <Text style={styles.headerText}>Name:</Text>
+                <TextInput
+                  style={styles.text}
+                  onChangeText={text => {
+                    this.setState({ ...this.state, name: text });
+                  }}
+                />
+            </View>
 
-          <Text style={styles.headerText}>Sex:</Text>
-          <TextInput style={styles.text} />
+            <View style={styles.textContainer}>
+              <Text style={styles.headerText}>Date of Birth:</Text>
+                <View>
+                  <Button title='Select Date' onPress={this.showDateModal}/>
+                </View>
+                <CalendarModal addDate={this.addDate} closeDateModal={this.closeDateModal} isVisible={this.state.dateModalOpen} />
+            </View>
 
-          <Text style={styles.headerText}>Height:</Text>
-          <TextInput style={styles.text} />
+            <View style={styles.sexContainer}>
+              <Text style={styles.headerText}>Sex:</Text>
+                <View>
+                  <RadioForm
+                    formHorizontal={false}
+                    animation={true}
+                  >
+                    {
+                      this.state.sexProps.map((obj, i) => (
+                        <RadioButton labelHorizontal={true} key={i} >
+                          <RadioButtonInput
+                            obj={obj}
+                            index={i}
+                            isSelected={this.state.sex === obj.value}
+                            onPress={(value) => {this.setState({sex:value})}}
+                            borderWidth={1}
+                            buttonInnerColor={'#659B0E'}
+                            buttonOuterColor={'black'}
+                            buttonSize={7}
+                            buttonOuterSize={17}
+                            buttonStyle={{}}
+                            buttonWrapStyle={{marginLeft: 10}}
+                          />
+                          <RadioButtonLabel
+                            obj={obj}
+                            index={i}
+                            labelHorizontal={true}
+                            onPress={(value) => {this.setState({sex:value})}}
+                            labelStyle={{fontSize: 15, color: 'black'}}
+                            labelWrapStyle={{}}
+                          />
+                        </RadioButton>
+                      ))
+                    }
+                  </RadioForm>
+                </View>
+            </View>
 
-          <Text style={styles.headerText}>Weight:</Text>
-          <TextInput style={styles.text} />
+            <View style={styles.textContainer}>
+              <Text style={styles.headerText}>Height:</Text>
+              <TextInput
+                  style={styles.textHeight}
+                  onChangeText={text => {
+                    this.setState({ ...this.state, feet: text });
+                  }}
+                />
+                <Text>ft</Text>
+                <TextInput
+                  style={styles.textHeight}
+                  onChangeText={text => {
+                    this.setState({ ...this.state, inches: text });
+                  }}
+                />
+                <Text>in</Text>
+            </View>
 
-          <Text style={styles.headerText}>Dietary Preference:</Text>
-          <View style={styles.chipContainer}>
-            <Chip selected={this.state.vegan} key={'vegan'} style={styles.chip} onPress={(vegan) => {this.handleSelect(vegan)}}>Vegan</Chip>
-            <Chip selected={this.state.vegetarian} style={styles.chip} onPress={(vegetarian) => {this.handleSelect(vegetarian)}}>Vegetarian</Chip>
+            <View style={styles.textContainer}>
+              <Text style={styles.headerText}>Weight:</Text>
+              <TextInput
+                  style={styles.textHeight}
+                  onChangeText={text => {
+                    this.setState({ ...this.state, weight: text });
+                  }}
+                />
+                <Text>lbs</Text>
+            </View>
 
-            <Chip selected={this.state.pescatarian} style={styles.chip} onPress={() => {
-              !this.state.pescatarian ? this.setState({pescatarian: true}) : this.setState({pescatarian: false})
-            }}>Pescatarian</Chip>
-
-            <Chip selected={this.state.glutenFree} style={styles.chip} onPress={this.handleSelect}>Gluten-Free</Chip>
-
-            <Chip selected={this.state.dairyFree} style={styles.chip} onPress={this.handleSelect}>Dairy-Free</Chip>
-            <Chip selected={this.state.nutFree} style={styles.chip} onPress={this.handleSelect}>Nut-Free</Chip>
-            <Chip selected={this.state.lowCarb} style={styles.chip} onPress={this.handleSelect}>Low-Carb</Chip>
-            <Chip selected={this.state.lowFat} style={styles.chip} onPress={this.handleSelect}>Low-Fat</Chip>
-            <Chip selected={this.state.lowSugar} style={styles.chip} onPress={this.handleSelect}>Low-Sugar</Chip>
-          </View>
+            <View style={styles.dietContainer}>
+              <View style={styles.dietText}>
+              <Text style={styles.dietaryText}>Dietary</Text>
+              <Text style={styles.prefText}>Preference:</Text>
+              </View>
+              <View>
+                  <RadioForm
+                    formHorizontal={false}
+                    animation={true}
+                  >
+                    {
+                      this.state.healthProps.map((obj, i) => (
+                        <RadioButton labelHorizontal={true} key={i} >
+                          <RadioButtonInput
+                            obj={obj}
+                            index={i}
+                            isSelected={this.state.dietaryPreference.includes(obj.value)}
+                            onPress={!this.state.dietaryPreference.includes(obj.value) ? (value) => {this.setState({ ...this.state, dietaryPreference: [...this.state.dietaryPreference, obj.value] })} : (value) => this.removeDietaryPreference(value)}
+                            borderWidth={1}
+                            buttonInnerColor={'#659B0E'}
+                            buttonOuterColor={'black'}
+                            buttonSize={7}
+                            buttonOuterSize={17}
+                            buttonStyle={{}}
+                            buttonWrapStyle={{marginLeft: 10}}
+                          />
+                          <RadioButtonLabel
+                            obj={obj}
+                            index={i}
+                            labelHorizontal={true}
+                            onPress={(value) => {this.setState({ ...this.state, dietaryPreference: [...this.state.dietaryPreference, obj.value] })}}
+                            labelStyle={{fontSize: 15, color: 'black'}}
+                            labelWrapStyle={{}}
+                          />
+                        </RadioButton>
+                      ))
+                    }
+                  </RadioForm>
+                </View>
+            </View>
 
           <View style={styles.signupButton}>
             <Button onPress={this.handleSignup} title="Sign Up" color="green" />
           </View>
-        </ScrollView>
-      </View>
+          </View>
+          </ImageBackground>
+        </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  outerContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#659B0E',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 900,
+    opacity: .8
   },
-  contentContainer: {
-    paddingTop: 30,
+  image: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    opacity: 0.9,
+  },
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    opacity: 1,
+    height: 850,
+    width: 350,
+    borderRadius: 10,
+    marginTop: 30
+  },
+  textContainer: {
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    height: 60,
+    width: 300,
+    backgroundColor: 'orange',
+    borderRadius: 10,
+    opacity: 1,
+    flexDirection: 'row',
+    margin: 10
+  },
+  dietText: {
+    flexDirection: 'column'
+  },
+  sexContainer: {
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    height: 100,
+    width: 300,
+    backgroundColor: 'orange',
+    borderRadius: 10,
+    opacity: 1,
+    flexDirection: 'row',
+    margin: 10
+  },
+  dietContainer: {
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    height: 190,
+    width: 300,
+    backgroundColor: 'orange',
+    borderRadius: 10,
+    opacity: 1,
+    flexDirection: 'row',
+    margin: 10
   },
   headerText: {
     fontWeight: 'bold',
-    backgroundColor: '#659B0E',
-    padding: 10,
-    marginTop: 25,
+    padding: 10
   },
-  text: {
-    width: 80,
-    borderWidth: 0.5,
-    borderColor: '#d6d7da',
-    paddingTop: 12,
+  dietaryText: {
+    fontWeight: 'bold',
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginTop: 20
   },
-  chipContainer: {
-    justifyContent: 'center',
-    flexDirection: 'row',
-    flexWrap: 'wrap'
+  prefText: {
+    fontWeight: 'bold',
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginBottom: 20
   },
-  chip: {
+    text: {
+    width: 180,
+    opacity: .8,
+    backgroundColor: '#FFFFFF',
+    padding: 8,
+    alignItems: 'center'
+  },
+  textHeight: {
+    width: 50,
+    opacity: .8,
+    backgroundColor: '#FFFFFF',
+    padding: 8,
     alignItems: 'center',
-    width: 105,
-    color: 'black'
+    marginRight: 5,
+    marginLeft: 5
   },
-  selectedChip: {
+  // signupFont: {
+  //   fontFamily: 'gotham-book',
+  //   color: 'white',
+  // },
+  // switchFont: {
+  //   fontFamily: 'gotham-book',
+  //   color: 'white',
+  // },
+  // contentContainer: {
 
-  }
+  // },
+  // headerText: {
+  //   fontWeight: 'bold',
+  //   backgroundColor: '#659B0E',
+  //   padding: 10,
+  //   marginTop: 25,
+  // },
+  // text: {
+  //   width: 80,
+  //   borderWidth: 0.5,
+  //   borderColor: '#d6d7da',
+  //   paddingTop: 12,
+  // },
+  // chipContainer: {
+  //   justifyContent: 'center',
+  //   flexDirection: 'row',
+  //   flexWrap: 'wrap'
+  // },
+  // chip: {
+  //   alignItems: 'center',
+  //   width: 105,
+  //   color: 'black'
+  // },
+  // selectedChip: {
+
+  // }
 });
 
 const mapStateToProps = state => ({

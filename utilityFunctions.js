@@ -238,3 +238,8 @@ export const formatIngredients = (apiIngredients) => {
   });
   return newArr
 }
+
+export const convertHeight = (feet, inches) => {
+  let newHeight = (feet * 12) + inches
+  return parseFloat(newHeight)
+}
