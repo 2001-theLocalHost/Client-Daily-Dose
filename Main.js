@@ -40,6 +40,8 @@ function Main(props) {
           'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
           'gotham-xlight': require('./assets/fonts/Gotham-Xlight.ttf'),
           'gotham-light': require('./assets/fonts/Gotham-Light.ttf'),
+          'gotham-book': require('./assets/fonts/Gotham-Book.ttf'),
+          'gotham-black': require('./assets/fonts/Gotham-Black.ttf'),
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service

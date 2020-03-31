@@ -57,14 +57,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     flexDirection: 'column',
   },
-  buttonContainer: {
-    marginTop: 30,
-    backgroundColor: '#FF7F4B',
-    width: 200,
+  image: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
     opacity: 0.9,
-    borderRadius: 10,
   },
-
   textandButtonContainers: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -73,13 +73,12 @@ const styles = StyleSheet.create({
     height: 300,
     borderRadius: 10,
   },
-  image: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
+  buttonContainer: {
+    marginTop: 30,
+    backgroundColor: '#FF7F4B',
+    width: 200,
     opacity: 0.9,
+    borderRadius: 10,
   },
   textContainer: {
     justifyContent: 'center',
