@@ -17,21 +17,9 @@ export default AuthStackScreen = ({ navigation, route }) => {
         headerShown: false,
       }}
     >
-      <AuthStack.Screen
-        name="FirstScreen"
-        component={FirstScreen}
-        options={{ title: null }}
-      />
-      <AuthStack.Screen
-        name="Login"
-        component={ConnectedLogin}
-        options={{ title: 'Login' }}
-      />
-      <AuthStack.Screen
-        name="Signup"
-        component={ConnectedSignup}
-        options={{ title: 'Sign Up' }}
-      />
+      <AuthStack.Screen name="FirstScreen" component={FirstScreen} />
+      <AuthStack.Screen name="Login" component={ConnectedLogin} />
+      <AuthStack.Screen name="Signup" component={ConnectedSignup} />
     </AuthStack.Navigator>
   );
 };

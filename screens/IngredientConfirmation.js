@@ -9,19 +9,20 @@ import {
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
-import { consolidateData } from '../utilityFunctions';
+import { consolidateData, formatIngredients } from '../utilityFunctions';
 import { finalizeIngredients, consolidatingData } from '../store/dishes';
 import { resetDishnutFromConfirmation, resetIngrnutFromConfirmation } from '../store/nutrition'
 
 class IngredientConfirmation extends React.Component {
-  constructor({ navigation }) {
+  constructor({ navigation, route }) {
     super();
     this.navigation = navigation;
+    this.data = formatIngredients(route.params.data)
     this.state = {
       value: '',
       name: '',
       ingredients: [{ name: '', quantity: '1', measurement: 'oz' }],
-      userAddedIngredients: [{ name: '', quantity: '1', measurement: 'oz' }],
+      userAddedIngredients: [],
     };
     this.handleChangeText = this.handleChangeText.bind(this);
     this.addIngredient = this.addIngredient.bind(this);
@@ -30,16 +31,32 @@ class IngredientConfirmation extends React.Component {
     this.removeUserAddedItem = this.removeUserAddedItem.bind(this);
   }
 
+  // formatIngredients (apiIngredients) {
+  //     const arr = apiIngredients;
+  //     let newArr = arr.map(obj => {
+  //       return {
+  //         name: obj.name,
+  //         quantity: '1',
+  //         measurement: 'oz',
+  //       };
+  //     });
+  //     return newArr
+  // }
+
   componentDidMount() {
-    this.navigation.addListener('focus', () => {
+    this.unsubscribe = this.navigation.addListener('focus', () => {
       this.setState({
         ...this.state,
-        ingredients: this.props.ingredients,
-        userAddedIngredients: this.props.userAddedIngredients,
+        ingredients: this.data,
       });
+
       this.props.resetDishnutFromConfirmation({})
       this.props.resetIngrnutFromConfirmation([])
     })
+  }
+
+  componentWillUnmount () {
+    this.unsubscribe()
   }
 
   handleChangeText(newText) {
@@ -87,13 +104,14 @@ class IngredientConfirmation extends React.Component {
       this.state.userAddedIngredients,
       this.state.name
     );
+
     const consolidated = await consolidateData(this.props.finalIngredients);
     await this.props.consolidatingData(consolidated);
     let resetLocalState = {
       value: '',
       name: '',
       ingredients: [{ name: '', quantity: '1', measurement: 'oz' }],
-      userAddedIngredients: [{ name: '', quantity: '1', measurement: 'oz' }],
+      userAddedIngredients: [],
     }
     this.setState(resetLocalState)
     return this.navigation.navigate('Dishes');
@@ -252,8 +270,6 @@ class IngredientConfirmation extends React.Component {
 
 const mapState = state => {
   return {
-    ingredients: state.dishes.ingredients,
-    userAddedIngredients: state.dishes.userAddedIngredients,
     finalIngredients: state.dishes.finalIngredients,
     consolidatedData: state.dishes.consolidatedData,
     name: state.dishes.name

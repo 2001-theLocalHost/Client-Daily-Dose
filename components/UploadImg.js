@@ -37,8 +37,8 @@ class UploadImg extends React.Component {
   }
 
   async depositData (data, uri) {
-    await this.props.depositClarifaiData(data, uri)
-    return this.navigation.navigate('confirmation')
+    await this.props.depositClarifaiData(uri)
+    return this.navigation.navigate('confirmation', {data})
   }
 
 refreshScreen() {

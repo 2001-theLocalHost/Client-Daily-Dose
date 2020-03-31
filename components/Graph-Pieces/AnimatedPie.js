@@ -29,10 +29,15 @@ export default class AnimatedPie extends React.Component {
     let sum = carbs + fat + protein;
 
     let data = [
-      { number: Math.round((carbs / sum) * 100), color: '#FF7F4B' },
-      { number: Math.round((fat / sum) * 100), color: '#E2CA2B' },
-      { number: Math.round((protein / sum) * 100), color: '#E35052' },
+      { number: carbs / sum, color: '#FF7F4B' },
+      { number: fat / sum, color: '#E2CA2B' },
+      { number: protein / sum, color: '#E35052' },
     ];
+
+    if (sum === 0) {
+      data = [{ number: 1, color: '#3E3D3F' }];
+    }
+
     return data;
   }
 

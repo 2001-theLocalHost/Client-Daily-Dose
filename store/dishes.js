@@ -2,7 +2,7 @@ import axios from 'axios';
 import { saveDishValues } from '../utilityFunctions';
 
 //ACTION TYPE
-const ADDING_INGREDIENTS = 'ADDING_INGREDIENTS';
+const ADDING_IMAGE_URI = 'ADDING_IMAGE_URI';
 
 const FINALIZE_INGREDIENT = 'FINALIZE_INGREDIENT';
 
@@ -11,10 +11,9 @@ const CONSOLIDATE_DATA = 'CONSOLIDATE_DATA';
 const CONSOLIDATE_DATA_FROM_MEALDIARY = 'CONSOLIDATE_DATA_FROM_MEALDIARY';
 
 //ACTION CREATOR
-const addingIngredients = (ingredients, uri) => {
+const addingImageUri = (uri) => {
   return {
-    type: ADDING_INGREDIENTS,
-    ingredients,
+    type: ADDING_IMAGE_URI,
     uri,
   };
 };
@@ -43,10 +42,10 @@ export const consolidatingDataFromMealDiary = strings => {
 };
 
 //THUNKS
-export const depositClarifaiData = (data, uri) => {
+export const depositClarifaiData = (uri) => {
   return dispatch => {
     try {
-      dispatch(addingIngredients(data, uri));
+      dispatch(addingImageUri(uri));
     } catch (error) {
       console.error(error);
     }
@@ -96,8 +95,6 @@ export const createDish = (dishNut, formvalues, ingredientArray) => {
 const initialState = {
   imgUrl: '',
   name: '',
-  ingredients: [],
-  userAddedIngredients: [],
   finalIngredients: [], // [{name: 'rice', quantity: '1', measurement: 'cup'}, {name: 'chickpeas', quantity: '10', measurement: 'oz'}, 'chickpeas rice']
   consolidatedData: [], //use for API call ['1 cup rice', '10 oz chickpeas']
 };
@@ -105,17 +102,8 @@ const initialState = {
 //REDUCER
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADDING_INGREDIENTS:
-      const arr = action.ingredients;
-      let newArr = arr.map(obj => {
-        return {
-          name: obj.name,
-          quantity: '1',
-          measurement: 'oz',
-        };
-      });
+    case ADDING_IMAGE_URI:
       let clonedIngredients = { ...state };
-      clonedIngredients.ingredients = newArr;
       clonedIngredients.imgUrl = action.uri;
       return clonedIngredients;
     case FINALIZE_INGREDIENT:

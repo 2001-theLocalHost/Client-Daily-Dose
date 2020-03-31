@@ -97,12 +97,13 @@ class MealDiary extends React.Component {
           <View>
             <CalendarView addDate={this.addDate} />
           </View>
+          {this.state.date !== '' &&
           <Button
-            onPress={this.getDishes}
-            title={`Meals For ${this.state.date}`}
-            color="green"
-          />
-
+          onPress={this.getDishes}
+          title={`Click to See Meals for ${this.state.date}`}
+          color="green"
+        />
+        }
           {/* BREAKFAST VIEW */}
           <Text style={styles.headerText}>Breakfast</Text>
           {this.props.breakfast.map((dish, index) => {
@@ -227,7 +228,6 @@ const mapState = state => {
     dishInfo: state.mealdiary.dishInfo,
     dishNut: state.nutrition.dishNut,
     ingrNut: state.nutrition.ingrNut,
-    consolidatedData: state.dishes.consolidatedData,
     ingredientNames: state.nutrition.ingredientNames,
   };
 };

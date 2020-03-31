@@ -3,9 +3,10 @@ import {View, Button, Platform} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 const CalendarView = (props) => {
-  const [date, setDate] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
+
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
