@@ -13,7 +13,6 @@ const CalendarView = (props) => {
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
     props.addDate(currentDate)
-    console.log('!!!!', currentDate)
   };
 
   const showMode = currentMode => {

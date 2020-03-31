@@ -31,18 +31,6 @@ class IngredientConfirmation extends React.Component {
     this.removeUserAddedItem = this.removeUserAddedItem.bind(this);
   }
 
-  // formatIngredients (apiIngredients) {
-  //     const arr = apiIngredients;
-  //     let newArr = arr.map(obj => {
-  //       return {
-  //         name: obj.name,
-  //         quantity: '1',
-  //         measurement: 'oz',
-  //       };
-  //     });
-  //     return newArr
-  // }
-
   componentDidMount() {
     this.unsubscribe = this.navigation.addListener('focus', () => {
       this.setState({
