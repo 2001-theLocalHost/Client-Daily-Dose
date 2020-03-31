@@ -24,11 +24,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         options={{
           title: 'Home',
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon
-              icon="ionicons"
-              focused={focused}
-              name="md-home"
-            />
+            <TabBarIcon icon="ionicons" focused={focused} name="md-home" />
           ),
         }}
       />

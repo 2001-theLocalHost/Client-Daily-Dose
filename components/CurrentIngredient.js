@@ -87,9 +87,9 @@ export default class CurrentIngredient extends React.Component {
             <Text style={styles.title}>{ingrNut.calories}KCAL</Text>
             <View>
               <AnimatedPie
-                carbs={ingrNut.CHOCDF_KCAL > 0 ? ingrNut.CHOCDF_KCAL : 1}
-                fat={ingrNut.FAT_KCAL > 0 ? ingrNut.FAT_KCAL : 1}
-                protein={ingrNut.PROCNT_KCAL > 0 ? ingrNut.PROCNT_KCAL : 1}
+                carbs={ingrNut.CHOCDF_KCAL}
+                fat={ingrNut.FAT_KCAL}
+                protein={ingrNut.PROCNT_KCAL}
               />
               <AnimatedPieLabel
                 carbs={ingrNut.CHOCDF_KCAL}

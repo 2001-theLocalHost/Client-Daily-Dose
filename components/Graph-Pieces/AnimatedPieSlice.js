@@ -30,9 +30,13 @@ export default class Slice extends Component {
     const { endAngle, color, index, data } = this.props;
     let val = data[index].number;
 
+    if (data.length === 1) {
+      val = 0;
+    }
+
     return (
       <Path
-        onPress={() => alert('value is: ' + val)}
+        onPress={() => alert(`${Math.round(val * 100)}%`)}
         d={this.createPieArc(index, endAngle, data)}
         fill={color}
       />
