@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import IngredientConfirmation from './screens/IngredientConfirmation'
+import IngredientConfirmation from './screens/IngredientConfirmation';
 import { me } from './store/user';
 import AuthStackScreen from './navigation/AuthNavigator';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
@@ -38,6 +38,8 @@ function Main(props) {
           ...Ionicons.font,
           ...MaterialCommunityIcons.font,
           'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+          'gotham-xlight': require('./assets/fonts/Gotham-Xlight.ttf'),
+          'gotham-light': require('./assets/fonts/Gotham-Light.ttf'),
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
@@ -65,11 +67,18 @@ function Main(props) {
           <Root.Navigator>
             {loggedIn ? (
               <>
-              <Root.Screen name="App" component={BottomTabNavigator} />
-              <Root.Screen name='confirmation' component={IngredientConfirmation} />
+                <Root.Screen name="App" component={BottomTabNavigator} />
+                <Root.Screen
+                  name="confirmation"
+                  component={IngredientConfirmation}
+                />
               </>
             ) : (
-              <Root.Screen name="Auth" component={AuthStackScreen} />
+              <Root.Screen
+                options={{ headerMode: 'none', headerShown: false }}
+                name="Auth"
+                component={AuthStackScreen}
+              />
             )}
           </Root.Navigator>
         </NavigationContainer>

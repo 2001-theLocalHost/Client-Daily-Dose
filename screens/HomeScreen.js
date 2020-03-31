@@ -21,12 +21,9 @@ class HomeScreen extends React.Component {
 
   handleLogout() {
     this.props.logoutDispatch();
-    // return this.props.navigation.dispatch(
-    //   CommonActions.reset({
-    //     index: 0,
-    //     routes: [{ name: 'Auth' }],
-    //   })
-    // );
+    return this.props.navigation.reset({
+      routes: [{ name: 'FirstScreen' }],
+    });
   }
 
   render() {
