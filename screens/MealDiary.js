@@ -24,7 +24,6 @@ import {
 import { consolidatingDataFromMealDiary } from '../store/dishes';
 import { connect } from 'react-redux';
 import CalendarView from '../components/CalendarView';
-import moment from "moment";
 
 class MealDiary extends React.Component {
   constructor({ navigation }) {
@@ -101,9 +100,9 @@ class MealDiary extends React.Component {
           {this.state.date !== '' &&
           <Button
           onPress={this.getDishes}
-          title={`Click to See Meals for ${this.state.date}`} 
+          title={`Click to See Meals for ${this.state.date}`}
           color="green"
-        /> 
+        />
         }
           {/* BREAKFAST VIEW */}
           <Text style={styles.headerText}>Breakfast</Text>

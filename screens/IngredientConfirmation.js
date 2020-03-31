@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
-import { consolidateData } from '../utilityFunctions';
+import { consolidateData, formatIngredients } from '../utilityFunctions';
 import { finalizeIngredients, consolidatingData } from '../store/dishes';
 import { resetDishnutFromConfirmation, resetIngrnutFromConfirmation } from '../store/nutrition'
 
@@ -17,7 +17,7 @@ class IngredientConfirmation extends React.Component {
   constructor({ navigation, route }) {
     super();
     this.navigation = navigation;
-    this.data = this.formatIngredients(route.params.data)
+    this.data = formatIngredients(route.params.data)
     this.state = {
       value: '',
       name: '',
@@ -31,17 +31,17 @@ class IngredientConfirmation extends React.Component {
     this.removeUserAddedItem = this.removeUserAddedItem.bind(this);
   }
 
-  formatIngredients (apiIngredients) {
-      const arr = apiIngredients;
-      let newArr = arr.map(obj => {
-        return {
-          name: obj.name,
-          quantity: '1',
-          measurement: 'oz',
-        };
-      });
-      return newArr
-  }
+  // formatIngredients (apiIngredients) {
+  //     const arr = apiIngredients;
+  //     let newArr = arr.map(obj => {
+  //       return {
+  //         name: obj.name,
+  //         quantity: '1',
+  //         measurement: 'oz',
+  //       };
+  //     });
+  //     return newArr
+  // }
 
   componentDidMount() {
     this.unsubscribe = this.navigation.addListener('focus', () => {

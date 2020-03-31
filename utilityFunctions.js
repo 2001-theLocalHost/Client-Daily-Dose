@@ -226,3 +226,15 @@ export const consolidateData = async (finalIngredients) => {
   });
   return consolidated
 }
+
+export const formatIngredients = (apiIngredients) => {
+  const arr = apiIngredients;
+  let newArr = arr.map(obj => {
+    return {
+      name: obj.name,
+      quantity: '1',
+      measurement: 'oz',
+    };
+  });
+  return newArr
+}
