@@ -50,7 +50,7 @@ export const login = (email, password) => {
 
 export const signup = userInfo => {
   return async dispatch => {
-    console.log('im the user', userInfo)
+    console.log('im the user', userInfo);
     let res;
     try {
       res = await axios.post(
@@ -62,7 +62,7 @@ export const signup = userInfo => {
     }
 
     try {
-      console.log('im the data', res.data)
+      console.log('im the data', res.data);
       dispatch(getUser(res.data));
     } catch (dispatchOrHistoryErr) {
       console.error(dispatchOrHistoryErr);
