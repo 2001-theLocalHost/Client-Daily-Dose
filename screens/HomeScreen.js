@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: 30,
-  },
+  }
 });
 
 const mapStateToProps = state => ({
