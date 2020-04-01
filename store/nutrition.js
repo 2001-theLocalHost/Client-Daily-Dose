@@ -11,13 +11,14 @@ import {
 const GOT_NUTRITION = 'GOT_NUTRITION';
 const GOT_INGR_NUTRITION = 'GOT_INGR_NUTRITION';
 
+const UPDATE_INGR_NUT_FROM_MEALDIARY = 'UPDATE_INGR_NUT_FROM_MEALDIARY'; // FROM MEAL DIARY
+const UPDATE_DISH_NUT_FROM_MEALDIARY = 'UPDATE_DISH_NUT_FROM_MEALDIARY'; // FROM MEAL DIARY
+const INGREDIENT_NAMES_FROM_MEALDIARY = 'INGREDIENT_NAMES_FROM_MEALDIARY'; //FROM MEAL DIARY
 
-const UPDATE_INGR_NUT_FROM_MEALDIARY = 'UPDATE_INGR_NUT_FROM_MEALDIARY' // FROM MEAL DIARY
-const UPDATE_DISH_NUT_FROM_MEALDIARY = 'UPDATE_DISH_NUT_FROM_MEALDIARY' // FROM MEAL DIARY
-const INGREDIENT_NAMES_FROM_MEALDIARY = 'INGREDIENT_NAMES_FROM_MEALDIARY' //FROM MEAL DIARY
-
-const RESET_DISHNUT_FROM_INGR_CONFIRMATION = 'RESET_DISHNUT_FROM_INGR_CONFIRMATION' //FROM INGR CONFIRMATION
-const RESET_INGRNUT_FROM_INGR_CONFIRMATION = 'RESET_INGRNUT_FROM_INGR_CONFIRMATION' //FROM INGR CONFIRMATION
+const RESET_DISHNUT_FROM_INGR_CONFIRMATION =
+  'RESET_DISHNUT_FROM_INGR_CONFIRMATION'; //FROM INGR CONFIRMATION
+const RESET_INGRNUT_FROM_INGR_CONFIRMATION =
+  'RESET_INGRNUT_FROM_INGR_CONFIRMATION'; //FROM INGR CONFIRMATION
 
 //ACTION CREATORS
 export const gotNutrition = nutrition => ({
@@ -30,30 +31,30 @@ export const gotIngrNutrition = ingrNutrition => ({
   ingrNutrition,
 });
 
-export const updateIngrNut = (ingrNutritionMealDiary) => ({
-  type: UPDATE_INGR_NUT_FROM_MEALDIARY, 
-  ingrNutritionMealDiary
-})
+export const updateIngrNut = ingrNutritionMealDiary => ({
+  type: UPDATE_INGR_NUT_FROM_MEALDIARY,
+  ingrNutritionMealDiary,
+});
 
-export const updateDishNut = (dishNutritionMealDiary) => ({
+export const updateDishNut = dishNutritionMealDiary => ({
   type: UPDATE_DISH_NUT_FROM_MEALDIARY,
-  dishNutritionMealDiary
-})
+  dishNutritionMealDiary,
+});
 
-export const ingredientNamesFromMealDiary = (ingredientNames) => ({
+export const ingredientNamesFromMealDiary = ingredientNames => ({
   type: INGREDIENT_NAMES_FROM_MEALDIARY,
-  ingredientNames
-})
+  ingredientNames,
+});
 
-export const resetDishnutFromConfirmation = (obj) => ({
+export const resetDishnutFromConfirmation = obj => ({
   type: RESET_DISHNUT_FROM_INGR_CONFIRMATION,
-  obj
-})
+  obj,
+});
 
-export const resetIngrnutFromConfirmation = (arr) => ({
-  type: RESET_INGRNUT_FROM_INGR_CONFIRMATION ,
-  arr
-})
+export const resetIngrnutFromConfirmation = arr => ({
+  type: RESET_INGRNUT_FROM_INGR_CONFIRMATION,
+  arr,
+});
 
 //THUNKS
 export const fetchNutrition = (name, dishUrl, userDish) => {
@@ -64,6 +65,7 @@ export const fetchNutrition = (name, dishUrl, userDish) => {
       let { data } = await axios.get(
         `https://api.edamam.com/api/nutrition-data?app_id=${ED_APIID}&app_key=${ED_APIKEY}&ingr=${stringify}`
       );
+      console.log('this is raw data', data);
       let newData = convertData(name, dishUrl, data);
       dispatch(gotNutrition(newData));
     } catch (err) {
@@ -96,8 +98,8 @@ export const fetchIngredient = (ingrNameArr, portionQuantArr, userDish) => {
 
 const initialState = {
   dishNut: {},
-  ingrNut: [], 
-  ingredientNames: [] // ['rice', 'oil', 'ricecakes']
+  ingrNut: [],
+  ingredientNames: [], // ['rice', 'oil', 'ricecakes']
 };
 
 const nutrition = (state = initialState, action) => {
@@ -112,31 +114,31 @@ const nutrition = (state = initialState, action) => {
         ...state,
         ingrNut: action.ingrNutrition,
       };
-      case UPDATE_INGR_NUT_FROM_MEALDIARY:
-        return {
-          ...state,
-          ingrNut: action.ingrNutritionMealDiary
-        }
-      case UPDATE_DISH_NUT_FROM_MEALDIARY:
-        return {
-          ...state,
-          dishNut: action.dishNutritionMealDiary
-        }
-       case INGREDIENT_NAMES_FROM_MEALDIARY:
-         return {
-           ...state,
-           ingredientNames: action.ingredientNames
-         } 
-        case RESET_DISHNUT_FROM_INGR_CONFIRMATION:
-          return {
-            ...state,
-            dishNut: action.obj
-          }
-        case  RESET_INGRNUT_FROM_INGR_CONFIRMATION:
-          return {
-             ...state,
-             ingrNut: action.arr
-          }
+    case UPDATE_INGR_NUT_FROM_MEALDIARY:
+      return {
+        ...state,
+        ingrNut: action.ingrNutritionMealDiary,
+      };
+    case UPDATE_DISH_NUT_FROM_MEALDIARY:
+      return {
+        ...state,
+        dishNut: action.dishNutritionMealDiary,
+      };
+    case INGREDIENT_NAMES_FROM_MEALDIARY:
+      return {
+        ...state,
+        ingredientNames: action.ingredientNames,
+      };
+    case RESET_DISHNUT_FROM_INGR_CONFIRMATION:
+      return {
+        ...state,
+        dishNut: action.obj,
+      };
+    case RESET_INGRNUT_FROM_INGR_CONFIRMATION:
+      return {
+        ...state,
+        ingrNut: action.arr,
+      };
     default:
       return state;
   }
