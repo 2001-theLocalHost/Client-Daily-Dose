@@ -32,11 +32,19 @@ class MealDiary extends React.Component {
     this.navigation = navigation;
     this.state = {
       date: '',
+      counter: 0, 
     };
     this.addDate = this.addDate.bind(this);
     this.getDishes = this.getDishes.bind(this);
     this.seeDishInfo = this.seeDishInfo.bind(this);
     this.removeDish = this.removeDish.bind(this)
+  }
+
+  componentDidMount() {
+    this.unsubscribe = this.navigation.addListener('focus', () => {
+      const newDate = new Date()
+      this.props.fetchDishes(newDate)
+    })
   }
 
   // Updates date on local state based on date selected
@@ -48,9 +56,8 @@ class MealDiary extends React.Component {
 
   // Dispatches fetchDishes to query dishes by specified date
   async getDishes() {
-    await this.props.fetchDishes(this.state.date);
+   await this.props.fetchDishes(this.state.date);
   }
-
 
   async seeDishInfo(dishObj) {
     //Dispatch a thunk to retrieve the Dish Data Object from backend - once Dish Data Object state is updated, navigate to DishScreen.js
@@ -94,12 +101,28 @@ class MealDiary extends React.Component {
             <CalendarView addDate={this.addDate} />
           </View>
           {this.state.date !== '' &&
-          <Button
-          onPress={this.getDishes}
-          title={`Click to See Meals for ${this.state.date}`}
-          color="green"
-        />
-        }
+            <View >
+            <Button
+              onPress={this.getDishes}
+              title="Submit"
+              color="green"
+              titleStyle={{
+                color: "white",
+                fontSize: 15,
+                lineHeight: 15  
+              }}
+              buttonStyle={{
+                backgroundColor: "#659B0E",
+                borderRadius: 20,
+                height: 35,
+                width: 100,
+                justifyContent: "center",
+                alignSelf: "center",
+                marginTop: 25,
+                marginBottom: 10
+              }}
+            />
+            </View>}
           {/* BREAKFAST VIEW */}
           <Text style={styles.headerText}>Breakfast</Text>
           {this.props.breakfast.map((dish, index) => {
