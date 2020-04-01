@@ -243,3 +243,40 @@ export const convertHeight = (feet, inches) => {
   let newHeight = (feet * 12) + inches
   return parseFloat(newHeight)
 }
+
+export const validateInformation = (email, password, name, sex, birthdate, feet, inches, weight) => {
+  let arr = [];
+
+  if (!email) {
+    arr.push('Email')
+  }
+  if (!password) {
+    arr.push('Password')
+  }
+  if (!name) {
+    arr.push('Name')
+  }
+  if (!sex) {
+    arr.push('Sex')
+  }
+  if (birthdate >= new Date()) {
+    arr.push('Birthdate')
+  }
+  if (!feet) {
+    arr.push('Height (ft)')
+  }
+  if (!inches) {
+    arr.push('Height (in)')
+  }
+  if (!weight) {
+    arr.push('Weight')
+  }
+
+  let message = arr.join(', ')
+
+  if (arr.length > 0) {
+    alert(message + ' required.')
+    return false;
+  }
+  return true;
+}
