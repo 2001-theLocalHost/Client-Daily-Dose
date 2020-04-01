@@ -7,14 +7,15 @@ import {
   View,
   Linking,
   TextInput,
-  Button,
   Picker,
 } from 'react-native';
+import {Button} from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
 import {
   fetchDishes,
   fetchIngreInfo,
   depositDishInfo,
+  removeDish
 } from '../store/mealdiary';
 import {
   updateIngrNut,
@@ -35,6 +36,7 @@ class MealDiary extends React.Component {
     this.addDate = this.addDate.bind(this);
     this.getDishes = this.getDishes.bind(this);
     this.seeDishInfo = this.seeDishInfo.bind(this);
+    this.removeDish = this.removeDish.bind(this)
   }
 
   // Updates date on local state based on date selected
@@ -77,6 +79,11 @@ class MealDiary extends React.Component {
     return this.navigation.navigate('Dishes');
   }
 
+  async removeDish (dishObj) {
+    let id = dishObj.id
+    await this.props.removeDish(id)
+  }
+
   render() {
     return (
       <ScrollView>
@@ -99,12 +106,33 @@ class MealDiary extends React.Component {
             return (
               <View key={index} style={styles.dishView}>
                 <Text
+                  style={styles.dishName}
                   onPress={() => {
                     this.seeDishInfo(dish);
                   }}
                 >
                   {dish.dish.name}
                 </Text>
+                <View style={styles.removeButton}>
+                <Button
+                  onPress={() => {
+                    this.removeDish(dish);
+                  }}
+                  title="X"
+                  titleStyle={{
+                      color: "white",
+                      fontSize: 15,
+                      lineHeight: 15  
+                    }}
+                  buttonStyle={{
+                    backgroundColor: "gray",
+                    borderRadius: 60,
+                    height: 30,
+                    width: 30,
+                    marginTop:-10
+                  }}
+                />
+              </View>
               </View>
             );
           })}
@@ -115,12 +143,33 @@ class MealDiary extends React.Component {
             return (
               <View key={index} style={styles.dishView}>
                 <Text
+                  style={styles.dishName}
                   onPress={() => {
                     this.seeDishInfo(dish);
                   }}
                 >
                   {dish.dish.name}
                 </Text>
+                <View style={styles.removeButton}>
+                <Button
+                  onPress={() => {
+                    this.removeDish(dish);
+                  }}
+                  title="X"
+                  titleStyle={{
+                      color: "white",
+                      fontSize: 15,
+                      lineHeight: 15  
+                    }}
+                  buttonStyle={{
+                    backgroundColor: "gray",
+                    borderRadius: 60,
+                    height: 30,
+                    width: 30,
+                    marginTop:-10
+                  }}
+                />
+              </View>
               </View>
             );
           })}
@@ -131,12 +180,33 @@ class MealDiary extends React.Component {
             return (
               <View key={index} style={styles.dishView}>
                 <Text
+                  style={styles.dishName}
                   onPress={() => {
                     this.seeDishInfo(dish);
                   }}
                 >
                   {dish.dish.name}
                 </Text>
+                <View style={styles.removeButton}>
+                <Button
+                  onPress={() => {
+                    this.removeDish(dish);
+                  }}
+                  title="X"
+                  titleStyle={{
+                      color: "white",
+                      fontSize: 15,
+                      lineHeight: 15  
+                    }}
+                  buttonStyle={{
+                    backgroundColor: "gray",
+                    borderRadius: 60,
+                    height: 30,
+                    width: 30,
+                    marginTop:-10
+                  }}
+                />
+              </View>
               </View>
             );
           })}
@@ -147,12 +217,33 @@ class MealDiary extends React.Component {
             return (
               <View key={index} style={styles.dishView}>
                 <Text
+                  style={styles.dishName}
                   onPress={() => {
                     this.seeDishInfo(dish);
                   }}
                 >
                   {dish.dish.name}
                 </Text>
+                <View style={styles.removeButton}>
+                <Button
+                  onPress={() => {
+                    this.removeDish(dish);
+                  }}
+                  title="X"
+                  titleStyle={{
+                      color: "white",
+                      fontSize: 15,
+                      lineHeight: 15  
+                    }}
+                  buttonStyle={{
+                    backgroundColor: "gray",
+                    borderRadius: 60,
+                    height: 30,
+                    width: 30,
+                    marginTop:-10
+                  }}
+                />
+              </View>
               </View>
             );
           })}
@@ -189,6 +280,8 @@ const mapDispatch = dispatch => {
       dispatch(consolidatingDataFromMealDiary(strings)),
     ingredientNamesFromMealDiary: ingredientNames =>
       dispatch(ingredientNamesFromMealDiary(ingredientNames)),
+    removeDish: id =>
+      dispatch(removeDish(id))
   };
 };
 
@@ -202,10 +295,15 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   ingredientName: {
-    width: 80,
+    width: 180,
     borderWidth: 0.5,
     borderColor: '#d6d7da',
     paddingTop: 12,
+    paddingLeft: 20
+  },
+  dishName: {
+    width: 300,
+    color:'black',
   },
   addDishField: {
     marginTop: 15,
@@ -227,6 +325,10 @@ const styles = StyleSheet.create({
     marginTop: 25,
     color: 'black',
     fontSize: 25,
-    justifyContent: 'center',
+  },
+  removeButton:{
+    fontSize:10,
+    marginTop:5,
+    marginLeft: 20
   },
 });
