@@ -32,7 +32,7 @@ class MealDiary extends React.Component {
     this.navigation = navigation;
     this.state = {
       date: '',
-      todaysdate: '', 
+      counter: 0, 
     };
     this.addDate = this.addDate.bind(this);
     this.getDishes = this.getDishes.bind(this);
@@ -41,7 +41,10 @@ class MealDiary extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchDishes()
+    this.unsubscribe = this.navigation.addListener('focus', () => {
+      const newDate = new Date()
+      this.props.fetchDishes(newDate)
+    })
   }
 
   // Updates date on local state based on date selected
@@ -98,12 +101,30 @@ class MealDiary extends React.Component {
             <CalendarView addDate={this.addDate} />
           </View>
           {this.state.date !== '' &&
-          <Button
-          onPress={this.getDishes}
-          title={`Click to See Meals for ${this.state.date}`}
-          color="green"
-        />
-        }
+            <View >
+            <Button
+              onPress={this.getDishes}
+              title="Submit"
+              color="green"
+              titleStyle={{
+                color: "white",
+                fontSize: 15,
+                lineHeight: 15  
+              }}
+              buttonStyle={{
+                backgroundColor: "#659B0E",
+                borderRadius: 20,
+                height: 35,
+                width: 100,
+                justifyContent: "center",
+                alignSelf: "center",
+                marginTop: 25,
+                marginBottom: 10
+              }}
+            />
+            </View>}
+
+          
           {/* BREAKFAST VIEW */}
           <Text style={styles.headerText}>Breakfast</Text>
           {this.props.breakfast.map((dish, index) => {
