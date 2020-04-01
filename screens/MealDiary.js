@@ -31,10 +31,15 @@ class MealDiary extends React.Component {
     this.navigation = navigation;
     this.state = {
       date: '',
+      todaysdate: '', 
     };
     this.addDate = this.addDate.bind(this);
     this.getDishes = this.getDishes.bind(this);
     this.seeDishInfo = this.seeDishInfo.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.fetchDishes()
   }
 
   // Updates date on local state based on date selected
@@ -46,9 +51,8 @@ class MealDiary extends React.Component {
 
   // Dispatches fetchDishes to query dishes by specified date
   async getDishes() {
-    await this.props.fetchDishes(this.state.date);
+   await this.props.fetchDishes(this.state.date);
   }
-
 
   async seeDishInfo(dishObj) {
     //Dispatch a thunk to retrieve the Dish Data Object from backend - once Dish Data Object state is updated, navigate to DishScreen.js
