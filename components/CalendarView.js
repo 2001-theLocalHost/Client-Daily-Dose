@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import {View, Button, Platform} from 'react-native';
+import {View, Button, Platform, StyleSheet,} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { Feather } from '@expo/vector-icons'
 
 const CalendarView = (props) => {
   const [date, setDate] = useState(new Date());
@@ -27,8 +28,10 @@ const CalendarView = (props) => {
 
   return (
     <View>
-      <View>
-        <Button onPress={showDatepicker} title="View dishes by date" color='green' />
+      <View >
+      <View style={styles.icon}>
+        <Feather name="calendar" size={15} color="black" /></View>
+        <Button onPress={showDatepicker} title="View dishes by date" color='green'/>
       </View>
       {show && (
         <DateTimePicker
@@ -44,5 +47,13 @@ const CalendarView = (props) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  icon:{
+    position: 'absolute',
+    right:0,
+    top:15
+  },
+})
 
 export default CalendarView;

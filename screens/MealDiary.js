@@ -110,7 +110,7 @@ class MealDiary extends React.Component {
     return (
       <ScrollView>
         <View>
-          <Text style={styles.mainHeader}>MEALS FOR {this.state.formattedDate}</Text>
+          
           {/* CALENDAR, SUBMIT DATE  */}
           <View>
             <CalendarView addDate={this.addDate} />
@@ -138,6 +138,7 @@ class MealDiary extends React.Component {
               }}
             />
             </View>}
+            <Text style={styles.mainHeader}>MEALS FOR {this.state.formattedDate}</Text>
           {/* BREAKFAST VIEW */}
           <Text style={styles.headerText}>Breakfast</Text>
           {this.props.breakfast.map((dish, index) => {
@@ -341,7 +342,7 @@ const styles = StyleSheet.create({
   },
   dishName: {
     width: 300,
-    color:'black',
+    color:'blue',
   },
   addDishField: {
     marginTop: 15,
@@ -359,12 +360,15 @@ const styles = StyleSheet.create({
     fontFamily: 'Arial'
   },
   mainHeader: {
-    fontWeight: 'bold',
-    backgroundColor: '#659B0E',
+    // fontWeight: 'bold',
+    // backgroundColor: '#659B0E',
     padding: 10,
     marginTop: 25,
-    color: 'white',
-    fontSize: 25,
+    color: 'black',
+    fontSize: 15,
+    fontFamily: 'Arial',
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
   removeButton:{
     fontSize:10,
