@@ -123,8 +123,6 @@ class MealDiary extends React.Component {
               }}
             />
             </View>}
-
-          
           {/* BREAKFAST VIEW */}
           <Text style={styles.headerText}>Breakfast</Text>
           {this.props.breakfast.map((dish, index) => {
