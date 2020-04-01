@@ -34,21 +34,27 @@ class Signup extends React.Component {
       inches: 0,
       weight: 0,
       dietaryPreference: [],
+      glutenFree: false,
+      dairyFree: false,
+      vegan: false,
+      vegetarian: false,
+      lowCarb: false,
+      lowFat: false,
       dateModalOpen: false,
       sexProps: [
         { label: 'Female', value: 'female' },
         { label: 'Male', value: 'male' },
         { label: 'Prefer Not to Say', value: 'prefer-not-to-say' },
       ],
-      healthProps: [
-        { label: 'Gluten-Free', value: 'gluten-free' },
-        { label: 'Vegan', value: 'vegan' },
-        { label: 'Vegetarian', value: 'vegetarian' },
-        { label: 'Dairy Free', value: 'dairy-free' },
-        { label: 'Pescatarian', value: 'pescatarian' },
-        { label: 'Paleo', value: 'paleo' },
-        { label: 'Keto', value: 'keto' },
-      ],
+      // healthProps: [
+      //   { label: 'Gluten-Free', value: 'gluten-free' },
+      //   { label: 'Vegan', value: 'vegan' },
+      //   { label: 'Vegetarian', value: 'vegetarian' },
+      //   { label: 'Dairy Free', value: 'dairy-free' },
+      //   { label: 'Pescatarian', value: 'pescatarian' },
+      //   { label: 'Paleo', value: 'paleo' },
+      //   { label: 'Keto', value: 'keto' },
+      // ],
     };
     this.handleSignup = this.handleSignup.bind(this);
     this.addDate = this.addDate.bind(this);
@@ -249,73 +255,43 @@ class Signup extends React.Component {
                   <Text>                                     </Text>
                 <CheckBox
                   style={styles.checkbox}
-                  onClick={() => {console.log(hello)}}
-                  // onClick={()=>{
-                  //   this.setState({
-                  //       isChecked:!this.state.isChecked
-                  //   })
-                  // }}
-                  isChecked={false}
+                  onClick={() => {this.state.glutenFree ? this.setState({glutenFree: false}) : this.setState({glutenFree: true})}}
+                  isChecked={this.state.glutenFree}
                   rightText={"Gluten-Free"}
                   rightTextStyle={styles.checkboxText}
                 />
                 <CheckBox
                   style={styles.checkbox}
-                  onClick={() => {console.log(hello)}}
-                  // onClick={()=>{
-                  //   this.setState({
-                  //       isChecked:!this.state.isChecked
-                  //   })
-                  // }}
-                  isChecked={false}
+                  onClick={() => {this.state.glutenFree ? this.setState({glutenFree: false}) : this.setState({glutenFree: true})}}
+                  isChecked={this.state.dairyFree}
                   rightText={"Dairy-Free"}
                   rightTextStyle={styles.checkboxText}
                 />
                 <CheckBox
                   style={styles.checkbox}
-                  onClick={() => {console.log(hello)}}
-                  // onClick={()=>{
-                  //   this.setState({
-                  //       isChecked:!this.state.isChecked
-                  //   })
-                  // }}
-                  isChecked={false}
+                  onClick={() => {this.state.glutenFree ? this.setState({glutenFree: false}) : this.setState({glutenFree: true})}}
+                  isChecked={this.state.vegan}
                   rightText={"Vegan"}
                   rightTextStyle={styles.checkboxText}
                 />
                                 <CheckBox
                   style={styles.checkbox}
-                  onClick={() => {console.log(hello)}}
-                  // onClick={()=>{
-                  //   this.setState({
-                  //       isChecked:!this.state.isChecked
-                  //   })
-                  // }}
-                  isChecked={false}
+                  onClick={() => {this.state.glutenFree ? this.setState({glutenFree: false}) : this.setState({glutenFree: true})}}
+                  isChecked={this.state.vegetarian}
                   rightText={"Vegetarian"}
                   rightTextStyle={styles.checkboxText}
                 />
                                 <CheckBox
                   style={styles.checkbox}
-                  onClick={() => {console.log(hello)}}
-                  // onClick={()=>{
-                  //   this.setState({
-                  //       isChecked:!this.state.isChecked
-                  //   })
-                  // }}
-                  isChecked={false}
+                  onClick={() => {this.state.glutenFree ? this.setState({glutenFree: false}) : this.setState({glutenFree: true})}}
+                  isChecked={this.state.lowCarb}
                   rightText={"Low-Carb"}
                   rightTextStyle={styles.checkboxText}
                 />
                                 <CheckBox
                   style={styles.checkbox}
-                  onClick={() => {console.log(hello)}}
-                  // onClick={()=>{
-                  //   this.setState({
-                  //       isChecked:!this.state.isChecked
-                  //   })
-                  // }}
-                  isChecked={false}
+                  onClick={() => {this.state.glutenFree ? this.setState({glutenFree: false}) : this.setState({glutenFree: true})}}
+                  isChecked={this.state.lowFat}
                   rightText={"Low-Fat"}
                   rightTextStyle={styles.checkboxText}
                 />

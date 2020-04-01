@@ -19,42 +19,9 @@ class HomeScreen extends React.Component {
     this.handleLogout = this.handleLogout.bind(this);
   }
 
-  handleLogout() {
+  handleLogout = async () => {
     this.props.logoutDispatch();
-    return this.props.navigation.reset({
-      routes: [{ name: 'FirstScreen' }],
-    });
-    this.props.navigation.dispatch(navigateAction)
   }
-
-//   import { NavigationActions } from 'react-navigation';
-
-// const navigateAction = NavigationActions.navigate({
-//   routeName: 'Profile',
-
-//   params: {},
-
-//   action: NavigationActions.navigate({ routeName: 'FirstScreen' }),
-// });
-
-// const navigateAction = NavigationActions.navigate({
-//   routeName: 'Profile',
-
-//   params: {},
-
-//   action: NavigationActions.navigate({ routes: [{name: 'FirstScreen'}] }),
-// });
-
-// import { NavigationActions } from 'react-navigation';
-
-// const resetAction = NavigationActions.reset({
-//   index: 0,
-//   actions: [NavigationActions.navigate({ routeName: 'Profile' })],
-// });
-// this.props.navigation.dispatch(resetAction);
-
-
-// this.props.navigation.dispatch(navigateAction);
 
   render() {
     return (
