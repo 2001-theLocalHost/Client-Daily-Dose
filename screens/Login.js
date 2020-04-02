@@ -19,11 +19,6 @@ class Login extends React.Component {
   }
 
   handleLogin() {
-    console.log(
-      'saving username and password',
-      this.state.email,
-      this.state.password
-    );
     this.props.loginDispatch(this.state.email, this.state.password);
 
     return this.navigation.dispatch(StackActions.popToTop());

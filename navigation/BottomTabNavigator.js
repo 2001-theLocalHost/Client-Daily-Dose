@@ -32,23 +32,9 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Photos"
         component={UploadImg}
         options={{
-          title: 'Photos',
+          title: 'Add Dish',
           tabBarIcon: ({ focused }) => (
             <TabBarIcon icon="ionicons" focused={focused} name="md-camera" />
-          ),
-        }}
-      />
-      <BottomTab.Screen
-        name="Dishes"
-        component={ConnectedDishScreen}
-        options={{
-          title: 'Dish',
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon
-              icon="materialCommunityIcons"
-              focused={focused}
-              name="silverware-fork-knife"
-            />
           ),
         }}
       />
@@ -74,7 +60,7 @@ function getHeaderTitle(route) {
     case 'Home':
       return 'Welcome!';
     case 'Dishes':
-      return 'Your Dish';
+      return 'Your Dishes';
     case 'Photos':
       return 'Take a pic!';
     case 'Meal Diary':

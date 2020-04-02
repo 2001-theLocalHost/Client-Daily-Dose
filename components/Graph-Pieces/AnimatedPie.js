@@ -61,7 +61,7 @@ export default class AnimatedPie extends React.Component {
 
     return (
       <View>
-        <SVG width={300} height={250} viewBox={`-175 -60 280 160`}>
+        <SVG width={220} height={250} viewBox={`-130 -50 250 170`}>
           {/* viewBox prop indicates placement of the vector art */}
           <G>
             {/*G is a container used to group other SVG elements.*/}

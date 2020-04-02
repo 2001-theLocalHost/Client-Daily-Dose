@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { logout } from '../store/user';
-import { StackActions, CommonActions } from '@react-navigation/native';
 
 class HomeScreen extends React.Component {
   constructor({ navigation }) {
@@ -19,11 +18,8 @@ class HomeScreen extends React.Component {
     this.handleLogout = this.handleLogout.bind(this);
   }
 
-  handleLogout() {
+  handleLogout = async () => {
     this.props.logoutDispatch();
-    return this.props.navigation.reset({
-      routes: [{ name: 'FirstScreen' }],
-    });
   }
 
   render() {
@@ -52,7 +48,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: 30,
-  },
+  }
 });
 
 const mapStateToProps = state => ({

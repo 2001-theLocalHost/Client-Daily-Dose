@@ -149,6 +149,12 @@ export const finalData = (currentDish, goal) => {
     let currentQuant = currentDish[label];
 
     if (
+      label !== 'FAMS' &&
+      label !== 'FAPU' &&
+      label !== 'FASAT' &&
+      label !== 'FATRN' &&
+      label !== 'FOLAC' &&
+      label !== 'FOLFD' &&
       label !== 'CHOCDF_KCAL' &&
       label !== 'PROCNT_KCAL' &&
       label !== 'ENERC_KCAL' &&
@@ -164,10 +170,13 @@ export const finalData = (currentDish, goal) => {
       label !== 'createdAt' &&
       label !== 'updatedAt'
     ) {
+      if (currentQuant >= goalQuant) {
+        currentQuant = goalQuant;
+      }
       let obj = {};
-      obj[label] = currentQuant;
-      obj['current'] = currentQuant;
-      obj['diff'] = goalQuant - currentQuant;
+      obj['label'] = label;
+      obj['current'] = currentQuant / goalQuant;
+      obj['diff'] = 1 - currentQuant / goalQuant;
       finalArr.push(obj);
     }
   }
@@ -183,6 +192,12 @@ export const startData = (currentDish, goal) => {
     let currentQuant = currentDish[label];
 
     if (
+      label !== 'FAMS' &&
+      label !== 'FAPU' &&
+      label !== 'FASAT' &&
+      label !== 'FATRN' &&
+      label !== 'FOLAC' &&
+      label !== 'FOLFD' &&
       label !== 'CHOCDF_KCAL' &&
       label !== 'PROCNT_KCAL' &&
       label !== 'ENERC_KCAL' &&
@@ -198,10 +213,13 @@ export const startData = (currentDish, goal) => {
       label !== 'createdAt' &&
       label !== 'updatedAt'
     ) {
+      if (currentQuant >= goalQuant) {
+        currentQuant = goalQuant;
+      }
       let obj = {};
-      obj[label] = currentQuant;
-      obj['current'] = currentQuant;
-      obj['diff'] = goalQuant - currentQuant;
+      obj['label'] = label;
+      obj['current'] = currentQuant / goalQuant;
+      obj['diff'] = 1 - currentQuant / goalQuant;
       finalArr.push(obj);
     }
   }
@@ -224,10 +242,10 @@ export const consolidateData = async finalIngredients => {
     let stringified = `${element.quantity} ${element.measurement} ${element.name}`;
     return stringified;
   });
-  return consolidated
-}
+  return consolidated;
+};
 
-export const formatIngredients = (apiIngredients) => {
+export const formatIngredients = apiIngredients => {
   const arr = apiIngredients;
   let newArr = arr.map(obj => {
     return {
@@ -236,7 +254,44 @@ export const formatIngredients = (apiIngredients) => {
       measurement: 'oz',
     };
   });
-  return newArr
+  return newArr;
+};
+
+export const validateInformation = (email, password, name, sex, birthdate, feet, inches, weight) => {
+  let arr = [];
+
+  if (!email) {
+    arr.push('Email')
+  }
+  if (!password) {
+    arr.push('Password')
+  }
+  if (!name) {
+    arr.push('Name')
+  }
+  if (!sex) {
+    arr.push('Sex')
+  }
+  if (birthdate >= new Date()) {
+    arr.push('Birthdate')
+  }
+  if (!feet) {
+    arr.push('Height (ft)')
+  }
+  if (!inches) {
+    arr.push('Height (in)')
+  }
+  if (!weight) {
+    arr.push('Weight')
+  }
+
+  let message = arr.join(', ')
+
+  if (arr.length > 0) {
+    alert(message + ' required.')
+    return false;
+  }
+  return true;
 }
 
 export const convertHeight = (feet, inches) => {
