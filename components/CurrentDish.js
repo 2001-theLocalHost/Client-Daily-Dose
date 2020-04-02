@@ -114,6 +114,10 @@ class CurrentDish extends React.Component {
 
           <View style={styles.barGraph}>
             <Text style={styles.totalTitle}>Total Nutrients:</Text>
+            <Text style={styles.description}>
+              Below % represents the nutritional intake reached by the dish
+              based on daily recommendation
+            </Text>
             <TotalNutrientsBar
               data={finalDataForStackGraph}
               startData={startDataForStackGraph}
@@ -201,6 +205,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'avenir-book',
     marginLeft: 8,
+  },
+  description: {
+    fontSize: 12,
+    marginLeft: 9,
+    marginRight: 11,
+    marginBottom: 10,
+    width: 350,
+    color: '#696969',
   },
   pieGraphContainer: {
     marginTop: 40,

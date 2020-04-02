@@ -52,9 +52,13 @@ export default class TotalNutrientsBar extends React.PureComponent {
         <YAxis
           data={data}
           yAccessor={({ index }) => index}
-          formatLabel={(_, index) => data[index].label}
+          formatLabel={(_, index) =>
+            `${data[index].label} ${'  -  '} ${Math.round(
+              100 - data[index].diff * 100
+            )}%`
+          }
           scale={scale.scaleBand}
-          contentInset={{ right: 50, left: 50 }}
+          contentInset={{ right: 50, left: 10 }}
           spacingInner={0.5}
           spacingOuter={0.3}
           svg={{ fontSize: 10, fill: 'black' }}
@@ -65,7 +69,7 @@ export default class TotalNutrientsBar extends React.PureComponent {
           colors={colors}
           data={data}
           showGrid={false}
-          contentInset={{ right: 50, left: 50 }}
+          contentInset={{ right: 50, left: 10 }}
           horizontal={true}
           spacingInner={0.5}
           spacingOuter={0.3}
