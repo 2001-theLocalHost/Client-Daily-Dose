@@ -29,8 +29,6 @@ class Login extends React.Component {
       <View style={styles.container}>
         <View style={styles.container}>
           <LoginScreen
-            // source={require('../assets/images/grain.png')}
-            //'https://imagesvc.meredithcorp.io/v3/mm/image?q=85&c=sc&poi=face&url=https%3A%2F%2Fimg1.cookinglight.timeinc.net%2Fsites%2Fdefault%2Ffiles%2Fstyles%2F4_3_horizontal_-_1200x900%2Fpublic%2Fimage%2F2016%2F03%2Fmain%2Foh4637p21-know-your-grains.jpg%3Fitok%3DZ2qx5R6X',
             source={{
               uri:
                 'https://www.heart.org/-/media/aha/h4gm/article-images/fruit-and-vegetables.jpg',
@@ -70,12 +68,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   loginFont: {
-    fontFamily: 'gotham-book',
+    fontFamily: 'avenir-book',
     color: 'white',
   },
   switchFont: {
-    fontFamily: 'gotham-book',
-    color: 'white',
+    fontFamily: 'avenir-book',
+    color: '#3E3D3F',
   },
 });
 

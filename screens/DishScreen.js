@@ -29,19 +29,6 @@ class DishScreen extends React.Component {
     this.onPress = this.onPress.bind(this);
   }
 
-  // static navigationOptions = ({ navigation }) => {
-  //   return {
-  //     headerTitle: 'My Dish',
-  //     headerRight: (
-  //       <Button
-  //         onPress={navigation.getParam('onPress')}
-  //         title="Save"
-  //         color="Black"
-  //       />
-  //     ),
-  //   };
-  // };
-
   async fetchDataFromDbOrEdamam() {
     if (!this.props.dishNut.name && this.props.ingrNut.length < 1) {
       let ingrNameArr = ingrNameFunc(this.props.finalIngrObj);
@@ -104,7 +91,10 @@ class DishScreen extends React.Component {
             isVisible={this.state.modalOpen}
             handleCancel={this.handleCancel}
             dishNut={this.props.dishNut}
-            onSave={values => {this.onSave(values)}} />
+            onSave={values => {
+              this.onSave(values);
+            }}
+          />
           <CurrentDish
             dishNut={this.props.dishNut}
             finalIngrStr={this.props.finalIngrStr}

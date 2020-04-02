@@ -93,8 +93,4 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 900,
   },
-  // label: {
-  //   fontFamily: 'gotham-book',
-  //   backgroundColor: 'green',
-  // },
 });
