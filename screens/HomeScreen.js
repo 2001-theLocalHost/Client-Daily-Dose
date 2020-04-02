@@ -86,7 +86,7 @@ class HomeScreen extends React.Component {
                     );
                   })
                 ) : (
-                  <Text>N/A</Text>
+                  <Text style={styles.nodietPref}>N/A</Text>
                 )}
               </View>
             </View>
@@ -178,6 +178,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginLeft: 4,
     paddingLeft: 2,
+    paddingTop: 2,
+  },
+  nodietPref: {
+    fontFamily: 'avenir-book',
+    fontSize: 14,
     paddingTop: 2,
   },
   list: {

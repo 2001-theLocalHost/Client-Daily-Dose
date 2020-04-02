@@ -19,6 +19,7 @@ class DishScreen extends React.Component {
       index: 0,
       routes: [{ key: 'Dish', title: 'Dish' }],
       modalOpen: false,
+      buttonClicked: route.params.buttonClicked,
     };
     this.renderScene = this.renderScene.bind(this);
     this.renderTabBar = this.renderTabBar.bind(this);
@@ -81,6 +82,12 @@ class DishScreen extends React.Component {
 
   componentWillUnmount() {
     this.unsubscribe();
+  }
+
+  saveButtonClicked() {
+    if (this.state.buttonClicked === true) {
+      console.log('it worked!!!!');
+    }
   }
 
   renderScene = ({ route }) => {

@@ -96,7 +96,11 @@ function Main(props) {
                     headerMode: 'none',
                     headerRight: () => (
                       <Button
-                        onPress={() => navigation.navigate('Your Dish')}
+                        onPress={() =>
+                          navigation.navigate('Your Dish', {
+                            buttonClicked: true,
+                          })
+                        }
                         title="Back to Dish"
                         color="black"
                       />
