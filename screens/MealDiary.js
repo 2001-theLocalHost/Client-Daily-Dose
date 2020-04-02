@@ -49,6 +49,10 @@ class MealDiary extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
   // Updates date on local state based on date selected
   addDate(date) {
     this.setState({
@@ -65,7 +69,7 @@ class MealDiary extends React.Component {
   async seeDishInfo(dishObj) {
     //Dispatch a thunk to retrieve the Dish Data Object from backend - once Dish Data Object state is updated, navigate to DishScreen.js
     let dishId = dishObj.dishId;
-
+    console.log('GOT TO SEEDISHINFO, ', dishId);
     await this.props.fetchIngreInfo(dishId); //goes to thunk in mealdiary
 
     await this.props.updateIngrNut(this.props.ingreArrayInfo); //goes to action creator in nutrition with the ingredientarray info
@@ -86,7 +90,7 @@ class MealDiary extends React.Component {
       consolidatedStringOfIngredients
     );
 
-    return this.navigation.navigate('Dishes');
+    return this.navigation.navigate('Your Dish');
   }
 
   async removeDish(dishObj) {
@@ -142,7 +146,7 @@ class MealDiary extends React.Component {
             MEALS FOR {this.state.formattedDate}
           </Text>
           {/* BREAKFAST VIEW */}
-          <Text style={styles.headerText}>Breakfast</Text>
+          <Text style={styles.BreakfastHeaderText}>Breakfast</Text>
           {this.props.breakfast.map((dish, index) => {
             return (
               <View key={index} style={styles.dishView}>
@@ -344,6 +348,8 @@ const styles = StyleSheet.create({
   dishName: {
     width: 300,
     color: 'blue',
+    fontFamily: 'Avenir-Book',
+    paddingBottom: 30,
   },
   addDishField: {
     marginTop: 15,
@@ -353,21 +359,27 @@ const styles = StyleSheet.create({
     width: 150,
   },
   headerText: {
-    // fontWeight: 'bold',
+    fontWeight: 'bold',
     backgroundColor: '#659B0E',
     padding: 10,
     marginTop: 25,
     color: 'white',
-    fontFamily: 'Arial',
+    fontFamily: 'Avenir-Book',
+  },
+  BreakfastHeaderText: {
+    fontWeight: 'bold',
+    backgroundColor: '#659B0E',
+    padding: 10,
+    color: 'white',
+    fontFamily: 'Avenir-Book',
   },
   mainHeader: {
-    // fontWeight: 'bold',
-    // backgroundColor: '#659B0E',
+    fontWeight: 'bold',
     padding: 10,
     marginTop: 25,
     color: 'black',
     fontSize: 15,
-    fontFamily: 'Arial',
+    fontFamily: 'Avenir-Book',
     justifyContent: 'center',
     alignSelf: 'center',
   },

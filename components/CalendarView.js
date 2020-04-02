@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
-import {View, Button, Platform, StyleSheet,} from 'react-native';
+import {View, Platform, StyleSheet,} from 'react-native';
+import { Button } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Feather } from '@expo/vector-icons'
+import { consolidatingDataFromMealDiary } from '../store/dishes';
 
 const CalendarView = (props) => {
   const [date, setDate] = useState(new Date());
@@ -21,17 +23,38 @@ const CalendarView = (props) => {
     setMode(currentMode);
   };
 
-  const showDatepicker = () => {
-    showMode('date');
-  };
+  // let status = true 
+  // const showDatepicker = () => {
+  //   if (status === true) {
+  //     showMode('date'); //open calendar
+  //   } else {
+  //     // onClose() //close calendar
+  //     console.log('closing calendar, ', status)
+  //   }
+  //   status = !status
+  // };
 
+  const showDatepicker = () => {
+      showMode('date'); 
+  };
 
   return (
     <View>
       <View >
-      <View style={styles.icon}>
-        <Feather name="calendar" size={15} color="black" /></View>
-        <Button onPress={showDatepicker} title="View dishes by date" color='green'/>
+        <Button
+          icon={
+          <Icon
+          name="calendar"
+          size={45}
+          color="gray"
+          />
+          }
+          buttonStyle={{
+            backgroundColor: 'transparent',
+            marginTop: 20
+          }}
+          onPress={showDatepicker}
+        />
       </View>
       {show && (
         <DateTimePicker
