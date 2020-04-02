@@ -89,13 +89,23 @@ class DishScreen extends React.Component {
       return (
         <View>
           <SaveDish
+            isVisible={this.state.modalOpen}
+            handleCancel={this.handleCancel}
+            dishNut={this.props.dishNut}
+            onSave={values => {this.onSave(values)}} />
+          {/* <SaveDish
           modalOpen={this.state.modalOpen}
           onSave={values => {
             this.onSave(values);
           }}
           handleCancel={() => {this.handleCancel()}}
           dishNut={this.props.dishNut}
-        />
+        /> */}
+                        {/* <CalendarModal
+                  addDate={this.addDate}
+                  closeDateModal={this.closeDateModal}
+                  isVisible={this.state.dateModalOpen}
+                /> */}
           <CurrentDish
             dishNut={this.props.dishNut}
             finalIngrStr={this.props.finalIngrStr}
