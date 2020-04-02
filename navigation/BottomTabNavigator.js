@@ -32,7 +32,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Photos"
         component={UploadImg}
         options={{
-          title: 'Photos',
+          title: 'Add Dish',
           tabBarIcon: ({ focused }) => (
             <TabBarIcon icon="ionicons" focused={focused} name="md-camera" />
           ),

@@ -18,7 +18,7 @@ class HomeScreen extends React.Component {
     this.handleLogout = this.handleLogout.bind(this);
   }
 
-  handleLogout() {
+  handleLogout = async () => {
     this.props.logoutDispatch();
   }
 
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: 30,
-  },
+  }
 });
 
 const mapStateToProps = state => ({

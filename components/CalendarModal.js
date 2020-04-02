@@ -1,15 +1,7 @@
 import React from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Button,
-  Picker,
-  ScrollView,
-  ImageBackground
+  Button
 } from 'react-native';
-import { connect } from 'react-redux';
 import CalendarView from '../components/CalendarView'
 import {Overlay} from 'react-native-elements'
 

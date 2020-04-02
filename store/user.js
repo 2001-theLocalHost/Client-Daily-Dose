@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { IP } from '../secret';
 
 const GET_USER = 'GET_USER';
 const REMOVE_USER = 'REMOVE_USER';
@@ -31,7 +30,7 @@ export const login = (email, password) => {
     let res;
     try {
       res = await axios.post(
-        `https://daily-dose-server.herokuapp.com/auth/login`,
+        'https://daily-dose-server.herokuapp.com/auth/login',
         {
           email,
           password,
