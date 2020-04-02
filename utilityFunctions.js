@@ -298,3 +298,26 @@ export const convertHeight = (feet, inches) => {
   let newHeight = (feet * 12) + inches
   return parseFloat(newHeight)
 }
+
+export const dietaryArray = (gf, df, vg, ve, lc, lf) => {
+  let dietaryPreferences = []
+  if (gf) {
+    dietaryPreferences.push('glutenFree')
+  }
+  if (df) {
+    dietaryPreferences.push('dairyFree')
+  }
+  if (vg) {
+    dietaryPreferences.push('vegan')
+  }
+  if (ve) {
+    dietaryPreferences.push('vegetarian')
+  }
+  if (lc) {
+    dietaryPreferences.push('lowCarb')
+  }
+  if (lf) {
+    dietaryPreferences.push('lowFat')
+  }
+  return dietaryPreferences
+}

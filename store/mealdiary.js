@@ -35,7 +35,8 @@ export const fetchDishes = date => {
   return async dispatch => {
     try {
       const { data } = await Axios.get(
-        `https://daily-dose-server.herokuapp.com/api/userDish/${date}`
+        // `https://daily-dose-server.herokuapp.com/api/userDish/${date}`
+        `http://192.168.1.12:8080/userDish/${date}`
       );
       // const {data} = await Axios.get(`http://localhost:8080/api/userDish/${date}`)
       // console.log('data?????', data)

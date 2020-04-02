@@ -17,7 +17,8 @@ export const me = () => async dispatch => {
   try {
     console.log('now i am here');
     const { data } = await axios.get(
-      'https://daily-dose-server.herokuapp.com/auth/me'
+      // 'https://daily-dose-server.herokuapp.com/auth/me'
+      'http://192.168.1.12:8080/auth/me'
     );
     dispatch(getUser(data || defaultUser));
   } catch (err) {
@@ -30,7 +31,8 @@ export const login = (email, password) => {
     let res;
     try {
       res = await axios.post(
-        'https://daily-dose-server.herokuapp.com/auth/login',
+        // 'https://daily-dose-server.herokuapp.com/auth/login',
+        'http://192.168.1.12:8080/auth/login',
         {
           email,
           password,
@@ -49,18 +51,20 @@ export const login = (email, password) => {
 
 export const signup = userInfo => {
   return async dispatch => {
-    console.log('im the user', userInfo);
     let res;
     try {
       res = await axios.post(
-        `https://daily-dose-server.herokuapp.com/auth/signup`,
+        // `https://daily-dose-server.herokuapp.com/auth/signup`,
+        'http://192.168.1.12:8080/auth/signup',
         userInfo
       );
+      console.log('3', res.data)
     } catch (authError) {
       return dispatch(getUser(null, authError));
     }
 
     try {
+      console.log('4', res.data)
       dispatch(getUser(res.data));
     } catch (dispatchOrHistoryErr) {
       console.error(dispatchOrHistoryErr);
@@ -89,7 +93,8 @@ export const editProfile = userInfo => {
 
 export const logout = () => async dispatch => {
   try {
-    await axios.post('https://daily-dose-server.herokuapp.com/auth/logout');
+    // await axios.post('https://daily-dose-server.herokuapp.com/auth/logout');
+    await axios.post('http://192.168.1.12:8080/auth/logout')
     dispatch(removeUser());
   } catch (err) {
     console.error(err);
