@@ -252,7 +252,7 @@ class Signup extends React.Component {
                   <Text style={styles.prefText}>Preference:</Text>
                 </View>
                 <View style={styles.checkboxContainer}>
-                  <Text>                                     </Text>
+                  <Text>Select All That Apply</Text>
                 <CheckBox
                   style={styles.checkbox}
                   onClick={() => {this.state.glutenFree ? this.setState({glutenFree: false}) : this.setState({glutenFree: true})}}
@@ -262,35 +262,35 @@ class Signup extends React.Component {
                 />
                 <CheckBox
                   style={styles.checkbox}
-                  onClick={() => {this.state.glutenFree ? this.setState({glutenFree: false}) : this.setState({glutenFree: true})}}
+                  onClick={() => {this.state.dairyFree ? this.setState({dairyFree: false}) : this.setState({dairyFree: true})}}
                   isChecked={this.state.dairyFree}
                   rightText={"Dairy-Free"}
                   rightTextStyle={styles.checkboxText}
                 />
                 <CheckBox
                   style={styles.checkbox}
-                  onClick={() => {this.state.glutenFree ? this.setState({glutenFree: false}) : this.setState({glutenFree: true})}}
+                  onClick={() => {this.state.vegan ? this.setState({vegan: false}) : this.setState({vegan: true})}}
                   isChecked={this.state.vegan}
                   rightText={"Vegan"}
                   rightTextStyle={styles.checkboxText}
                 />
                                 <CheckBox
                   style={styles.checkbox}
-                  onClick={() => {this.state.glutenFree ? this.setState({glutenFree: false}) : this.setState({glutenFree: true})}}
+                  onClick={() => {this.state.vegetarian ? this.setState({vegetarian: false}) : this.setState({vegetarian: true})}}
                   isChecked={this.state.vegetarian}
                   rightText={"Vegetarian"}
                   rightTextStyle={styles.checkboxText}
                 />
                                 <CheckBox
                   style={styles.checkbox}
-                  onClick={() => {this.state.glutenFree ? this.setState({glutenFree: false}) : this.setState({glutenFree: true})}}
+                  onClick={() => {this.state.lowCarb ? this.setState({lowCarb: false}) : this.setState({lowCarb: true})}}
                   isChecked={this.state.lowCarb}
                   rightText={"Low-Carb"}
                   rightTextStyle={styles.checkboxText}
                 />
                                 <CheckBox
                   style={styles.checkbox}
-                  onClick={() => {this.state.glutenFree ? this.setState({glutenFree: false}) : this.setState({glutenFree: true})}}
+                  onClick={() => {this.state.lowFat ? this.setState({lowFat: false}) : this.setState({lowFat: true})}}
                   isChecked={this.state.lowFat}
                   rightText={"Low-Fat"}
                   rightTextStyle={styles.checkboxText}
