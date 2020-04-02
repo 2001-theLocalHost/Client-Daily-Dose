@@ -39,20 +39,6 @@ export default function BottomTabNavigator({ navigation, route }) {
         }}
       />
       <BottomTab.Screen
-        name="Dishes"
-        component={ConnectedDishScreen}
-        options={{
-          title: 'Dish',
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon
-              icon="materialCommunityIcons"
-              focused={focused}
-              name="silverware-fork-knife"
-            />
-          ),
-        }}
-      />
-      <BottomTab.Screen
         name="Meal Diary"
         component={MealDiary}
         options={{
@@ -74,7 +60,7 @@ function getHeaderTitle(route) {
     case 'Home':
       return 'Welcome!';
     case 'Dishes':
-      return 'Your Dish';
+      return 'Your Dishes';
     case 'Photos':
       return 'Take a pic!';
     case 'Meal Diary':

@@ -7,10 +7,12 @@ import { Ionicons } from '@expo/vector-icons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import IngredientConfirmation from './screens/IngredientConfirmation';
+
 import { me } from './store/user';
 import AuthStackScreen from './navigation/AuthNavigator';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
+import IngredientConfirmation from './screens/IngredientConfirmation';
+import ConnectedDishScreen from './screens/DishScreen';
 import useLinking from './navigation/useLinking';
 
 const Root = createStackNavigator();
@@ -71,9 +73,10 @@ function Main(props) {
               <>
                 <Root.Screen name="App" component={BottomTabNavigator} />
                 <Root.Screen
-                  name="confirmation"
+                  name="Confirmation"
                   component={IngredientConfirmation}
                 />
+                <Root.Screen name="Your Dish" component={ConnectedDishScreen} />
               </>
             ) : (
               <Root.Screen
