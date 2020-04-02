@@ -295,7 +295,7 @@ export const validateInformation = (email, password, name, sex, birthdate, feet,
 }
 
 export const convertHeight = (feet, inches) => {
-  let newHeight = (feet * 12) + inches
+  let newHeight = parseFloat(feet * 12) + parseFloat(inches)
   return parseFloat(newHeight)
 }
 

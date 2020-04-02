@@ -82,7 +82,8 @@ export const createDish = (dishNut, formvalues, ingredientArray) => {
         ingredients: ingredientArray,
       };
       const { data } = await axios.post(
-        'https://daily-dose-server.herokuapp.com/api/dishes',
+        // 'https://daily-dose-server.herokuapp.com/api/dishes',
+        'http://192.168.1.12:8080/api/dishes',
         dataForPost
       );
     } catch (error) {
