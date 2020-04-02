@@ -34,7 +34,11 @@ export default function BottomTabNavigator({ navigation, route }) {
         options={{
           title: 'Add Dish',
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon icon="ionicons" focused={focused} name="md-camera" />
+            <TabBarIcon
+              icon="materialCommunityIcons"
+              focused={focused}
+              name="plus-box"
+            />
           ),
         }}
       />
@@ -46,6 +50,7 @@ export default function BottomTabNavigator({ navigation, route }) {
           tabBarIcon: ({ focused }) => (
             <TabBarIcon icon="ionicons" focused={focused} name="md-journal" />
           ),
+          headerShown: true,
         }}
       />
     </BottomTab.Navigator>
@@ -59,10 +64,8 @@ function getHeaderTitle(route) {
   switch (routeName) {
     case 'Home':
       return 'Welcome!';
-    case 'Dishes':
-      return 'Your Dishes';
     case 'Photos':
-      return 'Take a pic!';
+      return 'Add Dish';
     case 'Meal Diary':
       return 'Your Meal Diary';
   }
