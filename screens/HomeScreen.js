@@ -69,19 +69,27 @@ class HomeScreen extends React.Component {
 
               <Text style={styles.subHeader}>Dietary Preference: </Text>
               <View style={styles.dietPrefContainer}>
-                {user.dietaryPreference
-                  ? user.dietaryPreference.map((el, ind) => {
-                      return (
-                        <Text key={ind} style={styles.dietPref}>
-                          - {el}
-                        </Text>
-                      );
-                    })
-                  : null}
+                {user.dietaryPreference && user.dietaryPreference.length > 1 ? (
+                  user.dietaryPreference.map((el, ind) => {
+                    return (
+                      <Text
+                        key={ind.toString() + Math.random().toString()}
+                        style={styles.dietPref}
+                      >
+                        -{el === 'glutenFree' ? 'Gluen Free' : ''}
+                        {el === 'dairyFree' ? 'Dairy Free' : ''}
+                        {el === 'vegan' ? 'Vegan' : ''}
+                        {el === 'vegetarian' ? 'Vegetarian' : ''}
+                        {el === 'lowCarb' ? 'Low Carb' : ''}
+                        {el === 'lowFat' ? 'Low Fat' : ''}
+                      </Text>
+                    );
+                  })
+                ) : (
+                  <Text>N/A</Text>
+                )}
               </View>
             </View>
-
-            {console.log('this is dietary', user.dietaryPreference[0])}
 
             <View>
               <Button
