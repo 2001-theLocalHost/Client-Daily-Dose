@@ -28,7 +28,7 @@ const CalendarView = (props) => {
   return (
     <View>
       <View>
-        <Button onPress={showDatepicker} title="Select Date" color='green' />
+        <Button onPress={showDatepicker} title="View dishes by date" color='green' />
       </View>
       {show && (
         <DateTimePicker
