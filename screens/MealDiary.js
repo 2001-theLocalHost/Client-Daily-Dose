@@ -32,18 +32,20 @@ class MealDiary extends React.Component {
     this.navigation = navigation;
     this.state = {
       date: '',
-      counter: 0,
+      formattedDate: '',
     };
     this.addDate = this.addDate.bind(this);
     this.getDishes = this.getDishes.bind(this);
     this.seeDishInfo = this.seeDishInfo.bind(this);
     this.removeDish = this.removeDish.bind(this);
+    this.formattedCalendarDate = this.formattedCalendarDate.bind(this);
   }
 
   componentDidMount() {
     this.unsubscribe = this.navigation.addListener('focus', () => {
       const newDate = new Date();
       this.props.fetchDishes(newDate);
+      this.formattedCalendarDate(newDate);
     });
   }
 
@@ -57,6 +59,7 @@ class MealDiary extends React.Component {
   // Dispatches fetchDishes to query dishes by specified date
   async getDishes() {
     await this.props.fetchDishes(this.state.date);
+    this.formattedCalendarDate(this.state.date);
   }
 
   async seeDishInfo(dishObj) {
@@ -91,11 +94,22 @@ class MealDiary extends React.Component {
     await this.props.removeDish(id);
   }
 
+  formattedCalendarDate(providedDate) {
+    const date = providedDate;
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+
+    const string = month + '-' + day + '-' + year;
+    this.setState({
+      formattedDate: string,
+    });
+  }
+
   render() {
     return (
       <ScrollView>
         <View>
-          <Text style={styles.mainHeader}>MEAL DIARY</Text>
           {/* CALENDAR, SUBMIT DATE  */}
           <View>
             <CalendarView addDate={this.addDate} />
@@ -124,6 +138,9 @@ class MealDiary extends React.Component {
               />
             </View>
           )}
+          <Text style={styles.mainHeader}>
+            MEALS FOR {this.state.formattedDate}
+          </Text>
           {/* BREAKFAST VIEW */}
           <Text style={styles.headerText}>Breakfast</Text>
           {this.props.breakfast.map((dish, index) => {
@@ -326,7 +343,7 @@ const styles = StyleSheet.create({
   },
   dishName: {
     width: 300,
-    color: 'black',
+    color: 'blue',
   },
   addDishField: {
     marginTop: 15,
@@ -336,18 +353,23 @@ const styles = StyleSheet.create({
     width: 150,
   },
   headerText: {
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     backgroundColor: '#659B0E',
     padding: 10,
     marginTop: 25,
+    color: 'white',
+    fontFamily: 'Arial',
   },
   mainHeader: {
-    fontWeight: 'bold',
-    backgroundColor: '#659B0E',
+    // fontWeight: 'bold',
+    // backgroundColor: '#659B0E',
     padding: 10,
     marginTop: 25,
     color: 'black',
-    fontSize: 25,
+    fontSize: 15,
+    fontFamily: 'Arial',
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
   removeButton: {
     fontSize: 10,

@@ -34,11 +34,10 @@ export const depositDishInfo = dish => {
 export const fetchDishes = date => {
   return async dispatch => {
     try {
+      console.log('IM THE THUNK')
       const { data } = await Axios.get(
         `https://daily-dose-server.herokuapp.com/api/userDish/${date}`
       );
-      // const {data} = await Axios.get(`http://localhost:8080/api/userDish/${date}`)
-      // console.log('data?????', data)
       dispatch(getDishesByDate(data));
     } catch (error) {
       console.error(error);
@@ -52,7 +51,6 @@ export const fetchIngreInfo = dishId => {
       const { data } = await Axios.get(
         `https://daily-dose-server.herokuapp.com/api/userDish/dishIngredient/${dishId}`
       );
-      //const {data} = await Axios.get(`http://localhost:8080/api/userDish/dishIngredient/${dishId}`)
       const ingreArr = data[0].dish.ingredients;
       dispatch(getNutritionInfo(ingreArr));
     } catch (error) {
@@ -64,7 +62,6 @@ export const fetchIngreInfo = dishId => {
 export const removeDish = id => {
   return async dispatch => {
     try {
-      // const {data} = await Axios.delete(`http://localhost:8080/api/userDish/${id}`)
       const {data} = await Axios.delete(`https://daily-dose-server.herokuapp.com/api/userDish/${id}`)
       return await dispatch(fetchDishes(data.date))
     } catch (error) {
