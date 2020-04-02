@@ -7,6 +7,7 @@ import {
   ScrollView,
   ImageBackground,
 } from 'react-native';
+import Moment from 'moment';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { logout } from '../store/user';
@@ -38,9 +39,9 @@ class HomeScreen extends React.Component {
               <Text style={styles.subHeader}>
                 Sex: {capitalize(this.props.user.sex)}
               </Text>
-              <Text style={styles.subHeader}>
-                Birthday: {this.props.user.birthdate}
-              </Text>
+              <Text style={styles.subHeader}>Birthday: </Text>
+              <View>{Moment(this.props.user.birthdate).format('d MMM')} </View>
+
               <Text style={styles.subHeader}>
                 Height: {Math.round(this.props.user.height / 12)} ft{' '}
                 {this.props.user.height % 12} in
