@@ -40,6 +40,7 @@ class Signup extends React.Component {
       lowCarb: false,
       lowFat: false,
       dateModalOpen: false,
+      formattedDate: '',
       sexProps: [
         { label: 'Female', value: 'female' },
         { label: 'Male', value: 'male' },
@@ -50,9 +51,23 @@ class Signup extends React.Component {
     this.addDate = this.addDate.bind(this);
     this.showDateModal = this.showDateModal.bind(this);
     this.closeDateModal = this.closeDateModal.bind(this);
+    this.formattedCalendarDate = this.formattedCalendarDate.bind(this);
+  }
+
+  formattedCalendarDate() {
+    const date = this.state.birthdate
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+
+    const string = month + '-' +  day+ '-' + year;
+    this.setState({
+      formattedDate: string
+    })
   }
 
   handleSignup() {
+    console.log('im the birthdate', this.state.birthdate)
     let dietaryPreference = dietaryArray(this.state.glutenFree, this.state.dairyFree, this.state.vegan, this.state.vegetarian, this.state.lowCarb, this.state.lowFat)
 
     if (!validateInformation(this.state.email, this.state.password, this.state.name, this.state.sex, this.state.birthdate, this.state.feet, this.state.inches, this.state.weight)) {
@@ -99,6 +114,7 @@ class Signup extends React.Component {
     this.setState({
       dateModalOpen: false,
     });
+    this.formattedCalendarDate()
   }
 
   render() {
@@ -149,7 +165,11 @@ class Signup extends React.Component {
               <View style={styles.textContainer}>
                 <Text style={styles.headerText}>Date of Birth:</Text>
                 <View>
-                  <Button title="Select Date" onPress={this.showDateModal} />
+                  {this.state.birthdate > new Date() ? <Button title="Select Date" onPress={this.showDateModal} /> :
+                  <View style={styles.dateContainer}>
+                    <Text>{this.state.formattedDate}</Text>
+                    <Button title="Edit" onPress={this.showDateModal}/>
+                  </View>}
                 </View>
                 <CalendarModal
                   addDate={this.addDate}
@@ -274,57 +294,6 @@ class Signup extends React.Component {
                   rightTextStyle={styles.checkboxText}
                 />
                 </View>
-                {/* <View>
-                  <RadioForm formHorizontal={false} animation={true}>
-                    {this.state.healthProps.map((obj, i) => (
-                      <RadioButton labelHorizontal={true} key={i}>
-                        <RadioButtonInput
-                          obj={obj}
-                          index={i}
-                          isSelected={this.state.dietaryPreference.includes(
-                            obj.value
-                          )}
-                          onPress={
-                            !this.state.dietaryPreference.includes(obj.value)
-                              ? value => {
-                                  this.setState({
-                                    ...this.state,
-                                    dietaryPreference: [
-                                      ...this.state.dietaryPreference,
-                                      obj.value,
-                                    ],
-                                  });
-                                }
-                              : value => this.removeDietaryPreference(value)
-                          }
-                          borderWidth={1}
-                          buttonInnerColor={'#659B0E'}
-                          buttonOuterColor={'black'}
-                          buttonSize={7}
-                          buttonOuterSize={17}
-                          buttonStyle={{}}
-                          buttonWrapStyle={{ marginLeft: 10 }}
-                        />
-                        <RadioButtonLabel
-                          obj={obj}
-                          index={i}
-                          labelHorizontal={true}
-                          onPress={value => {
-                            this.setState({
-                              ...this.state,
-                              dietaryPreference: [
-                                ...this.state.dietaryPreference,
-                                obj.value,
-                              ],
-                            });
-                          }}
-                          labelStyle={{ fontSize: 15, color: 'black' }}
-                          labelWrapStyle={{}}
-                        />
-                      </RadioButton>
-                    ))}
-                  </RadioForm>
-                </View> */}
               </View>
 
               <View style={styles.signupButton}>
@@ -407,6 +376,10 @@ const styles = StyleSheet.create({
     opacity: 1,
     flexDirection: 'row',
     margin: 10,
+  },
+  dateContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   dietContainer: {
     justifyContent: 'flex-start',
