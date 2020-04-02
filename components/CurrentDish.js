@@ -59,15 +59,30 @@ class CurrentDish extends React.Component {
 
           <View>
             <View>
-              <Text style={styles.head}>{capitalize(dishNut.name)}</Text>
+              <Text style={styles.head}>
+                {dishNut.name ? capitalize(dishNut.name) : ''}
+              </Text>
 
-              {this.props.finalIngrStr.map((el, index) => {
+              {this.props.finalIngrStr.map((el, ind) => {
                 return (
-                  <View style={styles.iconContainer}>
-                    <View style={styles.squareIcon}>
-                      <TabBarIcon icon="ionicons" name="ios-square" />
+                  <View
+                    key={ind.toString() + Math.random().toString()}
+                    style={styles.iconContainer}
+                  >
+                    <View
+                      key={ind.toString() + Math.random().toString()}
+                      style={styles.squareIcon}
+                    >
+                      <TabBarIcon
+                        key={ind.toString() + Math.random().toString()}
+                        icon="ionicons"
+                        name="ios-square"
+                      />
                     </View>
-                    <Text key={index} style={styles.ingrlist}>
+                    <Text
+                      key={ind.toString() + Math.random().toString()}
+                      style={styles.ingrlist}
+                    >
                       {el}
                     </Text>
                   </View>
@@ -84,11 +99,17 @@ class CurrentDish extends React.Component {
                 <View style={styles.healthLabels}>
                   <Text style={styles.title}>Health Labels:</Text>
                   <View style={styles.listContainer}>
-                    {dishNut.healthLabels.map((el, index) => {
+                    {dishNut.healthLabels.map((el, ind) => {
                       return (
-                        <View style={styles.listInnerContainer}>
-                          <Text style={styles.list} key={index}>
-                            {capitalize(el.toLowerCase())}
+                        <View
+                          key={ind.toString() + Math.random().toString()}
+                          style={styles.listInnerContainer}
+                        >
+                          <Text
+                            style={styles.list}
+                            key={ind.toString() + Math.random().toString()}
+                          >
+                            {el ? capitalize(el.toLowerCase()) : ''}
                           </Text>
                         </View>
                       );

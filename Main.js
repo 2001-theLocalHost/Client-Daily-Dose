@@ -45,6 +45,7 @@ function Main(props, { navigation }) {
           'gotham-black': require('./assets/fonts/Gotham-Black.ttf'),
           'avenir-light': require('./assets/fonts/Avenir-Light.ttf'),
           'avenir-book': require('./assets/fonts/Avenir-Book.ttf'),
+          'avenir-roman': require('./assets/fonts/Avenir-Roman.ttf'),
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service

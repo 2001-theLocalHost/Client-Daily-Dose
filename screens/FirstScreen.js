@@ -4,9 +4,9 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Button,
   ImageBackground,
 } from 'react-native';
+import { Button } from 'react-native-elements';
 
 export default class FirstScreen extends React.Component {
   constructor({ navigation }) {
@@ -30,18 +30,49 @@ export default class FirstScreen extends React.Component {
               <Text style={styles.headText}>Welcome to</Text>
               <Text style={styles.text}>Daily Dose</Text>
             </View>
-            <View style={styles.buttonContainer}>
+
+            <View>
               <Button
-                onPress={() => this.navigation.push('Login')}
                 title="LOGIN"
-                color="white"
+                onPress={() => this.navigation.push('Login')}
+                color="#659B0E"
+                titleStyle={{
+                  color: 'white',
+                  fontSize: 15,
+                  lineHeight: 15,
+                }}
+                buttonStyle={{
+                  backgroundColor: '#FF7F4B',
+                  opacity: 1,
+                  borderRadius: 20,
+                  height: 35,
+                  width: 190,
+                  justifyContent: 'center',
+                  alignSelf: 'center',
+                  marginTop: 7,
+                }}
               />
             </View>
-            <View style={styles.buttonContainer}>
+            <View>
               <Button
-                onPress={() => this.navigation.push('Signup')}
                 title="SIGN UP"
-                color="white"
+                onPress={() => this.navigation.push('Signup')}
+                color="#659B0E"
+                titleStyle={{
+                  color: 'white',
+                  fontSize: 15,
+                  lineHeight: 15,
+                }}
+                buttonStyle={{
+                  backgroundColor: '#FF7F4B',
+                  opacity: 1,
+                  borderRadius: 20,
+                  height: 35,
+                  width: 190,
+                  justifyContent: 'center',
+                  alignSelf: 'center',
+                  marginTop: 7,
+                }}
               />
             </View>
           </View>
@@ -69,9 +100,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#ffffff',
-    opacity: 0.7,
+    opacity: 0.8,
     height: 300,
     borderRadius: 10,
+    padding: 5,
   },
   buttonContainer: {
     marginTop: 20,
@@ -85,7 +117,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headText: {
-    fontSize: 30,
+    fontSize: 25,
     color: '#3E3D3F',
     fontFamily: 'avenir-book',
   },

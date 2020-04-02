@@ -27,6 +27,8 @@ class HomeScreen extends React.Component {
 
   render() {
     console.log('this is user', this.props.user);
+    const { user } = this.props;
+
     return (
       <View style={styles.container}>
         <ImageBackground
@@ -34,26 +36,52 @@ class HomeScreen extends React.Component {
           style={styles.image}
         >
           <View style={styles.userContainer}>
-            <Text style={styles.header}>Welcome, {this.props.user.name}!</Text>
-            <View style={styles.textContainer}>
-              <Text style={styles.subHeader}>
-                Sex: {capitalize(this.props.user.sex)}
-              </Text>
-              <Text style={styles.subHeader}>Birthday: </Text>
-              <View>{Moment(this.props.user.birthdate).format('d MMM')} </View>
+            <Text style={styles.header}>Welcome, {user.name}!</Text>
 
-              <Text style={styles.subHeader}>
-                Height: {Math.round(this.props.user.height / 12)} ft{' '}
-                {this.props.user.height % 12} in
-              </Text>
-              <Text style={styles.subHeader}>
-                Weight: {this.props.user.weight} lbs
-              </Text>
+            <View style={styles.textContainer}>
+              <View style={styles.textInnerContainer}>
+                <Text style={styles.subHeader}>Sex: </Text>
+                <Text style={styles.text}>
+                  {' '}
+                  {user.sex ? capitalize(user.sex) : ''}
+                </Text>
+              </View>
+
+              <View style={styles.birthday}>
+                <Text style={styles.subHeader}>Birthday: </Text>
+                <Text style={styles.text}>
+                  {Moment(user.birthdate).format('MMMM Do, YYYY')}
+                </Text>
+              </View>
+
+              <View style={styles.textInnerContainer}>
+                <Text style={styles.subHeader}>Height: </Text>
+                <Text style={styles.text}>
+                  {' '}
+                  {Math.round(user.height / 12)} ft {user.height % 12} in
+                </Text>
+              </View>
+
+              <View style={styles.textInnerContainer}>
+                <Text style={styles.subHeader}>Weight: </Text>
+                <Text style={styles.text}> {user.weight} lbs </Text>
+              </View>
+
               <Text style={styles.subHeader}>Dietary Preference: </Text>
-              {this.props.user.dietaryPreference.map(el => {
-                <Text>-{el}</Text>;
-              })}
+              <View style={styles.dietPrefContainer}>
+                {user.dietaryPreference
+                  ? user.dietaryPreference.map((el, ind) => {
+                      return (
+                        <Text key={ind} style={styles.dietPref}>
+                          - {el}
+                        </Text>
+                      );
+                    })
+                  : null}
+              </View>
             </View>
+
+            {console.log('this is dietary', user.dietaryPreference[0])}
 
             <View>
               <Button
@@ -116,13 +144,44 @@ const styles = StyleSheet.create({
   },
   subHeader: {
     fontSize: 18,
+    fontFamily: 'avenir-roman',
+  },
+  text: {
     fontFamily: 'avenir-book',
+    alignSelf: 'center',
   },
   textContainer: {
-    width: 220,
+    width: 245,
     height: 230,
     justifyContent: 'center',
-    padding: 20,
+  },
+  textInnerContainer: {
+    flexDirection: 'row',
+  },
+  birthday: {
+    flexDirection: 'row',
+  },
+  dietPrefContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  dietPref: {
+    fontFamily: 'avenir-book',
+    fontSize: 14,
+    marginLeft: 4,
+    paddingLeft: 2,
+    paddingTop: 2,
+  },
+  list: {
+    fontSize: 13,
+    fontFamily: 'avenir-book',
+    backgroundColor: '#659B0E',
+    color: 'white',
+    margin: 5,
+    padding: 8,
+    paddingLeft: 9,
+    width: 110,
+    height: 35,
   },
 });
 

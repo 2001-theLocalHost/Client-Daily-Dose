@@ -30,7 +30,7 @@ export default class CurrentIngredient extends React.Component {
         <ScrollView>
           <View>
             <Text style={styles.head}>
-              {capitalize(ingrNut.ingredientName)}
+              {ingrNut.ingredientName ? capitalize(ingrNut.ingredientName) : ''}
             </Text>
 
             <View style={styles.iconContainer}>
@@ -47,11 +47,17 @@ export default class CurrentIngredient extends React.Component {
                 <View style={styles.healthLabels}>
                   <Text style={styles.title}>Health Labels:</Text>
                   <View style={styles.listContainer}>
-                    {ingrNut.healthLabels.map((el, index) => {
+                    {ingrNut.healthLabels.map((el, ind) => {
                       return (
-                        <View style={styles.listInnerContainer}>
-                          <Text style={styles.list} key={index}>
-                            {capitalize(el.toLowerCase())}
+                        <View
+                          key={ind.toString() + Math.random().toString()}
+                          style={styles.listInnerContainer}
+                        >
+                          <Text
+                            style={styles.list}
+                            key={ind.toString() + Math.random().toString()}
+                          >
+                            {el ? capitalize(el.toLowerCase()) : ''}
                           </Text>
                         </View>
                       );
