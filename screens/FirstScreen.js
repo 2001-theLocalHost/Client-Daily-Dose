@@ -33,14 +33,14 @@ export default class FirstScreen extends React.Component {
             <View style={styles.buttonContainer}>
               <Button
                 onPress={() => this.navigation.push('Login')}
-                title="Login"
+                title="LOGIN"
                 color="white"
               />
             </View>
             <View style={styles.buttonContainer}>
               <Button
                 onPress={() => this.navigation.push('Signup')}
-                title="Sign Up"
+                title="SIGN UP"
                 color="white"
               />
             </View>
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   buttonContainer: {
-    marginTop: 30,
+    marginTop: 20,
     backgroundColor: '#FF7F4B',
     width: 200,
     opacity: 0.9,
@@ -87,12 +87,13 @@ const styles = StyleSheet.create({
   headText: {
     fontSize: 30,
     color: '#3E3D3F',
-    fontFamily: 'gotham-light',
+    fontFamily: 'avenir-book',
   },
   text: {
+    marginTop: -15,
     marginBottom: 5,
     fontSize: 50,
     color: '#3E3D3F',
-    fontFamily: 'gotham-light',
+    fontFamily: 'avenir-book',
   },
 });

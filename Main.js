@@ -79,7 +79,11 @@ function Main(props, { navigation }) {
           >
             {loggedIn ? (
               <>
-                <Root.Screen name="App" component={BottomTabNavigator} />
+                <Root.Screen
+                  name="App"
+                  component={BottomTabNavigator}
+                  options={{ headerMode: 'none', headerShown: false }}
+                />
                 <Root.Screen
                   name="Confirmation"
                   component={IngredientConfirmation}

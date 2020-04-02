@@ -9,13 +9,13 @@ import {
   TextInput,
   Picker,
 } from 'react-native';
-import {Button} from 'react-native-elements'
+import { Button } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import {
   fetchDishes,
   fetchIngreInfo,
   depositDishInfo,
-  removeDish
+  removeDish,
 } from '../store/mealdiary';
 import {
   updateIngrNut,
@@ -32,19 +32,19 @@ class MealDiary extends React.Component {
     this.navigation = navigation;
     this.state = {
       date: '',
-      counter: 0, 
+      counter: 0,
     };
     this.addDate = this.addDate.bind(this);
     this.getDishes = this.getDishes.bind(this);
     this.seeDishInfo = this.seeDishInfo.bind(this);
-    this.removeDish = this.removeDish.bind(this)
+    this.removeDish = this.removeDish.bind(this);
   }
 
   componentDidMount() {
     this.unsubscribe = this.navigation.addListener('focus', () => {
-      const newDate = new Date()
-      this.props.fetchDishes(newDate)
-    })
+      const newDate = new Date();
+      this.props.fetchDishes(newDate);
+    });
   }
 
   // Updates date on local state based on date selected
@@ -56,7 +56,7 @@ class MealDiary extends React.Component {
 
   // Dispatches fetchDishes to query dishes by specified date
   async getDishes() {
-   await this.props.fetchDishes(this.state.date);
+    await this.props.fetchDishes(this.state.date);
   }
 
   async seeDishInfo(dishObj) {
@@ -86,9 +86,9 @@ class MealDiary extends React.Component {
     return this.navigation.navigate('Dishes');
   }
 
-  async removeDish (dishObj) {
-    let id = dishObj.id
-    await this.props.removeDish(id)
+  async removeDish(dishObj) {
+    let id = dishObj.id;
+    await this.props.removeDish(id);
   }
 
   render() {
@@ -100,29 +100,30 @@ class MealDiary extends React.Component {
           <View>
             <CalendarView addDate={this.addDate} />
           </View>
-          {this.state.date !== '' &&
-            <View >
-            <Button
-              onPress={this.getDishes}
-              title="Submit"
-              color="green"
-              titleStyle={{
-                color: "white",
-                fontSize: 15,
-                lineHeight: 15  
-              }}
-              buttonStyle={{
-                backgroundColor: "#659B0E",
-                borderRadius: 20,
-                height: 35,
-                width: 100,
-                justifyContent: "center",
-                alignSelf: "center",
-                marginTop: 25,
-                marginBottom: 10
-              }}
-            />
-            </View>}
+          {this.state.date !== '' && (
+            <View>
+              <Button
+                onPress={this.getDishes}
+                title="Submit"
+                color="green"
+                titleStyle={{
+                  color: 'white',
+                  fontSize: 15,
+                  lineHeight: 15,
+                }}
+                buttonStyle={{
+                  backgroundColor: '#659B0E',
+                  borderRadius: 20,
+                  height: 35,
+                  width: 100,
+                  justifyContent: 'center',
+                  alignSelf: 'center',
+                  marginTop: 25,
+                  marginBottom: 10,
+                }}
+              />
+            </View>
+          )}
           {/* BREAKFAST VIEW */}
           <Text style={styles.headerText}>Breakfast</Text>
           {this.props.breakfast.map((dish, index) => {
@@ -137,25 +138,25 @@ class MealDiary extends React.Component {
                   {dish.dish.name}
                 </Text>
                 <View style={styles.removeButton}>
-                <Button
-                  onPress={() => {
-                    this.removeDish(dish);
-                  }}
-                  title="X"
-                  titleStyle={{
-                      color: "white",
-                      fontSize: 15,
-                      lineHeight: 15  
+                  <Button
+                    onPress={() => {
+                      this.removeDish(dish);
                     }}
-                  buttonStyle={{
-                    backgroundColor: "gray",
-                    borderRadius: 60,
-                    height: 30,
-                    width: 30,
-                    marginTop:-10
-                  }}
-                />
-              </View>
+                    title="X"
+                    titleStyle={{
+                      color: 'white',
+                      fontSize: 15,
+                      lineHeight: 15,
+                    }}
+                    buttonStyle={{
+                      backgroundColor: 'gray',
+                      borderRadius: 60,
+                      height: 30,
+                      width: 30,
+                      marginTop: -10,
+                    }}
+                  />
+                </View>
               </View>
             );
           })}
@@ -174,25 +175,25 @@ class MealDiary extends React.Component {
                   {dish.dish.name}
                 </Text>
                 <View style={styles.removeButton}>
-                <Button
-                  onPress={() => {
-                    this.removeDish(dish);
-                  }}
-                  title="X"
-                  titleStyle={{
-                      color: "white",
-                      fontSize: 15,
-                      lineHeight: 15  
+                  <Button
+                    onPress={() => {
+                      this.removeDish(dish);
                     }}
-                  buttonStyle={{
-                    backgroundColor: "gray",
-                    borderRadius: 60,
-                    height: 30,
-                    width: 30,
-                    marginTop:-10
-                  }}
-                />
-              </View>
+                    title="X"
+                    titleStyle={{
+                      color: 'white',
+                      fontSize: 15,
+                      lineHeight: 15,
+                    }}
+                    buttonStyle={{
+                      backgroundColor: 'gray',
+                      borderRadius: 60,
+                      height: 30,
+                      width: 30,
+                      marginTop: -10,
+                    }}
+                  />
+                </View>
               </View>
             );
           })}
@@ -211,25 +212,25 @@ class MealDiary extends React.Component {
                   {dish.dish.name}
                 </Text>
                 <View style={styles.removeButton}>
-                <Button
-                  onPress={() => {
-                    this.removeDish(dish);
-                  }}
-                  title="X"
-                  titleStyle={{
-                      color: "white",
-                      fontSize: 15,
-                      lineHeight: 15  
+                  <Button
+                    onPress={() => {
+                      this.removeDish(dish);
                     }}
-                  buttonStyle={{
-                    backgroundColor: "gray",
-                    borderRadius: 60,
-                    height: 30,
-                    width: 30,
-                    marginTop:-10
-                  }}
-                />
-              </View>
+                    title="X"
+                    titleStyle={{
+                      color: 'white',
+                      fontSize: 15,
+                      lineHeight: 15,
+                    }}
+                    buttonStyle={{
+                      backgroundColor: 'gray',
+                      borderRadius: 60,
+                      height: 30,
+                      width: 30,
+                      marginTop: -10,
+                    }}
+                  />
+                </View>
               </View>
             );
           })}
@@ -248,25 +249,25 @@ class MealDiary extends React.Component {
                   {dish.dish.name}
                 </Text>
                 <View style={styles.removeButton}>
-                <Button
-                  onPress={() => {
-                    this.removeDish(dish);
-                  }}
-                  title="X"
-                  titleStyle={{
-                      color: "white",
-                      fontSize: 15,
-                      lineHeight: 15  
+                  <Button
+                    onPress={() => {
+                      this.removeDish(dish);
                     }}
-                  buttonStyle={{
-                    backgroundColor: "gray",
-                    borderRadius: 60,
-                    height: 30,
-                    width: 30,
-                    marginTop:-10
-                  }}
-                />
-              </View>
+                    title="X"
+                    titleStyle={{
+                      color: 'white',
+                      fontSize: 15,
+                      lineHeight: 15,
+                    }}
+                    buttonStyle={{
+                      backgroundColor: 'gray',
+                      borderRadius: 60,
+                      height: 30,
+                      width: 30,
+                      marginTop: -10,
+                    }}
+                  />
+                </View>
               </View>
             );
           })}
@@ -303,8 +304,7 @@ const mapDispatch = dispatch => {
       dispatch(consolidatingDataFromMealDiary(strings)),
     ingredientNamesFromMealDiary: ingredientNames =>
       dispatch(ingredientNamesFromMealDiary(ingredientNames)),
-    removeDish: id =>
-      dispatch(removeDish(id))
+    removeDish: id => dispatch(removeDish(id)),
   };
 };
 
@@ -322,11 +322,11 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#d6d7da',
     paddingTop: 12,
-    paddingLeft: 20
+    paddingLeft: 20,
   },
   dishName: {
     width: 300,
-    color:'black',
+    color: 'black',
   },
   addDishField: {
     marginTop: 15,
@@ -349,9 +349,9 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 25,
   },
-  removeButton:{
-    fontSize:10,
-    marginTop:5,
-    marginLeft: 20
+  removeButton: {
+    fontSize: 10,
+    marginTop: 5,
+    marginLeft: 20,
   },
 });
