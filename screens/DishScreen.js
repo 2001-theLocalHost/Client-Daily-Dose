@@ -12,13 +12,13 @@ import { createDish } from '../store/dishes';
 const initialLayout = { width: Dimensions.get('window').width };
 
 class DishScreen extends React.Component {
-  constructor({navigation}) {
+  constructor({ navigation }) {
     super();
     this.navigation = navigation;
     this.state = {
       index: 0,
       routes: [{ key: 'Dish', title: 'Dish' }],
-      modalOpen: false
+      modalOpen: false,
     };
     this.renderScene = this.renderScene.bind(this);
     this.renderTabBar = this.renderTabBar.bind(this);
@@ -26,10 +26,23 @@ class DishScreen extends React.Component {
     this.createRoutes = this.createRoutes.bind(this);
     this.onSave = this.onSave.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
-    this.onPress = this.onPress.bind(this)
+    this.onPress = this.onPress.bind(this);
   }
 
-  async fetchDataFromDbOrEdamam(){
+  // static navigationOptions = ({ navigation }) => {
+  //   return {
+  //     headerTitle: 'My Dish',
+  //     headerRight: (
+  //       <Button
+  //         onPress={navigation.getParam('onPress')}
+  //         title="Save"
+  //         color="Black"
+  //       />
+  //     ),
+  //   };
+  // };
+
+  async fetchDataFromDbOrEdamam() {
     if (!this.props.dishNut.name && this.props.ingrNut.length < 1) {
       let ingrNameArr = ingrNameFunc(this.props.finalIngrObj);
       let portionQuantArr = portionQuantFunc(this.props.finalIngrObj);
@@ -48,14 +61,14 @@ class DishScreen extends React.Component {
         this.props.finalIngrStr
       );
     } else {
-      this.createRoutes(this.props.ingredientNames)
+      this.createRoutes(this.props.ingredientNames);
     }
   }
 
   onPress() {
     this.setState({
-      modalOpen: true
-    })
+      modalOpen: true,
+    });
   }
 
   onSave(values) {
@@ -63,7 +76,7 @@ class DishScreen extends React.Component {
       modalOpen: false,
     });
     this.props.createDish(this.props.dishNut, values, this.props.ingrNut);
-    return this.navigation.navigate("Meal Diary")
+    return this.navigation.navigate('Meal Diary');
   }
 
   handleCancel() {
@@ -74,15 +87,14 @@ class DishScreen extends React.Component {
 
   componentDidMount() {
     this.unsubscribe = this.navigation.addListener('focus', () => {
-      this.setState({routes: [{ key: 'Dish', title: 'Dish' }]})
-      this.fetchDataFromDbOrEdamam()
+      this.setState({ routes: [{ key: 'Dish', title: 'Dish' }] });
+      this.fetchDataFromDbOrEdamam();
     });
   }
 
-  componentWillUnmount () {
-    this.unsubscribe()
+  componentWillUnmount() {
+    this.unsubscribe();
   }
-
 
   renderScene = ({ route }) => {
     if (route.key === 'Dish') {
@@ -93,19 +105,6 @@ class DishScreen extends React.Component {
             handleCancel={this.handleCancel}
             dishNut={this.props.dishNut}
             onSave={values => {this.onSave(values)}} />
-          {/* <SaveDish
-          modalOpen={this.state.modalOpen}
-          onSave={values => {
-            this.onSave(values);
-          }}
-          handleCancel={() => {this.handleCancel()}}
-          dishNut={this.props.dishNut}
-        /> */}
-                        {/* <CalendarModal
-                  addDate={this.addDate}
-                  closeDateModal={this.closeDateModal}
-                  isVisible={this.state.dateModalOpen}
-                /> */}
           <CurrentDish
             dishNut={this.props.dishNut}
             finalIngrStr={this.props.finalIngrStr}
@@ -126,7 +125,7 @@ class DishScreen extends React.Component {
     <TabBar
       {...props}
       indicatorStyle={{ backgroundColor: '#E2CA2B' }}
-      style={{ backgroundColor: '#659B0E' }}
+      style={{ backgroundColor: '#659B0E', fontFamily: 'avenir-book' }}
       scrollEnabled={true}
     />
   );
@@ -171,7 +170,7 @@ const mapStateToProps = state => ({
   finalIngrStr: state.dishes.consolidatedData,
   dishNut: state.nutrition.dishNut,
   ingrNut: state.nutrition.ingrNut,
-  ingredientNames: state.nutrition.ingredientNames
+  ingredientNames: state.nutrition.ingredientNames,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -180,8 +179,8 @@ const mapDispatchToProps = dispatch => ({
   fetchIngredientDispatch: (ingrNameArr, portionQuantArr, finalIngrStr) =>
     dispatch(fetchIngredient(ingrNameArr, portionQuantArr, finalIngrStr)),
   createDish: (dishNut, formValues, ingredientArray) => {
-      dispatch(createDish(dishNut, formValues, ingredientArray));
-    }
+    dispatch(createDish(dishNut, formValues, ingredientArray));
+  },
 });
 
 const ConnectedDishScreen = connect(

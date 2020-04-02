@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { logout } from '../store/user';
-import { StackActions, CommonActions } from '@react-navigation/native';
 
 class HomeScreen extends React.Component {
   constructor({ navigation }) {
