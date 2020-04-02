@@ -17,7 +17,7 @@ import useLinking from './navigation/useLinking';
 
 const Root = createStackNavigator();
 
-function Main(props, { navigation }) {
+function Main(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
   const containerRef = React.useRef();
@@ -91,17 +91,17 @@ function Main(props, { navigation }) {
                 <Root.Screen
                   name="Your Dish"
                   component={ConnectedDishScreen}
-                  options={{
+                  options={({ navigation }) => ({
                     title: '',
                     headerMode: 'none',
                     headerRight: () => (
                       <Button
-                        onPress={() => alert('Need to make this work')}
+                        onPress={() => navigation.navigate('Your Dish')}
                         title="Back to Dish"
                         color="black"
                       />
                     ),
-                  }}
+                  })}
                 />
               </>
             ) : (
