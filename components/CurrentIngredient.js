@@ -78,9 +78,11 @@ export default class CurrentIngredient extends React.Component {
 const styles = StyleSheet.create({
   head: {
     fontSize: 30,
+    fontFamily: 'gotham-book',
   },
   title: {
     fontSize: 20,
+    fontFamily: 'gotham-book',
   },
   image: {
     width: 150,

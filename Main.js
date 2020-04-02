@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, Button } from 'react-native';
 import { SplashScreen } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
@@ -17,9 +17,10 @@ import useLinking from './navigation/useLinking';
 
 const Root = createStackNavigator();
 
-function Main(props) {
+function Main(props, { navigation }) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
+  // const [modalOpen, setModalOpen] = React.useState(false);
   const containerRef = React.useRef();
   const { getInitialState } = useLinking(containerRef);
 
@@ -44,6 +45,8 @@ function Main(props) {
           'gotham-light': require('./assets/fonts/Gotham-Light.ttf'),
           'gotham-book': require('./assets/fonts/Gotham-Book.ttf'),
           'gotham-black': require('./assets/fonts/Gotham-Black.ttf'),
+          'avenir-light': require('./assets/fonts/Avenir-Light.ttf'),
+          'avenir-book': require('./assets/fonts/Avenir-Book.ttf'),
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
@@ -60,6 +63,13 @@ function Main(props) {
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return null;
   } else {
+    // const params = navigation.state.params || {}
+
+    // const onPress = () => {
+    //   setModalOpen(true)
+    // return true
+    // }
+
     const loggedIn = props.isLoggedIn;
     return (
       <View style={styles.container}>
@@ -76,7 +86,19 @@ function Main(props) {
                   name="Confirmation"
                   component={IngredientConfirmation}
                 />
-                <Root.Screen name="Your Dish" component={ConnectedDishScreen} />
+                <Root.Screen
+                  name="Your Dish"
+                  component={ConnectedDishScreen}
+                  // options={{
+                  //   headerRight: () => (
+                  //     <Button
+                  //       onPress={() => navigation.state.params}
+                  //       title="Info"
+                  //       color="black"
+                  //     />
+                  //   ),
+                  // }}
+                />
               </>
             ) : (
               <Root.Screen
@@ -91,6 +113,21 @@ function Main(props) {
     );
   }
 }
+
+// <BottomTab.Screen
+//   name="Dishes"
+//   component={ConnectedDishScreen}
+//   options={{
+//     title: 'Dish',
+//     tabBarIcon: ({ focused }) => (
+//       <TabBarIcon
+//         icon="materialCommunityIcons"
+//         focused={focused}
+//         name="silverware-fork-knife"
+//       />
+//     ),
+//   }}
+// />
 
 const styles = StyleSheet.create({
   container: {

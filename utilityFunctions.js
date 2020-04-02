@@ -174,7 +174,7 @@ export const finalData = (currentDish, goal) => {
         currentQuant = goalQuant;
       }
       let obj = {};
-      obj[label] = currentQuant;
+      obj['label'] = label;
       obj['current'] = currentQuant / goalQuant;
       obj['diff'] = 1 - currentQuant / goalQuant;
       finalArr.push(obj);
@@ -217,7 +217,7 @@ export const startData = (currentDish, goal) => {
         currentQuant = goalQuant;
       }
       let obj = {};
-      obj[label] = currentQuant;
+      obj['label'] = label;
       obj['current'] = currentQuant / goalQuant;
       obj['diff'] = 1 - currentQuant / goalQuant;
       finalArr.push(obj);
