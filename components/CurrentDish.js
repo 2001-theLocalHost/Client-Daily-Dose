@@ -6,6 +6,7 @@ import {
   View,
   Button,
   Image,
+  Dimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
 import {
@@ -14,10 +15,12 @@ import {
   startData,
   capitalize,
 } from '../utilityFunctions';
+import { female25to35inMG } from '../goals';
 import AnimatedPie from './Graph-Pieces/AnimatedPie';
 import AnimatedPieLabel from './Graph-Pieces/AnimatedPieLabel';
 import TotalDailyBar from './Graph-Pieces/TotalDailyBar';
 import TotalNutrientsBar from './Graph-Pieces/TotalNutrientsBar';
+import TabBarIcon from './TabBarIcon';
 
 class CurrentDish extends React.Component {
   constructor() {
@@ -34,101 +37,94 @@ class CurrentDish extends React.Component {
         </View>
       );
     } else {
-      let fakeNutrientGoals = {
-        CHOCDF_KCAL: 5000,
-        FAT_KCAL: 5000,
-        PROCNT_KCAL: 5000,
-        ENERC_KCAL: 5000,
-        CA: 5000,
-        CHOCDF: 5000,
-        FAMS: 5000,
-        FAPU: 5000,
-        FASAT: 5000,
-        FAT: 5000,
-        FE: 5000,
-        FOLDFE: 5000,
-        FOLFD: 5000,
-        K: 5000,
-        MG: 5000,
-        NA: 5000,
-        NIA: 5000,
-        P: 5000,
-        PROCNT: 5000,
-        RIBF: 5000,
-        THIA: 5000,
-        VITB6A: 5000,
-        WATER: 5000,
-        ZN: 5000,
-        CHOLE: 5000,
-        FATRN: 5000,
-        FIBTG: 5000,
-        FOLAC: 5000,
-        SUGAR: 5000,
-        TOCPHA: 5000,
-        VITA_RAE: 5000,
-        VITB12: 5000,
-        VITC: 5000,
-        VITD: 5000,
-        VITK1: 5000,
-      };
-
-      let finalDataForStackGraph = finalData(dishNut, fakeNutrientGoals);
-      let startDataForStackGraph = startData(dishNut, fakeNutrientGoals);
+      let finalDataForStackGraph = finalData(dishNut, female25to35inMG);
+      let startDataForStackGraph = startData(dishNut, female25to35inMG);
 
       return (
         <ScrollView>
           <View>
-            <Button
-              title="Save Meal"
-              onPress={this.props.onPress}
-            />
+            <Button title="Save Meal" onPress={this.props.onPress} />
           </View>
+
           <View>
-            <Text style={styles.head}>{capitalize(dishNut.name)}</Text>
-            {this.props.finalIngrStr.map((el, index) => {
-              return (
-                <Text key={index} style={styles.subhead}>
-                  - {el}
-                </Text>
-              );
-            })}
+            <View>
+              <Text style={styles.head}>{capitalize(dishNut.name)}</Text>
+              {this.props.finalIngrStr.map((el, index) => {
+                return (
+                  <View style={styles.iconContainer}>
+                    <View style={styles.squareIcon}>
+                      <TabBarIcon icon="ionicons" name="ios-square" />
+                    </View>
+                    <Text key={index} style={styles.ingrlist}>
+                      {el}
+                    </Text>
+                  </View>
+                );
+              })}
+            </View>
+
             <View>
               <Image source={{ uri: dishNut.imgUrl }} style={styles.image} />
             </View>
-            {dishNut.healthLabels ? (
-              <View>
-                <Text style={styles.title}>Health Labels:</Text>
-                {dishNut.healthLabels.map((el, index) => {
-                  return <Text key={index}>- {el}</Text>;
-                })}
-              </View>
-            ) : null}
+
+            <View>
+              {dishNut.healthLabels ? (
+                <View style={styles.healthLabels}>
+                  <Text style={styles.title}>Health Labels:</Text>
+                  <View style={styles.listContainer}>
+                    {dishNut.healthLabels.map((el, index) => {
+                      return (
+                        <View style={styles.listInnerContainer}>
+                          <Text style={styles.list} key={index}>
+                            {capitalize(el.toLowerCase())}
+                          </Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                </View>
+              ) : null}
+            </View>
           </View>
 
           <View style={styles.graph}>
-            <Text style={styles.title}>TOTAL CALORIES BREAKDOWN:</Text>
-            <Text style={styles.title}>{dishNut.calories}KCAL</Text>
-            <View>
-              <AnimatedPie
-                carbs={dishNut.CHOCDF_KCAL}
-                fat={dishNut.FAT_KCAL}
-                protein={dishNut.PROCNT_KCAL}
-              />
-              <AnimatedPieLabel
-                carbs={dishNut.CHOCDF_KCAL}
-                fat={dishNut.FAT_KCAL}
-                protein={dishNut.PROCNT_KCAL}
-              />
+            <View style={styles.pieGraphContainer}>
+              <Text style={styles.totalTitle}>Total Calories:</Text>
+              <View style={styles.iconContainer}>
+                <View style={styles.squareIcon}>
+                  <TabBarIcon icon="ionicons" name="ios-square" />
+                </View>
+                <Text style={styles.ingrlist}>{dishNut.calories} kCal</Text>
+              </View>
+
+              <View style={styles.pieGraph}>
+                <AnimatedPie
+                  carbs={dishNut.CHOCDF_KCAL}
+                  fat={dishNut.FAT_KCAL}
+                  protein={dishNut.PROCNT_KCAL}
+                />
+                <AnimatedPieLabel
+                  carbs={dishNut.CHOCDF_KCAL}
+                  fat={dishNut.FAT_KCAL}
+                  protein={dishNut.PROCNT_KCAL}
+                />
+              </View>
             </View>
           </View>
 
           <View style={styles.barGraph}>
-            <Text style={styles.title}>TOTAL NUTRIENTS:</Text>
+            <Text style={styles.totalTitle}>Total Nutrients:</Text>
+            <Text style={styles.description}>
+              Below % represents the nutritional intake reached by the dish
+              based on daily recommendation
+            </Text>
             <TotalNutrientsBar
               data={finalDataForStackGraph}
               startData={startDataForStackGraph}
             />
           </View>
+
+          {console.log('this is final data', finalDataForStackGraph)}
 
           {/* <View style={styles.barGraph}>
               <Text style={styles.title}>TOTAL DAILY %:</Text>
@@ -152,25 +148,79 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(null, mapDispatchToProps)(CurrentDish);
 
+const width = Dimensions.get('window').width;
+
 const styles = StyleSheet.create({
   head: {
     fontSize: 30,
+    fontFamily: 'avenir-book',
+    fontWeight: 'bold',
+    width: width,
+    marginLeft: 7,
+    marginTop: 8,
+    marginBottom: 8,
   },
   title: {
     fontSize: 20,
+    fontFamily: 'avenir-book',
+    marginLeft: 5,
+  },
+  iconContainer: {
+    flexDirection: 'row',
+  },
+  squareIcon: {
+    width: 6,
+    height: 8,
+    marginLeft: 10,
+  },
+  ingrlist: {
+    marginLeft: 5,
+    fontFamily: 'avenir-book',
   },
   image: {
-    width: 150,
-    height: 150,
+    marginTop: 17,
+    width: width,
+    height: 300,
   },
-  graph: {
+  healthLabels: {
+    marginTop: 20,
+    marginLeft: 4,
+  },
+  listContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  list: {
+    fontSize: 13,
+    fontFamily: 'avenir-book',
+    backgroundColor: '#659B0E',
+    color: 'white',
+    margin: 5,
+    padding: 8,
+    paddingLeft: 9,
+    width: 110,
+    height: 35,
+  },
+  totalTitle: {
+    fontSize: 20,
+    fontFamily: 'avenir-book',
+    marginLeft: 8,
+  },
+  description: {
+    fontSize: 12,
+    marginLeft: 9,
+    marginRight: 11,
+    marginBottom: 10,
+    width: 350,
+    color: '#696969',
+  },
+  pieGraphContainer: {
     marginTop: 40,
-    marginBottom: 0,
-    width: 400,
-    height: 400,
+  },
+  pieGraph: {
+    flexDirection: 'row',
   },
   barGraph: {
-    marginTop: 60,
     marginBottom: 15,
     width: 500,
   },

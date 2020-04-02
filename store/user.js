@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { IP } from '../secret';
 
 const GET_USER = 'GET_USER';
 const REMOVE_USER = 'REMOVE_USER';
@@ -41,7 +42,6 @@ export const login = (email, password) => {
     }
     try {
       dispatch(getUser(res.data));
-      console.log('this is user', res.data);
     } catch (dispatchOrHistoryErr) {
       console.error(dispatchOrHistoryErr);
     }
@@ -62,7 +62,6 @@ export const signup = userInfo => {
     }
 
     try {
-      console.log('im the data', res.data);
       dispatch(getUser(res.data));
     } catch (dispatchOrHistoryErr) {
       console.error(dispatchOrHistoryErr);
@@ -91,9 +90,8 @@ export const editProfile = userInfo => {
 
 export const logout = () => async dispatch => {
   try {
-    await axios.post(`https://daily-dose-server.herokuapp.com/auth/logout`);
+    await axios.post('https://daily-dose-server.herokuapp.com/auth/logout');
     dispatch(removeUser());
-    console.log('you are logged out');
   } catch (err) {
     console.error(err);
   }

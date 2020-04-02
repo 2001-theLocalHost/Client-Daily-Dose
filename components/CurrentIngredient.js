@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { capitalize, finalData, startData } from '../utilityFunctions';
+import { female25to35inMG } from '../goals';
 import AnimatedPie from './Graph-Pieces/AnimatedPie';
 import AnimatedPieLabel from './Graph-Pieces/AnimatedPieLabel';
 import TotalNutrientsBar from './Graph-Pieces/TotalNutrientsBar';
@@ -22,46 +23,8 @@ export default class CurrentIngredient extends React.Component {
         </View>
       );
     } else {
-      let fakeNutrientGoals = {
-        CHOCDF_KCAL: 5000,
-        FAT_KCAL: 5000,
-        PROCNT_KCAL: 5000,
-        ENERC_KCAL: 5000,
-        CA: 5000,
-        CHOCDF: 5000,
-        FAMS: 5000,
-        FAPU: 5000,
-        FASAT: 5000,
-        FAT: 5000,
-        FE: 5000,
-        FOLDFE: 5000,
-        FOLFD: 5000,
-        K: 5000,
-        MG: 5000,
-        NA: 5000,
-        NIA: 5000,
-        P: 5000,
-        PROCNT: 5000,
-        RIBF: 5000,
-        THIA: 5000,
-        VITB6A: 5000,
-        WATER: 5000,
-        ZN: 5000,
-        CHOLE: 5000,
-        FATRN: 5000,
-        FIBTG: 5000,
-        FOLAC: 5000,
-        SUGAR: 5000,
-        TOCPHA: 5000,
-        VITA_RAE: 5000,
-        VITB12: 5000,
-        VITC: 5000,
-        VITD: 5000,
-        VITK1: 5000,
-      };
-
-      let finalDataForStackGraph = finalData(ingrNut, fakeNutrientGoals);
-      let startDataForStackGraph = startData(ingrNut, fakeNutrientGoals);
+      let finalDataForStackGraph = finalData(ingrNut, female25to35inMG);
+      let startDataForStackGraph = startData(ingrNut, female25to35inMG);
 
       return (
         <ScrollView>
@@ -115,9 +78,11 @@ export default class CurrentIngredient extends React.Component {
 const styles = StyleSheet.create({
   head: {
     fontSize: 30,
+    fontFamily: 'gotham-book',
   },
   title: {
     fontSize: 20,
+    fontFamily: 'gotham-book',
   },
   image: {
     width: 150,
