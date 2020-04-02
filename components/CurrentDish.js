@@ -6,6 +6,7 @@ import {
   View,
   Button,
   Image,
+  Dimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
 import {
@@ -19,6 +20,7 @@ import AnimatedPie from './Graph-Pieces/AnimatedPie';
 import AnimatedPieLabel from './Graph-Pieces/AnimatedPieLabel';
 import TotalDailyBar from './Graph-Pieces/TotalDailyBar';
 import TotalNutrientsBar from './Graph-Pieces/TotalNutrientsBar';
+import TabBarIcon from './TabBarIcon';
 
 class CurrentDish extends React.Component {
   constructor() {
@@ -43,47 +45,75 @@ class CurrentDish extends React.Component {
           <View>
             <Button title="Save Meal" onPress={this.props.onPress} />
           </View>
+
           <View>
-            <Text style={styles.head}>{capitalize(dishNut.name)}</Text>
-            {this.props.finalIngrStr.map((el, index) => {
-              return (
-                <Text key={index} style={styles.subhead}>
-                  - {el}
-                </Text>
-              );
-            })}
+            <View>
+              <Text style={styles.head}>{capitalize(dishNut.name)}</Text>
+              {this.props.finalIngrStr.map((el, index) => {
+                return (
+                  <View style={styles.iconContainer}>
+                    <View style={styles.squareIcon}>
+                      <TabBarIcon icon="ionicons" name="ios-square" />
+                    </View>
+                    <Text key={index} style={styles.ingrlist}>
+                      {el}
+                    </Text>
+                  </View>
+                );
+              })}
+            </View>
+
             <View>
               <Image source={{ uri: dishNut.imgUrl }} style={styles.image} />
             </View>
-            {dishNut.healthLabels ? (
-              <View>
-                <Text style={styles.title}>Health Labels:</Text>
-                {dishNut.healthLabels.map((el, index) => {
-                  return <Text key={index}>- {el}</Text>;
-                })}
-              </View>
-            ) : null}
+
+            <View>
+              {dishNut.healthLabels ? (
+                <View style={styles.healthLabels}>
+                  <Text style={styles.title}>Health Labels:</Text>
+                  <View style={styles.listContainer}>
+                    {dishNut.healthLabels.map((el, index) => {
+                      return (
+                        <View style={styles.listInnerContainer}>
+                          <Text style={styles.list} key={index}>
+                            {capitalize(el.toLowerCase())}
+                          </Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                </View>
+              ) : null}
+            </View>
           </View>
 
           <View style={styles.graph}>
-            <Text style={styles.title}>TOTAL CALORIES BREAKDOWN:</Text>
-            <Text style={styles.title}>{dishNut.calories}KCAL</Text>
-            <View>
-              <AnimatedPie
-                carbs={dishNut.CHOCDF_KCAL}
-                fat={dishNut.FAT_KCAL}
-                protein={dishNut.PROCNT_KCAL}
-              />
-              <AnimatedPieLabel
-                carbs={dishNut.CHOCDF_KCAL}
-                fat={dishNut.FAT_KCAL}
-                protein={dishNut.PROCNT_KCAL}
-              />
+            <View style={styles.pieGraphContainer}>
+              <Text style={styles.totalTitle}>Total Calories:</Text>
+              <View style={styles.iconContainer}>
+                <View style={styles.squareIcon}>
+                  <TabBarIcon icon="ionicons" name="ios-square" />
+                </View>
+                <Text style={styles.ingrlist}>{dishNut.calories} kCal</Text>
+              </View>
+
+              <View style={styles.pieGraph}>
+                <AnimatedPie
+                  carbs={dishNut.CHOCDF_KCAL}
+                  fat={dishNut.FAT_KCAL}
+                  protein={dishNut.PROCNT_KCAL}
+                />
+                <AnimatedPieLabel
+                  carbs={dishNut.CHOCDF_KCAL}
+                  fat={dishNut.FAT_KCAL}
+                  protein={dishNut.PROCNT_KCAL}
+                />
+              </View>
             </View>
           </View>
 
           <View style={styles.barGraph}>
-            <Text style={styles.title}>TOTAL NUTRIENTS:</Text>
+            <Text style={styles.totalTitle}>Total Nutrients:</Text>
             <TotalNutrientsBar
               data={finalDataForStackGraph}
               startData={startDataForStackGraph}
@@ -114,25 +144,71 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(null, mapDispatchToProps)(CurrentDish);
 
+const width = Dimensions.get('window').width;
+
 const styles = StyleSheet.create({
   head: {
     fontSize: 30,
+    fontFamily: 'avenir-book',
+    fontWeight: 'bold',
+    width: width,
+    marginLeft: 7,
+    marginTop: 8,
+    marginBottom: 8,
   },
   title: {
     fontSize: 20,
+    fontFamily: 'avenir-book',
+    marginLeft: 5,
+  },
+  iconContainer: {
+    flexDirection: 'row',
+  },
+  squareIcon: {
+    width: 6,
+    height: 8,
+    marginLeft: 10,
+  },
+  ingrlist: {
+    marginLeft: 5,
+    fontFamily: 'avenir-book',
   },
   image: {
-    width: 150,
-    height: 150,
+    marginTop: 17,
+    width: width,
+    height: 300,
   },
-  graph: {
+  healthLabels: {
+    marginTop: 20,
+    marginLeft: 4,
+  },
+  listContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  list: {
+    fontSize: 13,
+    fontFamily: 'avenir-book',
+    backgroundColor: '#659B0E',
+    color: 'white',
+    margin: 5,
+    padding: 8,
+    paddingLeft: 9,
+    width: 110,
+    height: 35,
+  },
+  totalTitle: {
+    fontSize: 20,
+    fontFamily: 'avenir-book',
+    marginLeft: 8,
+  },
+  pieGraphContainer: {
     marginTop: 40,
-    marginBottom: 0,
-    width: 400,
-    height: 400,
+  },
+  pieGraph: {
+    flexDirection: 'row',
   },
   barGraph: {
-    marginTop: 60,
     marginBottom: 15,
     width: 500,
   },
