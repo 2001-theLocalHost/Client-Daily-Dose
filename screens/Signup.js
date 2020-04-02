@@ -16,7 +16,7 @@ import RadioForm, {
   RadioButtonInput,
   RadioButtonLabel,
 } from 'react-native-simple-radio-button';
-import { convertHeight, validateInformation } from '../utilityFunctions';
+import { convertHeight, validateInformation, dietaryArray } from '../utilityFunctions';
 import PasswordInputText from 'react-native-hide-show-password-input';
 import CheckBox from 'react-native-check-box'
 
@@ -33,7 +33,6 @@ class Signup extends React.Component {
       feet: 0,
       inches: 0,
       weight: 0,
-      dietaryPreference: [],
       glutenFree: false,
       dairyFree: false,
       vegan: false,
@@ -46,24 +45,16 @@ class Signup extends React.Component {
         { label: 'Male', value: 'male' },
         { label: 'Prefer Not to Say', value: 'prefer-not-to-say' },
       ],
-      // healthProps: [
-      //   { label: 'Gluten-Free', value: 'gluten-free' },
-      //   { label: 'Vegan', value: 'vegan' },
-      //   { label: 'Vegetarian', value: 'vegetarian' },
-      //   { label: 'Dairy Free', value: 'dairy-free' },
-      //   { label: 'Pescatarian', value: 'pescatarian' },
-      //   { label: 'Paleo', value: 'paleo' },
-      //   { label: 'Keto', value: 'keto' },
-      // ],
     };
     this.handleSignup = this.handleSignup.bind(this);
     this.addDate = this.addDate.bind(this);
     this.showDateModal = this.showDateModal.bind(this);
     this.closeDateModal = this.closeDateModal.bind(this);
-    this.removeDietaryPreference = this.removeDietaryPreference.bind(this);
   }
 
   handleSignup() {
+    let dietaryPreference = dietaryArray(this.state.glutenFree, this.state.dairyFree, this.state.vegan, this.state.vegetarian, this.state.lowCarb, this.state.lowFat)
+
     if (!validateInformation(this.state.email, this.state.password, this.state.name, this.state.sex, this.state.birthdate, this.state.feet, this.state.inches, this.state.weight)) {
       return;
     }
@@ -72,7 +63,6 @@ class Signup extends React.Component {
       password,
       name,
       sex,
-      dietaryPreference,
       birthdate,
       feet,
       inches,
@@ -108,18 +98,6 @@ class Signup extends React.Component {
   closeDateModal() {
     this.setState({
       dateModalOpen: false,
-    });
-  }
-
-  removeDietaryPreference(value) {
-    let arrayCopy = [...this.state.dietaryPreference];
-    let newArray = arrayCopy.filter(element => {
-      return element !== value;
-    });
-
-    this.setState({
-      ...this.state,
-      dietaryPreference: newArray,
     });
   }
 
