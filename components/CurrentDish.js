@@ -4,21 +4,15 @@ import {
   Text,
   ScrollView,
   View,
-  Button,
   Image,
   Dimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
-import {
-  arraysOfData,
-  finalData,
-  startData,
-  capitalize,
-} from '../utilityFunctions';
+import { Button } from 'react-native-elements';
+import { finalData, startData, capitalize } from '../utilityFunctions';
 import { female25to35inMG } from '../goals';
 import AnimatedPie from './Graph-Pieces/AnimatedPie';
 import AnimatedPieLabel from './Graph-Pieces/AnimatedPieLabel';
-import TotalDailyBar from './Graph-Pieces/TotalDailyBar';
 import TotalNutrientsBar from './Graph-Pieces/TotalNutrientsBar';
 import TabBarIcon from './TabBarIcon';
 
@@ -42,13 +36,31 @@ class CurrentDish extends React.Component {
 
       return (
         <ScrollView>
-          <View>
-            <Button title="Save Meal" onPress={this.props.onPress} />
-          </View>
+          <Button
+            title="Save Dish"
+            onPress={this.props.onPress}
+            color="#659B0E"
+            titleStyle={{
+              color: 'white',
+              fontSize: 15,
+              lineHeight: 15,
+            }}
+            buttonStyle={{
+              backgroundColor: '#FF7F4B',
+              opacity: 0.7,
+              borderRadius: 20,
+              height: 35,
+              width: 190,
+              justifyContent: 'center',
+              alignSelf: 'center',
+              marginTop: 10,
+            }}
+          />
 
           <View>
             <View>
               <Text style={styles.head}>{capitalize(dishNut.name)}</Text>
+
               {this.props.finalIngrStr.map((el, index) => {
                 return (
                   <View style={styles.iconContainer}>
@@ -123,17 +135,6 @@ class CurrentDish extends React.Component {
               startData={startDataForStackGraph}
             />
           </View>
-
-          {console.log('this is final data', finalDataForStackGraph)}
-
-          {/* <View style={styles.barGraph}>
-              <Text style={styles.title}>TOTAL DAILY %:</Text>
-              <TotalDailyBar
-                label={totalDailyLabels}
-                quantity={totalDailyQuantities}
-                unit={totalDailyUnits}
-              />
-            </View> */}
         </ScrollView>
       );
     }

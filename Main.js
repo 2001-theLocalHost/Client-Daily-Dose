@@ -20,12 +20,10 @@ const Root = createStackNavigator();
 function Main(props, { navigation }) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
-  // const [modalOpen, setModalOpen] = React.useState(false);
   const containerRef = React.useRef();
   const { getInitialState } = useLinking(containerRef);
 
   // Load any resources or data that we need prior to rendering the app
-
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
@@ -63,13 +61,6 @@ function Main(props, { navigation }) {
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return null;
   } else {
-    // const params = navigation.state.params || {}
-
-    // const onPress = () => {
-    //   setModalOpen(true)
-    // return true
-    // }
-
     const loggedIn = props.isLoggedIn;
     return (
       <View style={styles.container}>
@@ -78,26 +69,38 @@ function Main(props, { navigation }) {
           ref={containerRef}
           initialState={initialNavigationState}
         >
-          <Root.Navigator>
+          <Root.Navigator
+            screenOptions={{
+              headerTintColor: 'black',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            }}
+          >
             {loggedIn ? (
               <>
                 <Root.Screen name="App" component={BottomTabNavigator} />
                 <Root.Screen
                   name="Confirmation"
                   component={IngredientConfirmation}
+                  options={{
+                    title: '',
+                  }}
                 />
                 <Root.Screen
                   name="Your Dish"
                   component={ConnectedDishScreen}
-                  // options={{
-                  //   headerRight: () => (
-                  //     <Button
-                  //       onPress={() => navigation.state.params}
-                  //       title="Info"
-                  //       color="black"
-                  //     />
-                  //   ),
-                  // }}
+                  options={{
+                    title: '',
+                    headerMode: 'none',
+                    headerRight: () => (
+                      <Button
+                        onPress={() => alert('Need to make this work')}
+                        title="Back to Dish"
+                        color="black"
+                      />
+                    ),
+                  }}
                 />
               </>
             ) : (
@@ -114,21 +117,6 @@ function Main(props, { navigation }) {
   }
 }
 
-// <BottomTab.Screen
-//   name="Dishes"
-//   component={ConnectedDishScreen}
-//   options={{
-//     title: 'Dish',
-//     tabBarIcon: ({ focused }) => (
-//       <TabBarIcon
-//         icon="materialCommunityIcons"
-//         focused={focused}
-//         name="silverware-fork-knife"
-//       />
-//     ),
-//   }}
-// />
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -137,11 +125,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  isLoggedIn: !!state.user.id, //boolean value true if state.user.id exists
+  isLoggedIn: !!state.user.id,
 });
 
 const mapDispatchToProps = dispatch => ({
-  loadUserInfo: () => dispatch(me()), //sets state with req.user created only with req.login
+  loadUserInfo: () => dispatch(me()),
 });
 
 const ConnectedMain = connect(mapStateToProps, mapDispatchToProps)(Main);

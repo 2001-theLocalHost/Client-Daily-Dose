@@ -59,10 +59,8 @@ function getHeaderTitle(route) {
   switch (routeName) {
     case 'Home':
       return 'Welcome!';
-    case 'Dishes':
-      return 'Your Dishes';
     case 'Photos':
-      return 'Take a pic!';
+      return 'Add Dish';
     case 'Meal Diary':
       return 'Your Meal Diary';
   }

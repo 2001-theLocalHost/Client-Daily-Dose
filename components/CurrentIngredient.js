@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Dimensions } from 'react-native';
 import { capitalize, finalData, startData } from '../utilityFunctions';
 import { female25to35inMG } from '../goals';
 import AnimatedPie from './Graph-Pieces/AnimatedPie';
 import AnimatedPieLabel from './Graph-Pieces/AnimatedPieLabel';
 import TotalNutrientsBar from './Graph-Pieces/TotalNutrientsBar';
+import TabBarIcon from './TabBarIcon';
 
 export default class CurrentIngredient extends React.Component {
   constructor() {
@@ -14,7 +15,6 @@ export default class CurrentIngredient extends React.Component {
 
   render() {
     const { ingrNut } = this.props;
-    console.log('this is my ingrNut', ingrNut);
 
     if (!this.props.ingrNut || !this.props.ingrNut.ingredientName) {
       return (
@@ -32,38 +32,67 @@ export default class CurrentIngredient extends React.Component {
             <Text style={styles.head}>
               {capitalize(ingrNut.ingredientName)}
             </Text>
-            <Text style={styles.ingredients}>
-              Portion Size: {ingrNut.portionSize}
-            </Text>
-            {ingrNut.healthLabels ? (
-              <View>
-                <Text style={styles.title}>Health Labels:</Text>
-                {ingrNut.healthLabels.map((el, index) => {
-                  return <Text key={index}>- {el}</Text>;
-                })}
+
+            <View style={styles.iconContainer}>
+              <View style={styles.squareIcon}>
+                <TabBarIcon icon="ionicons" name="ios-square" />
               </View>
-            ) : null}
+              <Text style={styles.ingrlist}>
+                Portion Size: {ingrNut.portionSize}
+              </Text>
+            </View>
+
+            <View>
+              {ingrNut.healthLabels ? (
+                <View style={styles.healthLabels}>
+                  <Text style={styles.title}>Health Labels:</Text>
+                  <View style={styles.listContainer}>
+                    {ingrNut.healthLabels.map((el, index) => {
+                      return (
+                        <View style={styles.listInnerContainer}>
+                          <Text style={styles.list} key={index}>
+                            {capitalize(el.toLowerCase())}
+                          </Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                </View>
+              ) : null}
+            </View>
           </View>
 
           <View style={styles.graph}>
-            <Text style={styles.title}>TOTAL CALORIES BREAKDOWN:</Text>
-            <Text style={styles.title}>{ingrNut.calories}KCAL</Text>
-            <View>
-              <AnimatedPie
-                carbs={ingrNut.CHOCDF_KCAL}
-                fat={ingrNut.FAT_KCAL}
-                protein={ingrNut.PROCNT_KCAL}
-              />
-              <AnimatedPieLabel
-                carbs={ingrNut.CHOCDF_KCAL}
-                fat={ingrNut.FAT_KCAL}
-                protein={ingrNut.PROCNT_KCAL}
-              />
+            <View style={styles.pieGraphContainer}>
+              <Text style={styles.totalTitle}>Total Calories:</Text>
+              <View style={styles.iconContainer}>
+                <View style={styles.squareIcon}>
+                  <TabBarIcon icon="ionicons" name="ios-square" />
+                </View>
+                <Text style={styles.ingrlist}>{ingrNut.calories} kCal</Text>
+              </View>
+
+              <View style={styles.pieGraph}>
+                <AnimatedPie
+                  carbs={ingrNut.CHOCDF_KCAL}
+                  fat={ingrNut.FAT_KCAL}
+                  protein={ingrNut.PROCNT_KCAL}
+                />
+                <AnimatedPieLabel
+                  carbs={ingrNut.CHOCDF_KCAL}
+                  fat={ingrNut.FAT_KCAL}
+                  protein={ingrNut.PROCNT_KCAL}
+                />
+              </View>
             </View>
           </View>
 
           <View style={styles.barGraph}>
-            <Text style={styles.title}>TOTAL NUTRIENTS:</Text>
+            <Text style={styles.totalTitle}>Total Nutrients:</Text>
+            <Text style={styles.description}>
+              Below % represents the nutritional intake reached by the dish
+              based on daily recommendation
+            </Text>
             <TotalNutrientsBar
               data={finalDataForStackGraph}
               startData={startDataForStackGraph}
@@ -75,27 +104,74 @@ export default class CurrentIngredient extends React.Component {
   }
 }
 
+const width = Dimensions.get('window').width;
+
 const styles = StyleSheet.create({
   head: {
     fontSize: 30,
-    fontFamily: 'gotham-book',
+    fontFamily: 'avenir-book',
+    fontWeight: 'bold',
+    width: width,
+    marginLeft: 7,
+    marginTop: 8,
+    marginBottom: 8,
   },
   title: {
     fontSize: 20,
-    fontFamily: 'gotham-book',
+    fontFamily: 'avenir-book',
+    marginLeft: 5,
   },
-  image: {
-    width: 150,
-    height: 150,
+  iconContainer: {
+    flexDirection: 'row',
   },
-  graph: {
+  squareIcon: {
+    width: 6,
+    height: 8,
+    marginLeft: 10,
+  },
+  ingrlist: {
+    marginLeft: 5,
+    fontFamily: 'avenir-book',
+  },
+  healthLabels: {
+    marginTop: 20,
+    marginLeft: 4,
+  },
+  listContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  list: {
+    fontSize: 13,
+    fontFamily: 'avenir-book',
+    backgroundColor: '#659B0E',
+    color: 'white',
+    margin: 5,
+    padding: 8,
+    paddingLeft: 9,
+    width: 110,
+    height: 35,
+  },
+  totalTitle: {
+    fontSize: 20,
+    fontFamily: 'avenir-book',
+    marginLeft: 8,
+  },
+  description: {
+    fontSize: 12,
+    marginLeft: 9,
+    marginRight: 11,
+    marginBottom: 10,
+    width: 350,
+    color: '#696969',
+  },
+  pieGraphContainer: {
     marginTop: 40,
-    marginBottom: 0,
-    width: 400,
-    height: 400,
+  },
+  pieGraph: {
+    flexDirection: 'row',
   },
   barGraph: {
-    marginTop: 60,
     marginBottom: 15,
     width: 500,
   },
