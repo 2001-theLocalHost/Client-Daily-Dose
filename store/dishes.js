@@ -66,7 +66,6 @@ export const consolidatingData = consolidated => {
   return dispatch => {
     try {
       dispatch(consolidatingDataForAPI(consolidated));
-      //console.log('secondtime userDish', consolidated);
     } catch (error) {
       console.error(error);
     }
@@ -82,8 +81,7 @@ export const createDish = (dishNut, formvalues, ingredientArray) => {
         ingredients: ingredientArray,
       };
       const { data } = await axios.post(
-        // 'https://daily-dose-server.herokuapp.com/api/dishes',
-        'http://192.168.1.12:8080/api/dishes',
+        'https://daily-dose-server.herokuapp.com/api/dishes',
         dataForPost
       );
     } catch (error) {
@@ -96,8 +94,8 @@ export const createDish = (dishNut, formvalues, ingredientArray) => {
 const initialState = {
   imgUrl: '',
   name: '',
-  finalIngredients: [], // [{name: 'rice', quantity: '1', measurement: 'cup'}, {name: 'chickpeas', quantity: '10', measurement: 'oz'}, 'chickpeas rice']
-  consolidatedData: [], //use for API call ['1 cup rice', '10 oz chickpeas']
+  finalIngredients: [],
+  consolidatedData: [],
 };
 
 //REDUCER
