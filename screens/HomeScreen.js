@@ -26,7 +26,6 @@ class HomeScreen extends React.Component {
   };
 
   render() {
-    console.log('this is user', this.props.user);
     const { user } = this.props;
 
     return (

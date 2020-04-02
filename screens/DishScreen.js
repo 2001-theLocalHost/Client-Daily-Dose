@@ -19,7 +19,6 @@ class DishScreen extends React.Component {
       index: 0,
       routes: [{ key: 'Dish', title: 'Dish' }],
       modalOpen: false,
-      buttonClicked: route.params.buttonClicked,
     };
     this.renderScene = this.renderScene.bind(this);
     this.renderTabBar = this.renderTabBar.bind(this);
@@ -84,13 +83,7 @@ class DishScreen extends React.Component {
     this.unsubscribe();
   }
 
-  saveButtonClicked() {
-    if (this.state.buttonClicked === true) {
-      console.log('it worked!!!!');
-    }
-  }
-
-  renderScene = ({ route }) => {
+  renderScene = ({ route, jumpTo }) => {
     if (route.key === 'Dish') {
       return (
         <View>
@@ -113,7 +106,9 @@ class DishScreen extends React.Component {
     }
     for (let i = 0; i < this.props.ingrNut.length; i++) {
       if (route.key === this.props.ingrNut[i].ingredientName) {
-        return <CurrentIngredient ingrNut={this.props.ingrNut[i]} />;
+        return (
+          <CurrentIngredient ingrNut={this.props.ingrNut[i]} jumpTo={jumpTo} />
+        );
       }
     }
   };

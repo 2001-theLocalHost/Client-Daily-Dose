@@ -15,7 +15,6 @@ const removeUser = () => ({
 
 export const me = () => async dispatch => {
   try {
-    console.log('now i am here');
     const { data } = await axios.get(
       'https://daily-dose-server.herokuapp.com/auth/me'
     );
@@ -55,13 +54,11 @@ export const signup = userInfo => {
         `https://daily-dose-server.herokuapp.com/auth/signup`,
         userInfo
       );
-      console.log('3', res.data);
     } catch (authError) {
       return dispatch(getUser(null, authError));
     }
 
     try {
-      console.log('4', res.data);
       dispatch(getUser(res.data));
     } catch (dispatchOrHistoryErr) {
       console.error(dispatchOrHistoryErr);

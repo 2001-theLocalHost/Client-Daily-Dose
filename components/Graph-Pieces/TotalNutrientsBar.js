@@ -20,29 +20,6 @@ export default class TotalNutrientsBar extends React.PureComponent {
   //   }, 3000);
   // }
 
-  // const CUT_OFF = 50
-  // const Labels = props => {
-  //   const { x, y, data } = props;
-  //   return data.map((value, index) => {
-  //     const sum = value.travel + value.food + value.utility;
-  //     const pX = x(index) + x.bandwidth() / 2;
-  //     const pY = y(sum) - 10;
-  //     return (
-  //       <Text
-  //         key={index}
-  //         x={pX}
-  //         y={pY}
-  //         fontSize={13}
-  //         fill="red"
-  //         alignmentBaseline={'middle'}
-  //         textAnchor={'middle'}
-  //       >
-  //         {sum}
-  //       </Text>
-  //     );
-  //   });
-  // };
-
   render() {
     const data = this.props.data;
     const colors = ['#FF7F4B', '#E8E8E8'];
@@ -77,10 +54,6 @@ export default class TotalNutrientsBar extends React.PureComponent {
         >
           {/* <Labels /> */}
         </StackedBarChart>
-        {console.log('i am data in stacked', data)}
-        {console.log('index 0', data[0])}
-        {/* <View style={styles.label}> */}
-        {/* </View> */}
       </View>
     );
   }

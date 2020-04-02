@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Dimensions } from 'react-native';
+import { Button } from 'react-native-elements';
 import { capitalize, finalData, startData } from '../utilityFunctions';
 import { female25to35inMG } from '../goals';
 import AnimatedPie from './Graph-Pieces/AnimatedPie';
@@ -28,6 +29,26 @@ export default class CurrentIngredient extends React.Component {
 
       return (
         <ScrollView>
+          <Button
+            title="Go Back To Main Dish"
+            onPress={() => this.props.jumpTo('Dish')}
+            color="#659B0E"
+            titleStyle={{
+              color: 'white',
+              fontSize: 15,
+              lineHeight: 15,
+            }}
+            buttonStyle={{
+              backgroundColor: '#FF7F4B',
+              opacity: 0.7,
+              borderRadius: 20,
+              height: 35,
+              width: 190,
+              justifyContent: 'center',
+              alignSelf: 'center',
+              marginTop: 10,
+            }}
+          />
           <View>
             <Text style={styles.head}>
               {ingrNut.ingredientName ? capitalize(ingrNut.ingredientName) : ''}
