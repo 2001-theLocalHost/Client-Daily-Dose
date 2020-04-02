@@ -257,11 +257,6 @@ export const formatIngredients = apiIngredients => {
   return newArr;
 };
 
-export const convertHeight = (feet, inches) => {
-  let newHeight = (feet * 12) + inches
-  return parseFloat(newHeight)
-}
-
 export const validateInformation = (email, password, name, sex, birthdate, feet, inches, weight) => {
   let arr = [];
 
@@ -298,6 +293,8 @@ export const validateInformation = (email, password, name, sex, birthdate, feet,
   }
   return true;
 }
-  let newHeight = feet * 12 + inches;
-  return parseFloat(newHeight);
-};
+
+export const convertHeight = (feet, inches) => {
+  let newHeight = (feet * 12) + inches
+  return parseFloat(newHeight)
+}
