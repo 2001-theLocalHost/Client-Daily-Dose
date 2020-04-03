@@ -13,22 +13,19 @@ import { Ionicons } from '@expo/vector-icons';
 import PasswordInputText from 'react-native-hide-show-password-input';
 import { login } from '../store/user';
 
-class Login2 extends React.Component {
+class Login extends React.Component {
   constructor({ navigation }) {
     super();
     this.navigation = navigation;
     this.state = {
       email: '',
       password: '',
-      placeholder: 'Password',
     };
     this.handleLogin = this.handleLogin.bind(this);
   }
 
   handleLogin() {
     this.props.loginDispatch(this.state.email, this.state.password);
-
-    return this.navigation.dispatch(StackActions.popToTop());
   }
 
   render() {
@@ -42,6 +39,14 @@ class Login2 extends React.Component {
           style={styles.image}
         >
           <View style={styles.loginBox}>
+            <View>
+              {this.props.error && this.props.error.response ? (
+                <Text style={{ color: 'red', fontFamily: 'avenir-roman' }}>
+                  {this.props.error.response.data}
+                </Text>
+              ) : null}
+            </View>
+
             <View style={styles.emailContainer}>
               <View style={styles.emailIcon}>
                 <Ionicons name="md-person" size={30} color={'#659B0E'} />
@@ -209,11 +214,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   user: state.user,
+  error: state.user.error,
 });
 
 const mapDispatchToProps = dispatch => ({
   loginDispatch: (email, password) => dispatch(login(email, password)),
 });
 
-const ConnectedLogin2 = connect(mapStateToProps, mapDispatchToProps)(Login2);
-export default ConnectedLogin2;
+const ConnectedLogin = connect(mapStateToProps, mapDispatchToProps)(Login);
+export default ConnectedLogin;
