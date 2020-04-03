@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import {Button} from 'react-native-elements'
 import { signup } from '../store/user';
 import CalendarModal from '../components/CalendarModal';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import RadioForm, {
   RadioButton,
   RadioButtonInput,
@@ -127,7 +128,7 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <ScrollView>
+      <KeyboardAwareScrollView>
         <View style={styles.outerContainer}>
           <ImageBackground
             source={{
@@ -388,7 +389,7 @@ class Signup extends React.Component {
             </View>
           </ImageBackground>
         </View>
-      </ScrollView>
+        </KeyboardAwareScrollView>
     );
   }
 }
