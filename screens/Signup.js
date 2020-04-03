@@ -4,13 +4,14 @@ import {
   Text,
   View,
   TextInput,
-  Button,
   ScrollView,
   ImageBackground,
 } from 'react-native';
 import { connect } from 'react-redux';
+import {Button} from 'react-native-elements'
 import { signup } from '../store/user';
 import CalendarModal from '../components/CalendarModal';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import RadioForm, {
   RadioButton,
   RadioButtonInput,
@@ -44,6 +45,7 @@ class Signup extends React.Component {
       lowCarb: false,
       lowFat: false,
       dateModalOpen: false,
+      formattedDate: '',
       sexProps: [
         { label: 'Female', value: 'female' },
         { label: 'Male', value: 'male' },
@@ -54,8 +56,23 @@ class Signup extends React.Component {
     this.addDate = this.addDate.bind(this);
     this.showDateModal = this.showDateModal.bind(this);
     this.closeDateModal = this.closeDateModal.bind(this);
+    this.formattedCalendarDate = this.formattedCalendarDate.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+  }
+  formattedCalendarDate() {
+    const date = this.state.birthdate
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+
+    const string = month + '-' +  day+ '-' + year;
+    this.setState({
+      formattedDate: string
+    })
   }
 
+  async handleSignup() {
+    let dietaryPreference = dietaryArray(this.state.glutenFree, this.state.dairyFree, this.state.vegan, this.state.vegetarian, this.state.lowCarb, this.state.lowFat)
   handleSignup() {
     let dietaryPreference = dietaryArray(
       this.state.glutenFree,
@@ -93,8 +110,16 @@ class Signup extends React.Component {
       height,
       weight,
     };
-    this.props.signupDispatch(userInfo);
+    await this.props.signupDispatch(userInfo);
+    if (this.props.error && this.props.error.response) {
+      alert(`${this.props.error.response.data}`)
+      return this.navigation.push('Login')
+    }
     return this.navigation.push('Login');
+  }
+
+  handleCancel() {
+    return this.navigation.push('FirstScreen');
   }
 
   addDate(date) {
@@ -113,11 +138,12 @@ class Signup extends React.Component {
     this.setState({
       dateModalOpen: false,
     });
+    this.formattedCalendarDate()
   }
 
   render() {
     return (
-      <ScrollView>
+      <KeyboardAwareScrollView>
         <View style={styles.outerContainer}>
           <ImageBackground
             source={{
@@ -163,7 +189,48 @@ class Signup extends React.Component {
               <View style={styles.textContainer}>
                 <Text style={styles.headerText}>Date of Birth:</Text>
                 <View>
-                  <Button title="Select Date" onPress={this.showDateModal} />
+                  {this.state.birthdate > new Date() ?
+                  <Button
+                    title="Select Date"
+                    titleStyle={{
+                      color: 'white',
+                      fontSize: 15,
+                      lineHeight: 15,
+                    }}
+                    buttonStyle={{
+                      backgroundColor: '#ADADAD',
+                      opacity: .8,
+                      borderRadius: 20,
+                      height: 35,
+                      width: 120,
+                      justifyContent: 'center',
+                      alignSelf: 'center',
+                      marginRight: 2.5
+                    }}
+                    onPress={this.showDateModal}
+                    /> :
+                  <View style={styles.dateContainer}>
+                    <Text>{this.state.formattedDate}  </Text>
+                    <Button
+                      title="Edit"
+                      titleStyle={{
+                        color: 'white',
+                        fontSize: 15,
+                        lineHeight: 15,
+                      }}
+                      buttonStyle={{
+                        backgroundColor: '#ADADAD',
+                        opacity: .8,
+                        borderRadius: 20,
+                        height: 35,
+                        width: 60,
+                        justifyContent: 'center',
+                        alignSelf: 'center',
+                        marginRight: 2.5
+                      }}
+                      onPress={this.showDateModal}
+                      />
+                  </View>}
                 </View>
                 <CalendarModal
                   addDate={this.addDate}
@@ -245,137 +312,99 @@ class Signup extends React.Component {
                 </View>
                 <View style={styles.checkboxContainer}>
                   <Text>Select All That Apply</Text>
-                  <CheckBox
-                    style={styles.checkbox}
-                    onClick={() => {
-                      this.state.glutenFree
-                        ? this.setState({ glutenFree: false })
-                        : this.setState({ glutenFree: true });
-                    }}
-                    isChecked={this.state.glutenFree}
-                    rightText={'Gluten-Free'}
-                    rightTextStyle={styles.checkboxText}
-                  />
-                  <CheckBox
-                    style={styles.checkbox}
-                    onClick={() => {
-                      this.state.dairyFree
-                        ? this.setState({ dairyFree: false })
-                        : this.setState({ dairyFree: true });
-                    }}
-                    isChecked={this.state.dairyFree}
-                    rightText={'Dairy-Free'}
-                    rightTextStyle={styles.checkboxText}
-                  />
-                  <CheckBox
-                    style={styles.checkbox}
-                    onClick={() => {
-                      this.state.vegan
-                        ? this.setState({ vegan: false })
-                        : this.setState({ vegan: true });
-                    }}
-                    isChecked={this.state.vegan}
-                    rightText={'Vegan'}
-                    rightTextStyle={styles.checkboxText}
-                  />
-                  <CheckBox
-                    style={styles.checkbox}
-                    onClick={() => {
-                      this.state.vegetarian
-                        ? this.setState({ vegetarian: false })
-                        : this.setState({ vegetarian: true });
-                    }}
-                    isChecked={this.state.vegetarian}
-                    rightText={'Vegetarian'}
-                    rightTextStyle={styles.checkboxText}
-                  />
-                  <CheckBox
-                    style={styles.checkbox}
-                    onClick={() => {
-                      this.state.lowCarb
-                        ? this.setState({ lowCarb: false })
-                        : this.setState({ lowCarb: true });
-                    }}
-                    isChecked={this.state.lowCarb}
-                    rightText={'Low-Carb'}
-                    rightTextStyle={styles.checkboxText}
-                  />
-                  <CheckBox
-                    style={styles.checkbox}
-                    onClick={() => {
-                      this.state.lowFat
-                        ? this.setState({ lowFat: false })
-                        : this.setState({ lowFat: true });
-                    }}
-                    isChecked={this.state.lowFat}
-                    rightText={'Low-Fat'}
-                    rightTextStyle={styles.checkboxText}
-                  />
+                <CheckBox
+                  style={styles.checkbox}
+                  onClick={() => {this.state.glutenFree ? this.setState({glutenFree: false}) : this.setState({glutenFree: true})}}
+                  isChecked={this.state.glutenFree}
+                  rightText={"Gluten-Free"}
+                  rightTextStyle={styles.checkboxText}
+                />
+                <CheckBox
+                  style={styles.checkbox}
+                  onClick={() => {this.state.dairyFree ? this.setState({dairyFree: false}) : this.setState({dairyFree: true})}}
+                  isChecked={this.state.dairyFree}
+                  rightText={"Dairy-Free"}
+                  rightTextStyle={styles.checkboxText}
+                />
+                <CheckBox
+                  style={styles.checkbox}
+                  onClick={() => {this.state.vegan ? this.setState({vegan: false}) : this.setState({vegan: true})}}
+                  isChecked={this.state.vegan}
+                  rightText={"Vegan"}
+                  rightTextStyle={styles.checkboxText}
+                />
+                <CheckBox
+                  style={styles.checkbox}
+                  onClick={() => {this.state.vegetarian ? this.setState({vegetarian: false}) : this.setState({vegetarian: true})}}
+                  isChecked={this.state.vegetarian}
+                  rightText={"Vegetarian"}
+                  rightTextStyle={styles.checkboxText}
+                />
+                <CheckBox
+                  style={styles.checkbox}
+                  onClick={() => {this.state.lowCarb ? this.setState({lowCarb: false}) : this.setState({lowCarb: true})}}
+                  isChecked={this.state.lowCarb}
+                  rightText={"Low-Carb"}
+                  rightTextStyle={styles.checkboxText}
+                />
+                <CheckBox
+                  style={styles.checkbox}
+                  onClick={() => {this.state.lowFat ? this.setState({lowFat: false}) : this.setState({lowFat: true})}}
+                  isChecked={this.state.lowFat}
+                  rightText={"Low-Fat"}
+                  rightTextStyle={styles.checkboxText}
+                />
                 </View>
-                {/* <View>
-                  <RadioForm formHorizontal={false} animation={true}>
-                    {this.state.healthProps.map((obj, i) => (
-                      <RadioButton labelHorizontal={true} key={i}>
-                        <RadioButtonInput
-                          obj={obj}
-                          index={i}
-                          isSelected={this.state.dietaryPreference.includes(
-                            obj.value
-                          )}
-                          onPress={
-                            !this.state.dietaryPreference.includes(obj.value)
-                              ? value => {
-                                  this.setState({
-                                    ...this.state,
-                                    dietaryPreference: [
-                                      ...this.state.dietaryPreference,
-                                      obj.value,
-                                    ],
-                                  });
-                                }
-                              : value => this.removeDietaryPreference(value)
-                          }
-                          borderWidth={1}
-                          buttonInnerColor={'#659B0E'}
-                          buttonOuterColor={'black'}
-                          buttonSize={7}
-                          buttonOuterSize={17}
-                          buttonStyle={{}}
-                          buttonWrapStyle={{ marginLeft: 10 }}
-                        />
-                        <RadioButtonLabel
-                          obj={obj}
-                          index={i}
-                          labelHorizontal={true}
-                          onPress={value => {
-                            this.setState({
-                              ...this.state,
-                              dietaryPreference: [
-                                ...this.state.dietaryPreference,
-                                obj.value,
-                              ],
-                            });
-                          }}
-                          labelStyle={{ fontSize: 15, color: 'black' }}
-                          labelWrapStyle={{}}
-                        />
-                      </RadioButton>
-                    ))}
-                  </RadioForm>
-                </View> */}
               </View>
 
-              <View style={styles.signupButton}>
-                <Button
-                  onPress={this.handleSignup}
-                  title="Sign Up"
-                  color="green"
-                />
+              <View style={styles.buttonContainer}>
+                <View style={styles.signupButton}>
+                  <Button
+                    onPress={this.handleSignup}
+                    title="Sign Up"
+                    titleStyle={{
+                      color: 'white',
+                      fontSize: 15,
+                      lineHeight: 15,
+                    }}
+                    buttonStyle={{
+                      backgroundColor: '#659B0E',
+                      opacity: .8,
+                      borderRadius: 20,
+                      height: 35,
+                      width: 75,
+                      justifyContent: 'center',
+                      alignSelf: 'center',
+                      marginRight: 2.5
+                    }}
+                  />
+                </View>
+                <View style={styles.signupButton}>
+                  <Button
+                    onPress={this.handleCancel}
+                    title="Cancel"
+                    titleStyle={{
+                      color: 'white',
+                      fontSize: 15,
+                      lineHeight: 15,
+                    }}
+                    buttonStyle={{
+                      backgroundColor: '#FF7F4B',
+                      opacity: .8,
+                      borderRadius: 20,
+                      height: 35,
+                      width: 75,
+                      justifyContent: 'center',
+                      alignSelf: 'center',
+                      marginLeft: 2.5,
+                    }}
+                  />
+                </View>
               </View>
             </View>
           </ImageBackground>
         </View>
-      </ScrollView>
+        </KeyboardAwareScrollView>
     );
   }
 }
@@ -405,9 +434,11 @@ const styles = StyleSheet.create({
     height: 850,
     width: 350,
     borderRadius: 10,
-    marginTop: 30,
+    marginTop: 25,
   },
-  checkbox: {},
+  buttonContainer: {
+    flexDirection: 'row'
+  },
   checkboxText: {
     color: 'black',
   },
@@ -415,8 +446,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flexWrap: 'wrap',
     width: 400,
-    // flexGrow: 2
-    flexBasis: 'auto',
+    flexBasis: 'auto'
   },
   textContainer: {
     justifyContent: 'flex-start',
@@ -427,11 +457,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     opacity: 1,
     flexDirection: 'row',
-    margin: 10,
+    margin: 7,
   },
   dietText: {
     flexDirection: 'column',
-    // flexGrow: 1
   },
   sexContainer: {
     justifyContent: 'flex-start',
@@ -443,6 +472,10 @@ const styles = StyleSheet.create({
     opacity: 1,
     flexDirection: 'row',
     margin: 10,
+  },
+  dateContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   dietContainer: {
     justifyContent: 'flex-start',
@@ -506,6 +539,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   user: state.user,
+  error: state.user.error
 });
 
 const mapDispatchToProps = dispatch => ({

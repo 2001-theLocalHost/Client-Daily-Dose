@@ -3,12 +3,12 @@ import {
   StyleSheet,
   View,
   TextInput,
-  Button,
   Text,
   Picker,
 } from 'react-native';
 import { Formik } from 'formik';
-import {Overlay} from 'react-native-elements'
+import {Overlay, Button} from 'react-native-elements'
+import { Feather } from '@expo/vector-icons';
 
 const SaveDish = props => {
   let dishNut;
@@ -37,32 +37,62 @@ const SaveDish = props => {
               />
               </View>
               <View style={styles.mealTypeContainer}>
-              <Text style={styles.headerText}>Meal Type:</Text>
-              <Picker
-                itemStyle={styles.dropdown}
-                selectedValue={formikProps.values.mealType}
-                onValueChange={itemValue => {
-                  formikProps.setFieldValue('mealType', itemValue);
-                }}
-              >
-                <Picker.Item label="-" value="-" />
-                <Picker.Item label="Breakfast" value="Breakfast" />
-                <Picker.Item label="Lunch" value="Lunch" />
-                <Picker.Item label="Dinner" value="Dinner" />
-                <Picker.Item label="Snack" value="Snack" />
-              </Picker>
+                <Text style={styles.headerText}>Meal Type:</Text>
+                <Picker
+                  itemStyle={styles.dropdown}
+                  selectedValue={formikProps.values.mealType}
+                  onValueChange={itemValue => {
+                    formikProps.setFieldValue('mealType', itemValue);
+                  }}
+                >
+                  <Picker.Item label="-" value="-" />
+                  <Picker.Item label="Breakfast" value="Breakfast" />
+                  <Picker.Item label="Lunch" value="Lunch" />
+                  <Picker.Item label="Dinner" value="Dinner" />
+                  <Picker.Item label="Snack" value="Snack" />
+                </Picker>
+                <View style={styles.icon}>
+                  <Feather name="chevrons-down" size={15} color="black" />
+                </View>
               </View>
               <View style={styles.buttonContainer}>
               <Button
                 title="Submit"
-                color="green"
-                style={styles.button}
+                titleStyle={{
+                  color: 'white',
+                  fontSize: 15,
+                  lineHeight: 15,
+                }}
+                buttonStyle={{
+                  backgroundColor: '#659B0E',
+                  opacity: .8,
+                  borderRadius: 20,
+                  height: 35,
+                  width: 75,
+                  justifyContent: 'center',
+                  alignSelf: 'center',
+                  marginTop: 12,
+                  marginRight: 2.5
+                }}
                 onPress={formikProps.handleSubmit}
               />
               <Button
                 title="Cancel"
-                color="red"
-                style={styles.button}
+                titleStyle={{
+                  color: 'white',
+                  fontSize: 15,
+                  lineHeight: 15,
+                }}
+                buttonStyle={{
+                  backgroundColor: '#FF7F4B',
+                  borderRadius: 20,
+                  height: 35,
+                  width: 75,
+                  justifyContent: 'center',
+                  alignSelf: 'center',
+                  marginTop: 12,
+                  marginLeft: 2.5
+                }}
                 onPress={props.handleCancel}
               />
               </View>
@@ -104,7 +134,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: '100%',
     width: '100%',
-    backgroundColor: 'orange',
+    backgroundColor: '#E3E3E3',
     borderRadius: 10,
     opacity: 1,
     flexDirection: 'column'
@@ -122,17 +152,24 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row'
   },
-  button: {
-    backgroundColor: 'black',
-    opacity: 1
+  icon: {
+    backgroundColor: 'white',
+    opacity: .8,
+    height: 39,
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+    marginTop: 5,
+    justifyContent: 'center'
   },
   dropdown: {
     height: 39,
-    width: 180,
+    width: 168,
     fontSize: 14,
     color: 'black',
     backgroundColor: '#FFFFFF',
-    borderRadius: 5,
+    // borderRadius: 5,
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5,
     marginTop: 5,
     opacity: .8
   }
