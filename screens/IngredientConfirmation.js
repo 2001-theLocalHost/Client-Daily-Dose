@@ -137,6 +137,7 @@ class IngredientConfirmation extends React.Component {
       { value: 'cans' },
     ];
     return (
+      <ScrollView>
       <View>
       <View style={styles.outerContainer}>
         <ImageBackground
@@ -423,6 +424,7 @@ class IngredientConfirmation extends React.Component {
         </ImageBackground>
         </View>
         </View>
+        </ScrollView>
     );
   }
 }
