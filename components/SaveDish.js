@@ -167,9 +167,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'black',
     backgroundColor: '#FFFFFF',
-    // borderRadius: 5,
-    borderTopLeftRadius: 5,
-    borderBottomLeftRadius: 5,
+    borderRadius: 5,
+    // overflow: 'hidden',
+    // borderTopLeftRadius: 5,
+    // borderBottomLeftRadius: 5,
     marginTop: 5,
     opacity: .8
   }
