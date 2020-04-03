@@ -3,9 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TabBarIcon from '../components/TabBarIcon';
 import ConnectedHomeScreen from '../screens/HomeScreen';
 import MealDiary from '../screens/MealDiary';
-import ConnectedDishScreen from '../screens/DishScreen';
 import UploadImg from '../components/UploadImg';
-// import IngredientConfirmation from '../screens/IngredientConfirmation';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'home';
