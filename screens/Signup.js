@@ -73,16 +73,6 @@ class Signup extends React.Component {
 
   async handleSignup() {
     let dietaryPreference = dietaryArray(this.state.glutenFree, this.state.dairyFree, this.state.vegan, this.state.vegetarian, this.state.lowCarb, this.state.lowFat)
-  handleSignup() {
-    let dietaryPreference = dietaryArray(
-      this.state.glutenFree,
-      this.state.dairyFree,
-      this.state.vegan,
-      this.state.vegetarian,
-      this.state.lowCarb,
-      this.state.lowFat
-    );
-
     if (
       !validateInformation(
         this.state.email,
