@@ -3,7 +3,6 @@ import {View, Platform, StyleSheet,} from 'react-native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { consolidatingDataFromMealDiary } from '../store/dishes';
 
 const CalendarView = (props) => {
   const [date, setDate] = useState(new Date());
@@ -23,12 +22,12 @@ const CalendarView = (props) => {
     setMode(currentMode);
   };
 
-  let status = true 
+  let status = true
   const showDatepicker = () => {
     if (status === true) {
       showMode('date'); //open calendar
     } else if (status === false){
-      setShow(false) //close calendar 
+      setShow(false) //close calendar
     }
     status = !status
   };
@@ -72,7 +71,7 @@ const styles = StyleSheet.create({
     right:0,
     top:15
   },
-  
+
 })
 
 export default CalendarView;

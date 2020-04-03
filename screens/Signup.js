@@ -59,6 +59,15 @@ class Signup extends React.Component {
     this.formattedCalendarDate = this.formattedCalendarDate.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
   }
+  componentDidMount() {
+    const today = new Date()
+    const tomorrow = new Date(today)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    this.setState({
+      birthdate: tomorrow
+    })
+  }
+
   formattedCalendarDate() {
     const date = this.state.birthdate
     const day = date.getDate();
@@ -133,7 +142,6 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <KeyboardAwareScrollView>
         <View style={styles.outerContainer}>
           <ImageBackground
             source={{
@@ -359,7 +367,7 @@ class Signup extends React.Component {
                     }}
                     buttonStyle={{
                       backgroundColor: '#659B0E',
-                      opacity: .8,
+                      // opacity: .8,
                       borderRadius: 20,
                       height: 35,
                       width: 75,
@@ -380,7 +388,7 @@ class Signup extends React.Component {
                     }}
                     buttonStyle={{
                       backgroundColor: '#FF7F4B',
-                      opacity: .8,
+                      // opacity: .9,
                       borderRadius: 20,
                       height: 35,
                       width: 75,
@@ -394,7 +402,6 @@ class Signup extends React.Component {
             </View>
           </ImageBackground>
         </View>
-        </KeyboardAwareScrollView>
     );
   }
 }
@@ -406,7 +413,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 900,
-    opacity: 0.8,
   },
   image: {
     flex: 1,

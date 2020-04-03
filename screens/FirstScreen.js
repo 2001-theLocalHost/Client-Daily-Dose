@@ -94,13 +94,12 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    opacity: 0.9,
+    opacity: 0.8
   },
   textandButtonContainers: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
-    opacity: 0.8,
+    backgroundColor: '#ffffff90',
     height: 300,
     borderRadius: 10,
     padding: 5,

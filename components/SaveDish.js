@@ -37,7 +37,7 @@ const SaveDish = props => {
               />
               </View>
               <View style={styles.mealTypeContainer}>
-                <Text style={styles.headerText}>Meal Type:</Text>
+                <Text style={styles.headerText}>Meal Type: </Text>
                 <Picker
                   itemStyle={styles.dropdown}
                   selectedValue={formikProps.values.mealType}
@@ -156,21 +156,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     opacity: .8,
     height: 39,
-    borderTopRightRadius: 5,
-    borderBottomRightRadius: 5,
     marginTop: 5,
     justifyContent: 'center'
   },
   dropdown: {
     height: 39,
-    width: 168,
+    width: 163,
     fontSize: 14,
     color: 'black',
     backgroundColor: '#FFFFFF',
-    borderRadius: 5,
-    // overflow: 'hidden',
-    // borderTopLeftRadius: 5,
-    // borderBottomLeftRadius: 5,
     marginTop: 5,
     opacity: .8
   }

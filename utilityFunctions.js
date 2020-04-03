@@ -248,8 +248,9 @@ export const consolidateData = async finalIngredients => {
 export const formatIngredients = apiIngredients => {
   const arr = apiIngredients;
   let newArr = arr.map(obj => {
+    let upperName = capitalize(obj.name)
     return {
-      name: obj.name,
+      name: upperName,
       quantity: '1',
       measurement: 'oz',
     };

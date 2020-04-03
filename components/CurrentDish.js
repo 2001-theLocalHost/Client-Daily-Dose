@@ -60,7 +60,7 @@ class CurrentDish extends React.Component {
           <View>
             <View>
               <Text style={styles.head}>
-                {dishNut.name ? capitalize(dishNut.name) : ''}
+                {dishNut.name}
               </Text>
 
               {this.props.finalIngrStr.map((el, ind) => {
