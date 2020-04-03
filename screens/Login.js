@@ -51,6 +51,8 @@ class Login extends React.Component {
             passwordIconComponent={
               <Ionicons name="ios-lock" size={32} color={'#659B0E'} />
             }
+            disableSettings={true}
+            disableSwitch={true}
           />
           <Button
             title="Go to Signup"

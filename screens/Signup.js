@@ -16,9 +16,13 @@ import RadioForm, {
   RadioButtonInput,
   RadioButtonLabel,
 } from 'react-native-simple-radio-button';
-import { convertHeight, validateInformation, dietaryArray } from '../utilityFunctions';
+import {
+  convertHeight,
+  validateInformation,
+  dietaryArray,
+} from '../utilityFunctions';
 import PasswordInputText from 'react-native-hide-show-password-input';
-import CheckBox from 'react-native-check-box'
+import CheckBox from 'react-native-check-box';
 
 class Signup extends React.Component {
   constructor({ navigation }) {
@@ -53,20 +57,30 @@ class Signup extends React.Component {
   }
 
   handleSignup() {
-    let dietaryPreference = dietaryArray(this.state.glutenFree, this.state.dairyFree, this.state.vegan, this.state.vegetarian, this.state.lowCarb, this.state.lowFat)
+    let dietaryPreference = dietaryArray(
+      this.state.glutenFree,
+      this.state.dairyFree,
+      this.state.vegan,
+      this.state.vegetarian,
+      this.state.lowCarb,
+      this.state.lowFat
+    );
 
-    if (!validateInformation(this.state.email, this.state.password, this.state.name, this.state.sex, this.state.birthdate, this.state.feet, this.state.inches, this.state.weight)) {
+    if (
+      !validateInformation(
+        this.state.email,
+        this.state.password,
+        this.state.name,
+        this.state.sex,
+        this.state.birthdate,
+        this.state.feet,
+        this.state.inches,
+        this.state.weight
+      )
+    ) {
       return;
     }
-    const {
-      email,
-      password,
-      name,
-      sex,
-      birthdate,
-      feet,
-      inches,
-    } = this.state;
+    const { email, password, name, sex, birthdate, feet, inches } = this.state;
     const height = convertHeight(feet, inches);
     const weight = parseFloat(this.state.weight);
     let userInfo = {
@@ -126,13 +140,13 @@ class Signup extends React.Component {
               <View style={styles.textContainer}>
                 <Text style={styles.headerText}>Password:</Text>
                 <View style={styles.passwordContainer}>
-                <PasswordInputText
+                  <PasswordInputText
                     style={styles.passwordText}
                     value={this.state.password}
                     onChangeText={password => {
                       this.setState({ ...this.state, password: password });
                     }}
-                />
+                  />
                 </View>
               </View>
 
@@ -231,48 +245,72 @@ class Signup extends React.Component {
                 </View>
                 <View style={styles.checkboxContainer}>
                   <Text>Select All That Apply</Text>
-                <CheckBox
-                  style={styles.checkbox}
-                  onClick={() => {this.state.glutenFree ? this.setState({glutenFree: false}) : this.setState({glutenFree: true})}}
-                  isChecked={this.state.glutenFree}
-                  rightText={"Gluten-Free"}
-                  rightTextStyle={styles.checkboxText}
-                />
-                <CheckBox
-                  style={styles.checkbox}
-                  onClick={() => {this.state.dairyFree ? this.setState({dairyFree: false}) : this.setState({dairyFree: true})}}
-                  isChecked={this.state.dairyFree}
-                  rightText={"Dairy-Free"}
-                  rightTextStyle={styles.checkboxText}
-                />
-                <CheckBox
-                  style={styles.checkbox}
-                  onClick={() => {this.state.vegan ? this.setState({vegan: false}) : this.setState({vegan: true})}}
-                  isChecked={this.state.vegan}
-                  rightText={"Vegan"}
-                  rightTextStyle={styles.checkboxText}
-                />
-                                <CheckBox
-                  style={styles.checkbox}
-                  onClick={() => {this.state.vegetarian ? this.setState({vegetarian: false}) : this.setState({vegetarian: true})}}
-                  isChecked={this.state.vegetarian}
-                  rightText={"Vegetarian"}
-                  rightTextStyle={styles.checkboxText}
-                />
-                                <CheckBox
-                  style={styles.checkbox}
-                  onClick={() => {this.state.lowCarb ? this.setState({lowCarb: false}) : this.setState({lowCarb: true})}}
-                  isChecked={this.state.lowCarb}
-                  rightText={"Low-Carb"}
-                  rightTextStyle={styles.checkboxText}
-                />
-                                <CheckBox
-                  style={styles.checkbox}
-                  onClick={() => {this.state.lowFat ? this.setState({lowFat: false}) : this.setState({lowFat: true})}}
-                  isChecked={this.state.lowFat}
-                  rightText={"Low-Fat"}
-                  rightTextStyle={styles.checkboxText}
-                />
+                  <CheckBox
+                    style={styles.checkbox}
+                    onClick={() => {
+                      this.state.glutenFree
+                        ? this.setState({ glutenFree: false })
+                        : this.setState({ glutenFree: true });
+                    }}
+                    isChecked={this.state.glutenFree}
+                    rightText={'Gluten-Free'}
+                    rightTextStyle={styles.checkboxText}
+                  />
+                  <CheckBox
+                    style={styles.checkbox}
+                    onClick={() => {
+                      this.state.dairyFree
+                        ? this.setState({ dairyFree: false })
+                        : this.setState({ dairyFree: true });
+                    }}
+                    isChecked={this.state.dairyFree}
+                    rightText={'Dairy-Free'}
+                    rightTextStyle={styles.checkboxText}
+                  />
+                  <CheckBox
+                    style={styles.checkbox}
+                    onClick={() => {
+                      this.state.vegan
+                        ? this.setState({ vegan: false })
+                        : this.setState({ vegan: true });
+                    }}
+                    isChecked={this.state.vegan}
+                    rightText={'Vegan'}
+                    rightTextStyle={styles.checkboxText}
+                  />
+                  <CheckBox
+                    style={styles.checkbox}
+                    onClick={() => {
+                      this.state.vegetarian
+                        ? this.setState({ vegetarian: false })
+                        : this.setState({ vegetarian: true });
+                    }}
+                    isChecked={this.state.vegetarian}
+                    rightText={'Vegetarian'}
+                    rightTextStyle={styles.checkboxText}
+                  />
+                  <CheckBox
+                    style={styles.checkbox}
+                    onClick={() => {
+                      this.state.lowCarb
+                        ? this.setState({ lowCarb: false })
+                        : this.setState({ lowCarb: true });
+                    }}
+                    isChecked={this.state.lowCarb}
+                    rightText={'Low-Carb'}
+                    rightTextStyle={styles.checkboxText}
+                  />
+                  <CheckBox
+                    style={styles.checkbox}
+                    onClick={() => {
+                      this.state.lowFat
+                        ? this.setState({ lowFat: false })
+                        : this.setState({ lowFat: true });
+                    }}
+                    isChecked={this.state.lowFat}
+                    rightText={'Low-Fat'}
+                    rightTextStyle={styles.checkboxText}
+                  />
                 </View>
                 {/* <View>
                   <RadioForm formHorizontal={false} animation={true}>
@@ -369,18 +407,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 30,
   },
-  checkbox: {
-
-  },
+  checkbox: {},
   checkboxText: {
-    color: 'black'
+    color: 'black',
   },
   checkboxContainer: {
     flexDirection: 'column',
     flexWrap: 'wrap',
     width: 400,
     // flexGrow: 2
-    flexBasis: 'auto'
+    flexBasis: 'auto',
   },
   textContainer: {
     justifyContent: 'flex-start',
@@ -448,7 +484,7 @@ const styles = StyleSheet.create({
     opacity: 0.8,
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   passwordText: {
     marginBottom: 20,

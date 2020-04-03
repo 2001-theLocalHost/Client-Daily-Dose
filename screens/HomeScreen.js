@@ -93,7 +93,7 @@ class HomeScreen extends React.Component {
 
             <View>
               <Button
-                title="LOGOUT"
+                title="LOG OUT"
                 onPress={this.handleLogout}
                 color="#659B0E"
                 titleStyle={{
