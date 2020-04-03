@@ -402,7 +402,7 @@ class Signup extends React.Component {
 const styles = StyleSheet.create({
   outerContainer: {
     flex: 1,
-    backgroundColor: '#659B0E',
+    backgroundColor: '#ffffff',
     justifyContent: 'center',
     alignItems: 'center',
     height: 900,
@@ -419,7 +419,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#FFFFFF90',
     opacity: 1,
     height: 850,
     width: 350,
@@ -443,7 +443,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 60,
     width: 300,
-    backgroundColor: 'orange',
+    backgroundColor: '#FFFFFF',
     borderRadius: 10,
     opacity: 1,
     flexDirection: 'row',
@@ -457,7 +457,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 100,
     width: 300,
-    backgroundColor: 'orange',
+    backgroundColor: '#FFFFFF',
     borderRadius: 10,
     opacity: 1,
     flexDirection: 'row',
@@ -472,7 +472,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 190,
     width: 300,
-    backgroundColor: 'orange',
+    backgroundColor: '#FFFFFF',
     borderRadius: 10,
     opacity: 1,
     flexDirection: 'row',
@@ -495,11 +495,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   text: {
-    width: 180,
+    width: 203,
     opacity: 0.8,
     backgroundColor: '#FFFFFF',
     padding: 8,
     alignItems: 'center',
+    borderBottomWidth: 0.2,
+    borderBottomColor: 'gray'
   },
   passwordContainer: {
     width: 180,
@@ -524,6 +526,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 5,
     marginLeft: 5,
+    borderBottomWidth: 0.2,
+    borderBottomColor: 'gray'
   },
 });
 

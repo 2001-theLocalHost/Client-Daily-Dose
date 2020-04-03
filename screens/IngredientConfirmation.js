@@ -138,10 +138,31 @@ class IngredientConfirmation extends React.Component {
     ];
     return (
       <KeyboardAwareScrollView>
-        <View>
+        <View style={styles.outerContainer}>
+                  {/* ADD DISH NAME + SUBMIT/CONFIRM INGREDIENTS TO REDIRECT TO DISH SCREEN*/}
+        <View style={styles.confirmContainer}>
+          <View style={styles.headerTextContainer}>
+          <Text style={styles.headerText}>
+            Enter Dish Name
+          </Text>
+          </View>
+          <TextInput
+            style={styles.ingredientView}
+            placeholder="i.e. Vegan Pasta Salad"
+            value={this.state.name}
+            onChangeText={text => {
+              let localStateDish = { ...this.state };
+              localStateDish.name = text;
+              this.setState(localStateDish);
+            }}
+          />
+        </View>
+        <View style={styles.ingredientsContainer}>
           {/* API INGREDIENTS ARRAY + USER-ADDED INGREDIENTS ARRAY - BOTH SHOW UNDER "CONFIRM YOUR INGREDIENTS" */}
-          <Text style={styles.headerText}>Confirm Your Ingredients:</Text>
-          <Button 
+          <View style={styles.headerTextContainer}>
+          <Text style={styles.headerText}>Confirm Ingredients</Text>
+          </View>
+          <Button
             onPress={this.clearAll}
                     title="Clear All"
                     titleStyle={{
@@ -290,8 +311,10 @@ class IngredientConfirmation extends React.Component {
         </View>
 
         {/* USER CAN ADD ADDITIONAL INGREDIENT WITH QTY + MEASUREMENT */}
-        <View style={styles.addItem}>
+        <View style={styles.missingContainer}>
+        <View style={styles.headerTextContainer}>
           <Text style={styles.headerText}>Missing Any Ingredients?</Text>
+          </View>
           <View style={styles.ingredientView}>
             <TextInput
               style={styles.ingredientInput}
@@ -358,25 +381,7 @@ class IngredientConfirmation extends React.Component {
             disabled={this.state.value.length < 1}
           />
         </View>
-
-        {/* ADD DISH NAME + SUBMIT/CONFIRM INGREDIENTS TO REDIRECT TO DISH SCREEN*/}
-        <View style={styles.addItem}>
-          <Text style={styles.headerText}>
-            Confirm Name Of Dish (Required):
-          </Text>
-          <TextInput
-            style={styles.ingredientView}
-            placeholder="i.e. Vegan Pasta Salad"
-            value={this.state.name}
-            onChangeText={text => {
-              let localStateDish = { ...this.state };
-              localStateDish.name = text;
-              this.setState(localStateDish);
-            }}
-          />
-        </View>
-
-        <View style={styles.addItem}>
+            <View styles={styles.buttonContainer}>
           <Button
             onPress={this.fetchNutrition}
             title="All Set! Get Me Nutritional Information"
@@ -400,7 +405,9 @@ class IngredientConfirmation extends React.Component {
             disabled={this.state.name.length < 1}
           />
         </View>
-      </KeyboardAwareScrollView> 
+        </View>
+
+      </KeyboardAwareScrollView>
     );
   }
 }
@@ -429,6 +436,36 @@ const mapDispatch = dispatch => {
 export default connect(mapState, mapDispatch)(IngredientConfirmation);
 
 const styles = StyleSheet.create({
+  confirmContainer: {
+    borderRadius: 10,
+    width: 375,
+    backgroundColor: 'white',
+    marginTop: 20,
+    marginBottom: 5,
+  },
+  ingredientsContainer: {
+    borderRadius: 10,
+    width: 375,
+    backgroundColor: 'white',
+    margin: 5
+  },
+  missingContainer: {
+    borderRadius: 10,
+    width: 375,
+    backgroundColor: 'white',
+    margin: 5
+  },
+  buttonContainer: {
+    borderRadius: 10,
+    width: 375,
+    backgroundColor: 'white',
+    margin: 5
+  },
+  outerContainer: {
+    backgroundColor: 'orange',
+    height: 900,
+    alignItems: 'center',
+  },
   ingredientView: {
     flexDirection: 'row',
     marginTop: 25,
@@ -470,10 +507,14 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: 'white',
-    backgroundColor: '#659B0E',
-    padding: 10,
-    marginTop: 25,
     fontFamily: 'Avenir-Book',
-    fontSize: 18
+    fontSize: 18,
   },
+  headerTextContainer: {
+    backgroundColor: '#659B0E',
+    opacity: .8,
+    padding: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10
+  }
 });
