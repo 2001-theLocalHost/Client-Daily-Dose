@@ -45,13 +45,13 @@ const CalendarView = (props) => {
           icon={
           <Icon
           name="calendar"
-          size={45}
+          size={50}
           color="gray"
           />
           }
           buttonStyle={{
             backgroundColor: 'transparent',
-            marginTop: 20
+            marginTop: 90
           }}
           onPress={showDatepicker}
         />
