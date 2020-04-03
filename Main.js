@@ -59,6 +59,9 @@ function Main(props) {
     return null;
   } else {
     const loggedIn = props.isLoggedIn;
+    const save = {
+      buttonClicked: true,
+    };
     return (
       <View style={styles.container}>
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
@@ -94,13 +97,13 @@ function Main(props) {
                   options={({ navigation }) => ({
                     title: '',
                     headerMode: 'none',
-                    headerRight: () => (
-                      <Button
-                        onPress={() => navigation.navigate('Your Dish')}
-                        title="Back to Dish"
-                        color="black"
-                      />
-                    ),
+                    // headerRight: () => (
+                    //   <Button
+                    //     onPress={() => navigation.navigate('Your Dish', save)}
+                    //     title="Back to Dish"
+                    //     color="black"
+                    //   />
+                    // ),
                   })}
                 />
               </>

@@ -65,7 +65,6 @@ export const fetchNutrition = (name, dishUrl, userDish) => {
       let { data } = await axios.get(
         `https://api.edamam.com/api/nutrition-data?app_id=${ED_APIID}&app_key=${ED_APIKEY}&ingr=${stringify}`
       );
-      console.log('this is raw data', data);
       let newData = convertData(name, dishUrl, data);
       dispatch(gotNutrition(newData));
     } catch (err) {

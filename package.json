@@ -49,6 +49,7 @@
     "react-native-hide-show-password-input": "^1.1.0",
     "react-native-improved-text-input": "0.0.1",
     "react-native-keyboard-aware-scroll-view": "^0.9.1",
+    "react-native-keyboard-spacer": "^0.4.1",
     "react-native-login-screen": "^0.3.7",
     "react-native-paper": "^3.6.0",
     "react-native-pathjs-charts": "0.0.34",

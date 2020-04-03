@@ -83,7 +83,7 @@ class DishScreen extends React.Component {
     this.unsubscribe();
   }
 
-  renderScene = ({ route }) => {
+  renderScene = ({ route, jumpTo }) => {
     if (route.key === 'Dish') {
       return (
         <View>
@@ -106,7 +106,9 @@ class DishScreen extends React.Component {
     }
     for (let i = 0; i < this.props.ingrNut.length; i++) {
       if (route.key === this.props.ingrNut[i].ingredientName) {
-        return <CurrentIngredient ingrNut={this.props.ingrNut[i]} />;
+        return (
+          <CurrentIngredient ingrNut={this.props.ingrNut[i]} jumpTo={jumpTo} />
+        );
       }
     }
   };

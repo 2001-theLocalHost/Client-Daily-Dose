@@ -7,7 +7,6 @@ const GET_NUTRITION_INFO = 'GET_NUTRITION_INFO';
 
 const DEPOSIT_DISH_INFO = 'DEPOSIT_DISH_INFO';
 
-
 //ACTION CREATOR
 const getDishesByDate = dishes => {
   return {
@@ -34,7 +33,6 @@ export const depositDishInfo = dish => {
 export const fetchDishes = date => {
   return async dispatch => {
     try {
-      console.log('IM THE THUNK')
       const { data } = await Axios.get(
         `https://daily-dose-server.herokuapp.com/api/userDish/${date}`
       );
@@ -62,13 +60,15 @@ export const fetchIngreInfo = dishId => {
 export const removeDish = id => {
   return async dispatch => {
     try {
-      const {data} = await Axios.delete(`https://daily-dose-server.herokuapp.com/api/userDish/${id}`)
-      return await dispatch(fetchDishes(data.date))
+      const { data } = await Axios.delete(
+        `https://daily-dose-server.herokuapp.com/api/userDish/${id}`
+      );
+      return await dispatch(fetchDishes(data.date));
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
-}
+  };
+};
 
 //INITIAL STATE
 const initialState = {

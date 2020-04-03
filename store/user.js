@@ -15,7 +15,6 @@ const removeUser = () => ({
 
 export const me = () => async dispatch => {
   try {
-    console.log('now i am here');
     const { data } = await axios.get(
       'https://daily-dose-server.herokuapp.com/auth/me'
     );

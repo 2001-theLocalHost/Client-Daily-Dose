@@ -17,9 +17,13 @@ import RadioForm, {
   RadioButtonInput,
   RadioButtonLabel,
 } from 'react-native-simple-radio-button';
-import { convertHeight, validateInformation, dietaryArray } from '../utilityFunctions';
+import {
+  convertHeight,
+  validateInformation,
+  dietaryArray,
+} from '../utilityFunctions';
 import PasswordInputText from 'react-native-hide-show-password-input';
-import CheckBox from 'react-native-check-box'
+import CheckBox from 'react-native-check-box';
 
 class Signup extends React.Component {
   constructor({ navigation }) {
@@ -55,7 +59,6 @@ class Signup extends React.Component {
     this.formattedCalendarDate = this.formattedCalendarDate.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
   }
-
   formattedCalendarDate() {
     const date = this.state.birthdate
     const day = date.getDate();
@@ -70,19 +73,21 @@ class Signup extends React.Component {
 
   async handleSignup() {
     let dietaryPreference = dietaryArray(this.state.glutenFree, this.state.dairyFree, this.state.vegan, this.state.vegetarian, this.state.lowCarb, this.state.lowFat)
-
-    if (!validateInformation(this.state.email, this.state.password, this.state.name, this.state.sex, this.state.birthdate, this.state.feet, this.state.inches, this.state.weight)) {
+    if (
+      !validateInformation(
+        this.state.email,
+        this.state.password,
+        this.state.name,
+        this.state.sex,
+        this.state.birthdate,
+        this.state.feet,
+        this.state.inches,
+        this.state.weight
+      )
+    ) {
       return;
     }
-    const {
-      email,
-      password,
-      name,
-      sex,
-      birthdate,
-      feet,
-      inches,
-    } = this.state;
+    const { email, password, name, sex, birthdate, feet, inches } = this.state;
     const height = convertHeight(feet, inches);
     const weight = parseFloat(this.state.weight);
     let userInfo = {
@@ -151,13 +156,13 @@ class Signup extends React.Component {
               <View style={styles.textContainer}>
                 <Text style={styles.headerText}>Password:</Text>
                 <View style={styles.passwordContainer}>
-                <PasswordInputText
+                  <PasswordInputText
                     style={styles.passwordText}
                     value={this.state.password}
                     onChangeText={password => {
                       this.setState({ ...this.state, password: password });
                     }}
-                />
+                  />
                 </View>
               </View>
 
@@ -425,7 +430,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   checkboxText: {
-    color: 'black'
+    color: 'black',
   },
   checkboxContainer: {
     flexDirection: 'column',
@@ -502,7 +507,7 @@ const styles = StyleSheet.create({
     opacity: 0.8,
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   passwordText: {
     marginBottom: 20,
