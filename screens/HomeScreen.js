@@ -1,12 +1,5 @@
 import * as React from 'react';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ScrollView,
-  ImageBackground,
-} from 'react-native';
+import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 import Moment from 'moment';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
