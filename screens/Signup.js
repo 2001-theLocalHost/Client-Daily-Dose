@@ -59,6 +59,15 @@ class Signup extends React.Component {
     this.formattedCalendarDate = this.formattedCalendarDate.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
   }
+  componentDidMount() {
+    const today = new Date()
+    const tomorrow = new Date(today)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    this.setState({
+      birthdate: tomorrow
+    })
+  }
+
   formattedCalendarDate() {
     const date = this.state.birthdate
     const day = date.getDate();
@@ -73,16 +82,6 @@ class Signup extends React.Component {
 
   async handleSignup() {
     let dietaryPreference = dietaryArray(this.state.glutenFree, this.state.dairyFree, this.state.vegan, this.state.vegetarian, this.state.lowCarb, this.state.lowFat)
-  handleSignup() {
-    let dietaryPreference = dietaryArray(
-      this.state.glutenFree,
-      this.state.dairyFree,
-      this.state.vegan,
-      this.state.vegetarian,
-      this.state.lowCarb,
-      this.state.lowFat
-    );
-
     if (
       !validateInformation(
         this.state.email,
@@ -143,7 +142,6 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <KeyboardAwareScrollView>
         <View style={styles.outerContainer}>
           <ImageBackground
             source={{
@@ -369,7 +367,7 @@ class Signup extends React.Component {
                     }}
                     buttonStyle={{
                       backgroundColor: '#659B0E',
-                      opacity: .8,
+                      // opacity: .8,
                       borderRadius: 20,
                       height: 35,
                       width: 75,
@@ -390,7 +388,7 @@ class Signup extends React.Component {
                     }}
                     buttonStyle={{
                       backgroundColor: '#FF7F4B',
-                      opacity: .8,
+                      // opacity: .9,
                       borderRadius: 20,
                       height: 35,
                       width: 75,
@@ -404,7 +402,6 @@ class Signup extends React.Component {
             </View>
           </ImageBackground>
         </View>
-        </KeyboardAwareScrollView>
     );
   }
 }
@@ -412,11 +409,10 @@ class Signup extends React.Component {
 const styles = StyleSheet.create({
   outerContainer: {
     flex: 1,
-    backgroundColor: '#659B0E',
+    backgroundColor: '#ffffff',
     justifyContent: 'center',
     alignItems: 'center',
     height: 900,
-    opacity: 0.8,
   },
   image: {
     flex: 1,
@@ -429,7 +425,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#FFFFFF90',
     opacity: 1,
     height: 850,
     width: 350,
@@ -453,7 +449,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 60,
     width: 300,
-    backgroundColor: 'orange',
+    backgroundColor: '#FFFFFF',
     borderRadius: 10,
     opacity: 1,
     flexDirection: 'row',
@@ -467,7 +463,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 100,
     width: 300,
-    backgroundColor: 'orange',
+    backgroundColor: '#FFFFFF',
     borderRadius: 10,
     opacity: 1,
     flexDirection: 'row',
@@ -482,7 +478,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 190,
     width: 300,
-    backgroundColor: 'orange',
+    backgroundColor: '#FFFFFF',
     borderRadius: 10,
     opacity: 1,
     flexDirection: 'row',
@@ -505,11 +501,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   text: {
-    width: 180,
+    width: 203,
     opacity: 0.8,
     backgroundColor: '#FFFFFF',
     padding: 8,
     alignItems: 'center',
+    borderBottomWidth: 0.2,
+    borderBottomColor: 'gray'
   },
   passwordContainer: {
     width: 180,
@@ -534,6 +532,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 5,
     marginLeft: 5,
+    borderBottomWidth: 0.2,
+    borderBottomColor: 'gray'
   },
 });
 

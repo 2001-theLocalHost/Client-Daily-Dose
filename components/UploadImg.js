@@ -57,7 +57,8 @@ class UploadImg extends React.Component {
           source={require('../assets/images/green.png')}
           style={styles.image}
         >
-        <Text style={styles.getStartedText}>Let's start analyzing!</Text>
+          <View style={styles.container}>
+        <Text style={styles.getStartedText}>Upload your dish!</Text>
 
         {this.state.imageUri === null ? (
           <View style={styles.uploadButtons}>
@@ -85,6 +86,7 @@ class UploadImg extends React.Component {
             </View>
           </View>
         )}
+        </View>
         </ImageBackground>
       </View>
     );
@@ -149,9 +151,18 @@ const mapDispatch = dispatch => ({
 export default connect(null, mapDispatch)(UploadImg);
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#ffffff',
+    borderRadius: 10,
+    width: 350,
+    height: 500,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   uploadButtons: {
     flexDirection: 'column',
     justifyContent: 'space-between',
+    alignItems: 'center'
   },
   uploadButtonsagain: {
     flexDirection: 'row',
@@ -168,16 +179,17 @@ const styles = StyleSheet.create({
     opacity: 0.80,
     width: 250,
     height: 45,
-    marginTop: 20,
     alignItems: 'center',
     borderRadius: 8,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   button: {
-    backgroundColor: '#FF7F4B', 
-    padding: 20,
+    backgroundColor: '#FF7F4B',
+    paddingTop: 15,
     margin: 10,
-    borderRadius: 10,
+    width: 180,
+    height: 60,
+    borderRadius: 30,
     fontFamily: 'Avenir-Book',
     alignItems: 'center',
   },
@@ -192,15 +204,16 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'transparent' 
+    backgroundColor: 'transparent',
   },
   dishimage: {
     marginTop: 17,
-    width: 250, 
+    width: 250,
     height: 250,
     borderRadius: 5,
     overflow: 'hidden',
     borderRadius: 8,
+    marginBottom: 20
   },
 });
 

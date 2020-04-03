@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements';
-import { capitalize, finalData, startData } from '../utilityFunctions';
+import { finalData, startData, capitalize } from '../utilityFunctions';
 import { female25to35inMG } from '../goals';
 import AnimatedPie from './Graph-Pieces/AnimatedPie';
 import AnimatedPieLabel from './Graph-Pieces/AnimatedPieLabel';
@@ -51,7 +51,7 @@ export default class CurrentIngredient extends React.Component {
           />
           <View>
             <Text style={styles.head}>
-              {ingrNut.ingredientName ? capitalize(ingrNut.ingredientName) : ''}
+              {ingrNut.ingredientName}
             </Text>
 
             <View style={styles.iconContainer}>

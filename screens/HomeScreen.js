@@ -69,7 +69,7 @@ class HomeScreen extends React.Component {
                         key={ind.toString() + Math.random().toString()}
                         style={styles.dietPref}
                       >
-                        - {el === 'glutenFree' ? 'Gluen Free' : ''}
+                        - {el === 'glutenFree' ? 'Gluten Free' : ''}
                         {el === 'dairyFree' ? 'Dairy Free' : ''}
                         {el === 'vegan' ? 'Vegan' : ''}
                         {el === 'vegetarian' ? 'Vegetarian' : ''}

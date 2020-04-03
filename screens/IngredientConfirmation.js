@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, Picker } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Picker, ImageBackground, ScrollView, Dimensions } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { Feather } from '@expo/vector-icons';
 import { connect } from 'react-redux';
@@ -9,7 +9,7 @@ import {
   resetDishnutFromConfirmation,
   resetIngrnutFromConfirmation,
 } from '../store/nutrition';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 class IngredientConfirmation extends React.Component {
   constructor({ navigation, route }) {
@@ -137,11 +137,45 @@ class IngredientConfirmation extends React.Component {
       { value: 'cans' },
     ];
     return (
-      <KeyboardAwareScrollView>
-        <View>
+      <View>
+      <View style={styles.outerContainer}>
+        <ImageBackground
+          source={require('../assets/images/fruits-yellowred.png')}
+          style={styles.image}
+        >
+
+      {/* <KeyboardAwareScrollView>
+        <View style={styles.outerContainer}> */}
+
+        <View style={styles.container}>
+
+                  {/* ADD DISH NAME + SUBMIT/CONFIRM INGREDIENTS TO REDIRECT TO DISH SCREEN*/}
+        <View style={styles.confirmContainer}>
+
+          <View style={styles.headerTextContainer}>
+          <Text style={styles.headerText}>
+            Enter Dish Name (required)
+          </Text>
+          </View>
+          <TextInput
+            style={styles.dishView}
+            placeholder="i.e. Vegan Pasta Salad"
+            value={this.state.name}
+            onChangeText={text => {
+              let localStateDish = { ...this.state };
+              localStateDish.name = text;
+              this.setState(localStateDish);
+            }}
+          />
+        </View>
+        <View style={styles.ingredientsContainer}>
           {/* API INGREDIENTS ARRAY + USER-ADDED INGREDIENTS ARRAY - BOTH SHOW UNDER "CONFIRM YOUR INGREDIENTS" */}
-          <Text style={styles.headerText}>Confirm Your Ingredients:</Text>
-          <Button 
+          <ScrollView>
+          <View style={styles.headerTextContainer}>
+          <Text style={styles.headerText}>Confirm Ingredients</Text>
+          </View>
+          <View style={styles.innerIngredientContainer}>
+          <Button
             onPress={this.clearAll}
                     title="Clear All"
                     titleStyle={{
@@ -154,15 +188,13 @@ class IngredientConfirmation extends React.Component {
                       backgroundColor: '#d6d7da',
                       borderRadius: 5,
                       width: 60,
-                      marginTop: 10,
-                      marginLeft: 10,
                       padding: -5
                     }}
           />
-
+              <View style={styles.allIngredientContainer}>
           {this.state.ingredients.map((item, index) => {
             return (
-              <View key={index} style={styles.ingredientView}>
+              <View key={index} style={styles.individualIngredientView}>
                 <Text style={styles.ingredientName}>{item.name}</Text>
                 <TextInput
                   style={styles.quantityField}
@@ -176,8 +208,7 @@ class IngredientConfirmation extends React.Component {
                 />
                 <View>
                   <Picker
-                    style={styles.dropdowns}
-                    itemStyle={{ height: 45 }}
+                    itemStyle={styles.dropdowns}
                     selectedValue={item.measurement}
                     onValueChange={value => {
                       let localState = { ...this.state };
@@ -207,14 +238,15 @@ class IngredientConfirmation extends React.Component {
                     title="X"
                     titleStyle={{
                       color: 'white',
-                      fontSize: 15,
-                      lineHeight: 15,
+                      fontSize: 13,
+                      lineHeight: 13,
                     }}
                     buttonStyle={{
                       backgroundColor: 'gray',
                       borderRadius: 60,
                       height: 30,
                       width: 30,
+                      marginLeft: 8
                     }}
                   />
                 </View>
@@ -222,9 +254,10 @@ class IngredientConfirmation extends React.Component {
             );
           })}
 
+
           {this.state.userAddedIngredients.map((item, index) => {
             return (
-              <View key={index} style={styles.ingredientView}>
+              <View key={index} style={styles.individualIngredientView}>
                 <Text style={styles.ingredientName}>{item.name}</Text>
                 <TextInput
                   style={styles.quantityField}
@@ -240,8 +273,7 @@ class IngredientConfirmation extends React.Component {
                 />
                 <View>
                   <Picker
-                    style={styles.dropdowns}
-                    itemStyle={{ height: 45 }}
+                    itemStyle={styles.dropdowns}
                     selectedValue={item.measurement}
                     onValueChange={value => {
                       let localState = { ...this.state };
@@ -273,25 +305,31 @@ class IngredientConfirmation extends React.Component {
                     title="X"
                     titleStyle={{
                       color: 'white',
-                      fontSize: 15,
-                      lineHeight: 15,
+                      fontSize: 13,
+                      lineHeight: 13,
                     }}
                     buttonStyle={{
                       backgroundColor: 'gray',
                       borderRadius: 60,
                       height: 30,
                       width: 30,
+                      marginLeft: 8
                     }}
                   />
                 </View>
               </View>
             );
           })}
+          </View>
+          </View>
+          </ScrollView>
         </View>
 
         {/* USER CAN ADD ADDITIONAL INGREDIENT WITH QTY + MEASUREMENT */}
-        <View style={styles.addItem}>
+        <View style={styles.missingContainer}>
+        <View style={styles.headerTextContainer}>
           <Text style={styles.headerText}>Missing Any Ingredients?</Text>
+          </View>
           <View style={styles.ingredientView}>
             <TextInput
               style={styles.ingredientInput}
@@ -301,7 +339,7 @@ class IngredientConfirmation extends React.Component {
             />
             <TextInput
               style={styles.quantityField}
-              placeholder="Enter A Numerical Value"
+            placeholder="Qty"
               value={this.state.qty}
               onChangeText={text => {
                 let localStateClone = { ...this.state };
@@ -311,8 +349,7 @@ class IngredientConfirmation extends React.Component {
             />
             <View>
               <Picker
-                style={styles.dropdowns}
-                itemStyle={{ height: 45 }}
+                itemStyle={styles.dropdowns}
                 selectedValue={this.state.measurement}
                 onValueChange={value => {
                   let localState = { ...this.state };
@@ -338,7 +375,7 @@ class IngredientConfirmation extends React.Component {
 
           <Button
             onPress={this.addIngredient}
-            title="Add To Ingredients"
+            title="Add to Ingredients"
             color="#659B0E"
             titleStyle={{
               color: 'white',
@@ -353,30 +390,12 @@ class IngredientConfirmation extends React.Component {
               width: 150,
               justifyContent: 'center',
               alignSelf: 'center',
-              marginTop: 25,
+              margin: 10,
             }}
             disabled={this.state.value.length < 1}
           />
         </View>
-
-        {/* ADD DISH NAME + SUBMIT/CONFIRM INGREDIENTS TO REDIRECT TO DISH SCREEN*/}
-        <View style={styles.addItem}>
-          <Text style={styles.headerText}>
-            Confirm Name Of Dish (Required):
-          </Text>
-          <TextInput
-            style={styles.ingredientView}
-            placeholder="i.e. Vegan Pasta Salad"
-            value={this.state.name}
-            onChangeText={text => {
-              let localStateDish = { ...this.state };
-              localStateDish.name = text;
-              this.setState(localStateDish);
-            }}
-          />
-        </View>
-
-        <View style={styles.addItem}>
+            <View>
           <Button
             onPress={this.fetchNutrition}
             title="All Set! Get Me Nutritional Information"
@@ -391,16 +410,19 @@ class IngredientConfirmation extends React.Component {
               backgroundColor: '#659B0E',
               borderRadius: 20,
               height: 35,
-              width: 350,
+              width: 330,
               justifyContent: 'center',
               alignSelf: 'center',
-              marginTop: 25,
-              marginBottom: 25,
+              marginTop: 10,
             }}
             disabled={this.state.name.length < 1}
           />
         </View>
-      </KeyboardAwareScrollView> 
+
+        </View>
+        </ImageBackground>
+        </View>
+        </View>
     );
   }
 }
@@ -428,17 +450,88 @@ const mapDispatch = dispatch => {
 
 export default connect(mapState, mapDispatch)(IngredientConfirmation);
 
+const height = Dimensions.get('window').height;
+const width = Dimensions.get('window').width
+
 const styles = StyleSheet.create({
+  outerContainer: {
+    backgroundColor: '#FFF81490',
+    height: height,
+    width: width,
+    alignItems: 'center',
+  },
+  image: {
+    flex: 1,
+    width: width,
+    height: height,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    opacity: 0.9,
+  },
+  container: {
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF80',
+    opacity: 1,
+    height: 750,
+    width: 370,
+    borderRadius: 10,
+    marginTop: 25,
+  },
+  confirmContainer: {
+    borderRadius: 10,
+    width: 350,
+    backgroundColor: 'white',
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  ingredientsContainer: {
+    borderRadius: 10,
+    width: 350,
+    height: 380,
+    backgroundColor: 'white',
+    margin: 10,
+  },
+  innerIngredientContainer: {
+    flexDirection: 'column',
+    margin: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    fontFamily: 'Avenir-Book',
+    backgroundColor: 'white'
+  },
+  allIngredientContainer: {
+    flexDirection: 'column'
+  },
+  individualIngredientView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white'
+  },
+  missingContainer: {
+    borderRadius: 10,
+    width: 350,
+    backgroundColor: 'white',
+    margin: 10
+  },
   ingredientView: {
     flexDirection: 'row',
-    marginTop: 25,
+    margin: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    fontFamily: 'Avenir-Book'
+  },
+  dishView: {
+    flexDirection: 'row',
+    margin: 5,
     paddingHorizontal: 10,
     paddingVertical: 5,
     fontFamily: 'Avenir-Book'
   },
   ingredientName: {
-    width: 185,
-    paddingTop: 12,
+    width: 165,
+    padding: 3,
     fontSize: 15,
     fontFamily: 'Avenir-Book'
   },
@@ -446,9 +539,10 @@ const styles = StyleSheet.create({
     width: 185,
     borderWidth: 0.5,
     borderColor: '#d6d7da',
-    paddingTop: 12,
+    padding: 3,
     fontSize: 15,
-    fontFamily: 'Avenir-Book'
+    fontFamily: 'Avenir-Book',
+    height: 38.2,
   },
   icon: {
     position: 'absolute',
@@ -457,23 +551,37 @@ const styles = StyleSheet.create({
   },
   removeButton: {
     fontSize: 10,
-    marginTop: 5,
-    marginLeft: 10,
-  },
-  quantityField: {
-    width: 30,
-    borderWidth: 0.5,
-    borderColor: '#d6d7da',
-  },
-  dropdowns: {
-    width: 100,
+    // marginTop: 5,
+    // marginLeft: 10,
   },
   headerText: {
     color: 'white',
-    backgroundColor: '#659B0E',
-    padding: 10,
-    marginTop: 25,
     fontFamily: 'Avenir-Book',
-    fontSize: 18
+    fontSize: 18,
   },
+  headerTextContainer: {
+    backgroundColor: '#659B0E',
+    opacity: .8,
+    padding: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10
+  },
+  quantityField: {
+    width: 50,
+    height: 38.2,
+    borderWidth: 0.5,
+    borderColor: '#d6d7da',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: 14,
+    padding: 5
+  },
+  dropdowns: {
+    height: 39,
+    width: 80,
+    fontSize: 16,
+    color: 'black',
+    backgroundColor: '#FFFFFF',
+    opacity: .8
+  }
 });
