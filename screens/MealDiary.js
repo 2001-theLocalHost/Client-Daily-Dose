@@ -8,6 +8,7 @@ import {
   Linking,
   TextInput,
   Picker,
+  ImageBackground,
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -64,7 +65,14 @@ class MealDiary extends React.Component {
   async getDishes() {
     await this.props.fetchDishes(this.state.date);
     this.formattedCalendarDate(this.state.date);
-  }
+   }
+
+   handlePrice = () => {
+    if (!this.pressed){
+       this.pressed = true;
+       this.setState({price : this.state.price - 2000});
+    }
+}
 
   async seeDishInfo(dishObj) {
     //Dispatch a thunk to retrieve the Dish Data Object from backend - once Dish Data Object state is updated, navigate to DishScreen.js
@@ -130,7 +138,7 @@ class MealDiary extends React.Component {
                   lineHeight: 15,
                 }}
                 buttonStyle={{
-                  backgroundColor: '#659B0E',
+                  backgroundColor: '#FF7F4B',
                   borderRadius: 20,
                   height: 35,
                   width: 100,
@@ -143,7 +151,7 @@ class MealDiary extends React.Component {
             </View>
           )}
           <Text style={styles.mainHeader}>
-            MEALS FOR {this.state.formattedDate}
+            Meals for {this.state.formattedDate}
           </Text>
           {/* BREAKFAST VIEW */}
           <Text style={styles.BreakfastHeaderText}>Breakfast</Text>
@@ -374,11 +382,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Avenir-Book',
   },
   mainHeader: {
-    fontWeight: 'bold',
-    padding: 10,
-    marginTop: 25,
+    // fontWeight: 'bold',
+    padding: 15,
+    marginTop: 0,
     color: 'black',
-    fontSize: 15,
+    fontSize: 20,
     fontFamily: 'Avenir-Book',
     justifyContent: 'center',
     alignSelf: 'center',
