@@ -11,7 +11,6 @@ import { connect } from 'react-redux';
 import {Button} from 'react-native-elements'
 import { signup } from '../store/user';
 import CalendarModal from '../components/CalendarModal';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import RadioForm, {
   RadioButton,
   RadioButtonInput,
