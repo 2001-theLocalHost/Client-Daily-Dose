@@ -192,8 +192,7 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'transparent'
-    
+    backgroundColor: 'transparent' 
   },
   dishimage: {
     marginTop: 17,
