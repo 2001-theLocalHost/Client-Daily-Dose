@@ -30,7 +30,8 @@ export const login = (email, password) => {
     let res;
     try {
       res = await axios.post(
-        'https://daily-dose-server.herokuapp.com/auth/login',
+        // 'https://daily-dose-server.herokuapp.com/auth/login',
+        'http://192.168.1.11:8080/auth/login',
         {
           email,
           password,
@@ -52,16 +53,15 @@ export const signup = userInfo => {
     let res;
     try {
       res = await axios.post(
-        `https://daily-dose-server.herokuapp.com/auth/signup`,
+        // `https://daily-dose-server.herokuapp.com/auth/signup`,
+        'http://192.168.1.11:8080/auth/signup',
         userInfo
       );
-      console.log('3', res.data);
     } catch (authError) {
       return dispatch(getUser(null, authError));
     }
 
     try {
-      console.log('4', res.data);
       dispatch(getUser(res.data));
     } catch (dispatchOrHistoryErr) {
       console.error(dispatchOrHistoryErr);
