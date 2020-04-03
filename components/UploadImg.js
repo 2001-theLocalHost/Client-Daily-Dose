@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, Image, ImageBackground, } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
@@ -52,6 +52,11 @@ class UploadImg extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+
+        <ImageBackground
+          source={require('../assets/images/green.png')}
+          style={styles.image}
+        >
         <Text style={styles.getStartedText}>Let's start analyzing!</Text>
 
         {this.state.imageUri === null ? (
@@ -68,7 +73,8 @@ class UploadImg extends React.Component {
             <View style={styles.uploadButtons}>
               <Image
                 source={{ uri: this.state.imageUri }}
-                style={{ width: 200, height: 200 }}
+                // style={{ width: 200, height: 200 }}
+                style={styles.dishimage}
               />
               <TouchableOpacity
                 style={styles.button}
@@ -79,6 +85,7 @@ class UploadImg extends React.Component {
             </View>
           </View>
         )}
+        </ImageBackground>
       </View>
     );
   }
@@ -152,18 +159,48 @@ const styles = StyleSheet.create({
   },
   getStartedText: {
     fontSize: 22,
-    color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
+    color: 'black',
+    lineHeight: 45,
     textAlign: 'center',
+    fontFamily: 'Avenir-Book',
+    fontWeight: 'bold',
+    backgroundColor: 'white',
+    opacity: 0.80,
+    width: 250,
+    height: 45,
+    marginTop: 20,
+    alignItems: 'center',
+    borderRadius: 8,
+    overflow: 'hidden'
   },
   button: {
-    backgroundColor: '#659B0E',
+    backgroundColor: '#FF7F4B', 
     padding: 20,
     margin: 10,
-    borderRadius: 5,
+    borderRadius: 10,
+    fontFamily: 'Avenir-Book',
+    alignItems: 'center',
   },
   buttonText: {
     fontSize: 20,
     color: '#fff',
+    fontFamily: 'Avenir-Book',
+  },
+  image: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent' 
+  },
+  dishimage: {
+    marginTop: 17,
+    width: 250, 
+    height: 250,
+    borderRadius: 5,
+    overflow: 'hidden',
+    borderRadius: 8,
   },
 });
+

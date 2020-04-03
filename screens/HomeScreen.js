@@ -1,12 +1,5 @@
 import * as React from 'react';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ScrollView,
-  ImageBackground,
-} from 'react-native';
+import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 import Moment from 'moment';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -26,7 +19,6 @@ class HomeScreen extends React.Component {
   };
 
   render() {
-    console.log('this is user', this.props.user);
     const { user } = this.props;
 
     return (
@@ -58,7 +50,7 @@ class HomeScreen extends React.Component {
                 <Text style={styles.subHeader}>Height: </Text>
                 <Text style={styles.text}>
                   {' '}
-                  {Math.round(user.height / 12)} ft {user.height % 12} in
+                  {Math.floor(user.height / 12)} ft {user.height % 12} in
                 </Text>
               </View>
 
@@ -69,23 +61,32 @@ class HomeScreen extends React.Component {
 
               <Text style={styles.subHeader}>Dietary Preference: </Text>
               <View style={styles.dietPrefContainer}>
-                {user.dietaryPreference
-                  ? user.dietaryPreference.map((el, ind) => {
-                      return (
-                        <Text key={ind} style={styles.dietPref}>
-                          - {el}
-                        </Text>
-                      );
-                    })
-                  : null}
+                {user.dietaryPreference &&
+                user.dietaryPreference.length >= 1 ? (
+                  user.dietaryPreference.map((el, ind) => {
+                    return (
+                      <Text
+                        key={ind.toString() + Math.random().toString()}
+                        style={styles.dietPref}
+                      >
+                        - {el === 'glutenFree' ? 'Gluen Free' : ''}
+                        {el === 'dairyFree' ? 'Dairy Free' : ''}
+                        {el === 'vegan' ? 'Vegan' : ''}
+                        {el === 'vegetarian' ? 'Vegetarian' : ''}
+                        {el === 'lowCarb' ? 'Low Carb' : ''}
+                        {el === 'lowFat' ? 'Low Fat' : ''}
+                      </Text>
+                    );
+                  })
+                ) : (
+                  <Text style={styles.nodietPref}>N/A</Text>
+                )}
               </View>
             </View>
 
-            {console.log('this is dietary', user.dietaryPreference[0])}
-
             <View>
               <Button
-                title="LOGOUT"
+                title="LOG OUT"
                 onPress={this.handleLogout}
                 color="#659B0E"
                 titleStyle={{
@@ -170,6 +171,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginLeft: 4,
     paddingLeft: 2,
+    paddingRight: 2,
+    paddingTop: 2,
+  },
+  nodietPref: {
+    fontFamily: 'avenir-book',
+    fontSize: 14,
     paddingTop: 2,
   },
   list: {

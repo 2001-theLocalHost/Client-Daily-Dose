@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput, Picker } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { Feather } from '@expo/vector-icons';
-import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
 import { consolidateData, formatIngredients } from '../utilityFunctions';
 import { finalizeIngredients, consolidatingData } from '../store/dishes';
@@ -10,32 +9,35 @@ import {
   resetDishnutFromConfirmation,
   resetIngrnutFromConfirmation,
 } from '../store/nutrition';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 class IngredientConfirmation extends React.Component {
   constructor({ navigation, route }) {
     super();
     this.navigation = navigation;
     this.data = formatIngredients(route.params.data);
-    this.state = {
+    this.resetLocalState = {
       value: '',
       qty: '1',
       measurement: 'oz',
       name: '',
-      ingredients: [{ name: 'Vegetables', quantity: '1', measurement: 'oz' }],
+      ingredients: [],
       userAddedIngredients: [],
     };
+    this.state = {...this.resetLocalState};
     this.handleChangeText = this.handleChangeText.bind(this);
     this.addIngredient = this.addIngredient.bind(this);
     this.fetchNutrition = this.fetchNutrition.bind(this);
     this.removeIngredient = this.removeIngredient.bind(this);
     this.removeUserAddedItem = this.removeUserAddedItem.bind(this);
+    this.clearAll = this.clearAll.bind(this)
   }
 
   componentDidMount() {
     this.unsubscribe = this.navigation.addListener('focus', () => {
       this.setState({
         ...this.state,
-        ingredients: this.data,
+        ingredients: [...this.data],
       });
 
       this.props.resetDishnutFromConfirmation({});
@@ -53,8 +55,9 @@ class IngredientConfirmation extends React.Component {
 
   addIngredient() {
     let addingIngredientClone = { ...this.state };
+    const trimmedName = this.state.value.trim()
     addingIngredientClone.userAddedIngredients.push({
-      name: this.state.value,
+      name: trimmedName,
       quantity: this.state.qty,
       measurement: this.state.measurement,
     });
@@ -89,21 +92,20 @@ class IngredientConfirmation extends React.Component {
     if (!this.validateInformation()) {
       return;
     }
+
+    const trimmedDishName = this.state.name.trim()
     await this.props.finalizeIngredients(
       this.state.ingredients,
       this.state.userAddedIngredients,
-      this.state.name
+      trimmedDishName
     );
 
     const consolidated = await consolidateData(this.props.finalIngredients);
     await this.props.consolidatingData(consolidated);
-    let resetLocalState = {
-      value: '',
-      name: '',
-      ingredients: [{ name: '', quantity: '1', measurement: 'oz' }],
-      userAddedIngredients: [],
-    };
-    this.setState(resetLocalState);
+    this.setState(this.resetLocalState);
+    console.log(' navigating away: final ingredients ', this.props.finalIngredients)
+    console.log(' navigating away: consolidated data ', this.props.consolidatedData)
+    console.log(' navigating away: dish-name ', this.props.name)
     return this.navigation.navigate('Your Dish');
   }
 
@@ -119,6 +121,12 @@ class IngredientConfirmation extends React.Component {
     this.setState(userIngredientsClone);
   }
 
+  clearAll () {
+    this.setState({ingredients:[],
+      userAddedIngredients:[]})
+  }
+
+
   render() {
     const quantTypes = [
       { value: 'oz' },
@@ -129,10 +137,29 @@ class IngredientConfirmation extends React.Component {
       { value: 'cans' },
     ];
     return (
-      <ScrollView>
+      <KeyboardAwareScrollView>
         <View>
           {/* API INGREDIENTS ARRAY + USER-ADDED INGREDIENTS ARRAY - BOTH SHOW UNDER "CONFIRM YOUR INGREDIENTS" */}
           <Text style={styles.headerText}>Confirm Your Ingredients:</Text>
+          <Button 
+            onPress={this.clearAll}
+                    title="Clear All"
+                    titleStyle={{
+                      color: 'black',
+                      fontSize: 11,
+                      lineHeight: 15,
+                      fontFamily: 'Avenir-Book'
+                    }}
+                    buttonStyle={{
+                      backgroundColor: '#d6d7da',
+                      borderRadius: 5,
+                      width: 60,
+                      marginTop: 10,
+                      marginLeft: 10,
+                      padding: -5
+                    }}
+          />
+
           {this.state.ingredients.map((item, index) => {
             return (
               <View key={index} style={styles.ingredientView}>
@@ -241,7 +268,7 @@ class IngredientConfirmation extends React.Component {
                 <View style={styles.removeButton}>
                   <Button
                     onPress={() => {
-                      this.removeIngredient(index);
+                      this.removeUserAddedItem(index);
                     }}
                     title="X"
                     titleStyle={{
@@ -317,6 +344,7 @@ class IngredientConfirmation extends React.Component {
               color: 'white',
               fontSize: 15,
               lineHeight: 15,
+              fontFamily: 'Avenir-Book'
             }}
             buttonStyle={{
               backgroundColor: '#659B0E',
@@ -357,6 +385,7 @@ class IngredientConfirmation extends React.Component {
               color: 'white',
               fontSize: 15,
               lineHeight: 15,
+              fontFamily: 'Avenir-Book'
             }}
             buttonStyle={{
               backgroundColor: '#659B0E',
@@ -366,12 +395,12 @@ class IngredientConfirmation extends React.Component {
               justifyContent: 'center',
               alignSelf: 'center',
               marginTop: 25,
-              marginBottom: 500,
+              marginBottom: 25,
             }}
             disabled={this.state.name.length < 1}
           />
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView> 
     );
   }
 }
@@ -405,13 +434,13 @@ const styles = StyleSheet.create({
     marginTop: 25,
     paddingHorizontal: 10,
     paddingVertical: 5,
+    fontFamily: 'Avenir-Book'
   },
   ingredientName: {
     width: 185,
-    // borderWidth: 0.5,
-    // borderColor: '#d6d7da',
     paddingTop: 12,
     fontSize: 15,
+    fontFamily: 'Avenir-Book'
   },
   ingredientInput: {
     width: 185,
@@ -419,6 +448,7 @@ const styles = StyleSheet.create({
     borderColor: '#d6d7da',
     paddingTop: 12,
     fontSize: 15,
+    fontFamily: 'Avenir-Book'
   },
   icon: {
     position: 'absolute',
@@ -439,11 +469,11 @@ const styles = StyleSheet.create({
     width: 100,
   },
   headerText: {
-    // fontWeight: 'bold',
     color: 'white',
     backgroundColor: '#659B0E',
     padding: 10,
     marginTop: 25,
-    fontFamily: 'Arial',
+    fontFamily: 'Avenir-Book',
+    fontSize: 18
   },
 });

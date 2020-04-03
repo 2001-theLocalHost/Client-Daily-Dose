@@ -23,19 +23,14 @@ const CalendarView = (props) => {
     setMode(currentMode);
   };
 
-  // let status = true 
-  // const showDatepicker = () => {
-  //   if (status === true) {
-  //     showMode('date'); //open calendar
-  //   } else {
-  //     // onClose() //close calendar
-  //     console.log('closing calendar, ', status)
-  //   }
-  //   status = !status
-  // };
-
+  let status = true 
   const showDatepicker = () => {
-      showMode('date'); 
+    if (status === true) {
+      showMode('date'); //open calendar
+    } else if (status === false){
+      setShow(false) //close calendar 
+    }
+    status = !status
   };
 
   return (
@@ -45,13 +40,13 @@ const CalendarView = (props) => {
           icon={
           <Icon
           name="calendar"
-          size={45}
+          size={50}
           color="gray"
           />
           }
           buttonStyle={{
             backgroundColor: 'transparent',
-            marginTop: 20
+            marginTop: 60
           }}
           onPress={showDatepicker}
         />
@@ -77,6 +72,7 @@ const styles = StyleSheet.create({
     right:0,
     top:15
   },
+  
 })
 
 export default CalendarView;

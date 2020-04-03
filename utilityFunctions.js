@@ -165,7 +165,7 @@ export const finalData = (currentDish, goal) => {
       label !== 'portionSize' &&
       label !== 'name' &&
       label !== 'imgUrl' &&
-      label !== 'dishIngredient' &&
+      label !== 'DishIngredient' &&
       label !== 'id' &&
       label !== 'createdAt' &&
       label !== 'updatedAt'
@@ -208,7 +208,7 @@ export const startData = (currentDish, goal) => {
       label !== 'portionSize' &&
       label !== 'name' &&
       label !== 'imgUrl' &&
-      label !== 'dishIngredient' &&
+      label !== 'DishIngredient' &&
       label !== 'id' &&
       label !== 'createdAt' &&
       label !== 'updatedAt'
@@ -254,70 +254,81 @@ export const formatIngredients = apiIngredients => {
       measurement: 'oz',
     };
   });
-  return newArr;
+  let finalArr = newArr.slice(0, 5)
+  console.log('SLICED API DATA: ', finalArr)
+  return finalArr;
 };
 
-export const validateInformation = (email, password, name, sex, birthdate, feet, inches, weight) => {
+export const validateInformation = (
+  email,
+  password,
+  name,
+  sex,
+  birthdate,
+  feet,
+  inches,
+  weight
+) => {
   let arr = [];
 
   if (!email) {
-    arr.push('Email')
+    arr.push('Email');
   }
   if (!password) {
-    arr.push('Password')
+    arr.push('Password');
   }
   if (!name) {
-    arr.push('Name')
+    arr.push('Name');
   }
   if (!sex) {
-    arr.push('Sex')
+    arr.push('Sex');
   }
   if (birthdate >= new Date()) {
-    arr.push('Birthdate')
+    arr.push('Birthdate');
   }
   if (!feet) {
-    arr.push('Height (ft)')
+    arr.push('Height (ft)');
   }
   if (!inches) {
-    arr.push('Height (in)')
+    arr.push('Height (in)');
   }
   if (!weight) {
-    arr.push('Weight')
+    arr.push('Weight');
   }
 
-  let message = arr.join(', ')
+  let message = arr.join(', ');
 
   if (arr.length > 0) {
-    alert(message + ' required.')
+    alert(message + ' required.');
     return false;
   }
   return true;
-}
+};
 
 export const convertHeight = (feet, inches) => {
-  let newHeight = parseFloat(feet * 12) + parseFloat(inches)
-  return parseFloat(newHeight)
-}
+  let newHeight = parseFloat(feet * 12) + parseFloat(inches);
+  return parseFloat(newHeight);
+};
 
 export const dietaryArray = (gf, df, vg, ve, lc, lf) => {
-  let dietaryPreferences = []
+  let dietaryPreferences = [];
   if (gf) {
-    dietaryPreferences.push('glutenFree')
+    dietaryPreferences.push('glutenFree');
   }
   if (df) {
-    dietaryPreferences.push('dairyFree')
+    dietaryPreferences.push('dairyFree');
   }
   if (vg) {
-    dietaryPreferences.push('vegan')
+    dietaryPreferences.push('vegan');
   }
   if (ve) {
-    dietaryPreferences.push('vegetarian')
+    dietaryPreferences.push('vegetarian');
   }
   if (lc) {
-    dietaryPreferences.push('lowCarb')
+    dietaryPreferences.push('lowCarb');
   }
   if (lf) {
-    dietaryPreferences.push('lowFat')
+    dietaryPreferences.push('lowFat');
   }
-  return dietaryPreferences
-}
+  return dietaryPreferences;
+};
