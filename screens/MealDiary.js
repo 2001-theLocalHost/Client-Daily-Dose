@@ -20,13 +20,14 @@ import {
 import { consolidatingDataFromMealDiary } from '../store/dishes';
 import { connect } from 'react-redux';
 import CalendarModal from '../components/CalendarModal';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 class MealDiary extends React.Component {
   constructor({ navigation }) {
     super();
     this.navigation = navigation;
     this.state = {
-      date: '',
+      date: new Date(),
       formattedDate: '',
       dateModalOpen: false
     };
@@ -140,29 +141,43 @@ class MealDiary extends React.Component {
                   addDate={this.addDate}
                   closeDateModal={this.closeDateModal}
                   isVisible={this.state.dateModalOpen}
+                  date={this.state.date}
           />
                 <View>
                   <Button
+                    icon={
+                      <Icon
+                      name="calendar"
+                      size={50}
+                      color="gray"
+                      />}
+                      buttonStyle={{
+                        backgroundColor: 'transparent',
+                        marginTop: 60,
+                        flexDirection: 'column'
+                      }}
                     title="Select Date"
                     titleStyle={{
-                      color: 'white',
-                      fontSize: 15,
+                      color: 'black',
+                      fontSize: 11,
                       lineHeight: 15,
                     }}
-                    buttonStyle={{
-                      backgroundColor: '#ADADAD',
-                      opacity: .8,
-                      marginTop: 50,
-                      borderRadius: 20,
-                      height: 35,
-                      width: 120,
-                      justifyContent: 'center',
-                      alignSelf: 'center',
-                      marginRight: 2.5
-                    }}
+                    // buttonStyle={{
+                    //   backgroundColor: '#ADADAD',
+                    //   opacity: .8,
+                    //   marginTop: 50,
+                    //   borderRadius: 20,
+                    //   height: 35,
+                    //   width: 120,
+                    //   justifyContent: 'center',
+                    //   alignSelf: 'center',
+                    //   marginRight: 2.5
+                    // }}
                     onPress={this.showDateModal}
                     />
                 </View>
+                </View>
+                <View >
           <Text style={styles.mainHeader}>
             Meals for {this.state.formattedDate}
           </Text>
