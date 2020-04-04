@@ -233,6 +233,7 @@ class Signup extends React.Component {
                   addDate={this.addDate}
                   closeDateModal={this.closeDateModal}
                   isVisible={this.state.dateModalOpen}
+                  date={this.state.birthdate}
                 />
               </View>
 
