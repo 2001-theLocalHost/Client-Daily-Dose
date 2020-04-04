@@ -1,26 +1,26 @@
-import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import { Button } from 'react-native-elements';
-import { ScrollView } from 'react-native-gesture-handler';
+import React from "react";
+import { StyleSheet, Text, View, Dimensions } from "react-native";
+import { Button } from "react-native-elements";
+import { ScrollView } from "react-native-gesture-handler";
 import {
   fetchDishes,
   fetchIngreInfo,
   depositDishInfo,
   removeDish,
-} from '../store/mealdiary';
+} from "../store/mealdiary";
 import {
   updateIngrNut,
   updateDishNut,
   ingredientNamesFromMealDiary,
-} from '../store/nutrition';
-import { consolidatingDataFromMealDiary } from '../store/dishes';
-import { connect } from 'react-redux';
-import CalendarModal from '../components/CalendarModal';
-import Icon from 'react-native-vector-icons/FontAwesome';
+} from "../store/nutrition";
+import { consolidatingDataFromMealDiary } from "../store/dishes";
+import { connect } from "react-redux";
+import CalendarModal from "../components/CalendarModal";
+import Icon from "react-native-vector-icons/FontAwesome";
+import Feather from "react-native-vector-icons/Feather";
+import Moment from 'moment';
+
+
 
 class MealDiary extends React.Component {
   constructor({ navigation }) {
@@ -28,12 +28,13 @@ class MealDiary extends React.Component {
     this.navigation = navigation;
     this.state = {
       date: new Date(),
-      formattedDate: '',
-      dateModalOpen: false
+      formattedDate: "",
+      momentDate: '',
+      dateModalOpen: false,
     };
     this.addDate = this.addDate.bind(this);
-    this.showDateModal = this.showDateModal.bind(this)
-    this.closeDateModal = this.closeDateModal.bind(this)
+    this.showDateModal = this.showDateModal.bind(this);
+    this.closeDateModal = this.closeDateModal.bind(this);
     this.getDishes = this.getDishes.bind(this);
     this.seeDishInfo = this.seeDishInfo.bind(this);
     this.removeDish = this.removeDish.bind(this);
@@ -41,7 +42,7 @@ class MealDiary extends React.Component {
   }
 
   componentDidMount() {
-    this.unsubscribe = this.navigation.addListener('focus', () => {
+    this.unsubscribe = this.navigation.addListener("focus", () => {
       const newDate = new Date();
       this.props.fetchDishes(newDate);
       this.formattedCalendarDate(newDate);
@@ -70,40 +71,40 @@ class MealDiary extends React.Component {
       dateModalOpen: false,
     });
 
-    this.formattedCalendarDate(this.state.date)
-    this.getDishes()
+    this.formattedCalendarDate(this.state.date);
+    this.getDishes();
   }
 
   // Dispatches fetchDishes to query dishes by specified date
   async getDishes() {
     await this.props.fetchDishes(this.state.date);
     this.formattedCalendarDate(this.state.date);
-   }
+  }
 
-   handlePrice = () => {
-    if (!this.pressed){
-       this.pressed = true;
-       this.setState({price : this.state.price - 2000});
+  handlePrice = () => {
+    if (!this.pressed) {
+      this.pressed = true;
+      this.setState({ price: this.state.price - 2000 });
     }
-}
+  };
 
   async seeDishInfo(dishObj) {
     //Dispatch a thunk to retrieve the Dish Data Object from backend - once Dish Data Object state is updated, navigate to DishScreen.js
     let dishId = dishObj.dishId;
-    console.log('GOT TO SEEDISHINFO, ', dishId);
+    console.log("GOT TO SEEDISHINFO, ", dishId);
     await this.props.fetchIngreInfo(dishId); //goes to thunk in mealdiary
 
     await this.props.updateIngrNut(this.props.ingreArrayInfo); //goes to action creator in nutrition with the ingredientarray info
     await this.props.updateDishNut(dishObj.dish); //goes to action creator in nutrition with the dish info
 
     //creating finalIngrString
-    let consolidatedStringOfIngredients = this.props.ingrNut.map(element => {
+    let consolidatedStringOfIngredients = this.props.ingrNut.map((element) => {
       let stringified = `${element.portionSize} ${element.ingredientName}`;
       return stringified;
     });
 
     //create array of ingredient names
-    let arrayOfIngrNames = this.props.ingrNut.map(obj => {
+    let arrayOfIngrNames = this.props.ingrNut.map((obj) => {
       return obj.ingredientName;
     });
     await this.props.ingredientNamesFromMealDiary(arrayOfIngrNames);
@@ -111,7 +112,7 @@ class MealDiary extends React.Component {
       consolidatedStringOfIngredients
     );
 
-    return this.navigation.navigate('Your Dish');
+    return this.navigation.navigate("Your Dish");
   }
 
   async removeDish(dishObj) {
@@ -120,221 +121,187 @@ class MealDiary extends React.Component {
   }
 
   formattedCalendarDate(providedDate) {
-    const date = providedDate;
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-
-    const string = month + '-' + day + '-' + year;
+    let newDate = Moment(providedDate).format('MMMM Do, YYYY')
     this.setState({
-      formattedDate: string,
+      formattedDate: newDate,
     });
   }
-
 
   render() {
     return (
       <ScrollView>
-        <View>
+        <View style={styles.outerContainer}>
           {/* CALENDAR, SUBMIT DATE  */}
           <CalendarModal
-                  addDate={this.addDate}
-                  closeDateModal={this.closeDateModal}
-                  isVisible={this.state.dateModalOpen}
-                  date={this.state.date}
+            addDate={this.addDate}
+            closeDateModal={this.closeDateModal}
+            isVisible={this.state.dateModalOpen}
+            date={this.state.date}
           />
-                <View>
-                  <Button
-                    icon={
-                      <Icon
-                      name="calendar"
-                      size={50}
-                      color="gray"
-                      />}
-                      buttonStyle={{
-                        backgroundColor: 'transparent',
-                        marginTop: 60,
-                        flexDirection: 'column'
-                      }}
-                    title="Select Date"
-                    titleStyle={{
-                      color: 'black',
-                      fontSize: 11,
-                      lineHeight: 15,
-                    }}
-                    // buttonStyle={{
-                    //   backgroundColor: '#ADADAD',
-                    //   opacity: .8,
-                    //   marginTop: 50,
-                    //   borderRadius: 20,
-                    //   height: 35,
-                    //   width: 120,
-                    //   justifyContent: 'center',
-                    //   alignSelf: 'center',
-                    //   marginRight: 2.5
-                    // }}
-                    onPress={this.showDateModal}
-                    />
-                </View>
-                </View>
-                <View >
-          <Text style={styles.mainHeader}>
-            Meals for {this.state.formattedDate}
-          </Text>
+          <View style={styles.calendarButton}>
+            <Button
+              icon={<Icon name="calendar" size={50} color="gray" />}
+              buttonStyle={{
+                backgroundColor: "transparent",
+                marginTop: 60,
+                flexDirection: "column",
+              }}
+              title="Select Date"
+              titleStyle={{
+                color: "black",
+                fontSize: 11,
+                lineHeight: 15,
+              }}
+              onPress={this.showDateModal}
+            />
+          </View>
+          <View style={styles.date}>
+            <Text style={styles.mainHeader}>
+              Meals for {this.state.formattedDate}
+            </Text>
+          </View>
           {/* BREAKFAST VIEW */}
-          <Text style={styles.BreakfastHeaderText}>Breakfast</Text>
-          {this.props.breakfast.map((dish, index) => {
-            return (
-              <View key={index} style={styles.dishView}>
-                <Text
-                  style={styles.dishName}
-                  onPress={() => {
-                    this.seeDishInfo(dish);
-                  }}
-                >
-                  {dish.dish.name}
-                </Text>
-                <View style={styles.removeButton}>
-                  <Button
-                    onPress={() => {
-                      this.removeDish(dish);
-                    }}
-                    title="X"
-                    titleStyle={{
-                      color: 'white',
-                      fontSize: 15,
-                      lineHeight: 15,
-                    }}
-                    buttonStyle={{
-                      backgroundColor: 'gray',
-                      borderRadius: 60,
-                      height: 30,
-                      width: 30,
-                      marginTop: -10,
-                    }}
-                  />
-                </View>
-              </View>
-            );
-          })}
+          <View style={styles.mealContainer}>
+            <View style={styles.headerContainer}>
+              <Text style={styles.headerText}>Breakfast</Text>
+            </View>
+            <View style={styles.wholeDishView}>
+            {this.props.breakfast.length < 1 ? <Text style={styles.noFoodText}>No Breakfast</Text> : <View>{this.props.breakfast.map((dish, index) => {
+                return (
+                  <View key={index} style={styles.individualDishView}>
+                    <View style={styles.dishNameContainer}>
+                    <Text
+                      style={styles.dishName}
+                      onPress={() => {
+                        this.seeDishInfo(dish);
+                      }}
+                    >
+                      {dish.dish.name}
+                    </Text>
+                    </View>
+                    <View style={styles.removeButton}>
+                    <Button
+                        onPress={() => {
+                          this.removeDish(dish);
+                        }}
+                        icon={<Feather name='x-circle'size='18' color='gray'/>}
+                        buttonStyle={styles.buttonStyle}
+                        />
+                    </View>
+                  </View>
+                );
+              })}</View>}
+            </View>
+          </View>
 
           {/* LUNCH VIEW */}
-          <Text style={styles.headerText}>Lunch</Text>
-          {this.props.lunch.map((dish, index) => {
-            return (
-              <View key={index} style={styles.dishView}>
-                <Text
-                  style={styles.dishName}
-                  onPress={() => {
-                    this.seeDishInfo(dish);
-                  }}
-                >
-                  {dish.dish.name}
-                </Text>
-                <View style={styles.removeButton}>
-                  <Button
-                    onPress={() => {
-                      this.removeDish(dish);
-                    }}
-                    title="X"
-                    titleStyle={{
-                      color: 'white',
-                      fontSize: 15,
-                      lineHeight: 15,
-                    }}
-                    buttonStyle={{
-                      backgroundColor: 'gray',
-                      borderRadius: 60,
-                      height: 30,
-                      width: 30,
-                      marginTop: -10,
-                    }}
-                  />
-                </View>
-              </View>
-            );
-          })}
+          <View style={styles.mealContainer}>
+            <View style={styles.headerContainer}>
+              <Text style={styles.headerText}>Lunch</Text>
+            </View>
+            <View style={styles.wholeDishView}>
+            {this.props.lunch.length < 1 ? <Text style={styles.noFoodText}>No Lunch</Text> : <View>{this.props.lunch.map((dish, index) => {
+                return (
+                  <View key={index} style={styles.individualDishView}>
+                    <View style={styles.dishNameContainer}>
+                    <Text
+                      style={styles.dishName}
+                      onPress={() => {
+                        this.seeDishInfo(dish);
+                      }}
+                    >
+                      {dish.dish.name}
+                    </Text>
+                    </View>
+                    <View style={styles.removeButton}>
+                    <Button
+                        onPress={() => {
+                          this.removeDish(dish);
+                        }}
+                        icon={<Feather name='x-circle'size='18' color='gray'/>}
+                        buttonStyle={styles.buttonStyle}
+                        />
+                    </View>
+                  </View>
+                );
+              })}</View>}
+            </View>
+          </View>
 
           {/* DINNER VIEW */}
-          <Text style={styles.headerText}>Dinner</Text>
-          {this.props.dinner.map((dish, index) => {
-            return (
-              <View key={index} style={styles.dishView}>
-                <Text
-                  style={styles.dishName}
-                  onPress={() => {
-                    this.seeDishInfo(dish);
-                  }}
-                >
-                  {dish.dish.name}
-                </Text>
-                <View style={styles.removeButton}>
-                  <Button
-                    onPress={() => {
-                      this.removeDish(dish);
-                    }}
-                    title="X"
-                    titleStyle={{
-                      color: 'white',
-                      fontSize: 15,
-                      lineHeight: 15,
-                    }}
-                    buttonStyle={{
-                      backgroundColor: 'gray',
-                      borderRadius: 60,
-                      height: 30,
-                      width: 30,
-                      marginTop: -10,
-                    }}
-                  />
-                </View>
-              </View>
-            );
-          })}
+          <View style={styles.mealContainer}>
+            <View style={styles.headerContainer}>
+              <Text style={styles.headerText}>Dinner</Text>
+            </View>
+            <View style={styles.wholeDishView}>
+            {this.props.dinner.length < 1 ? <Text style={styles.noFoodText}>No Dinner</Text> : <View>{this.props.dinner.map((dish, index) => {
+                return (
+                  <View key={index} style={styles.individualDishView}>
+                    <View style={styles.dishNameContainer}>
+                    <Text
+                      style={styles.dishName}
+                      onPress={() => {
+                        this.seeDishInfo(dish);
+                      }}
+                    >
+                      {dish.dish.name}
+                    </Text>
+                    </View>
+                    <View style={styles.removeButton}>
+                    <Button
+                        onPress={() => {
+                          this.removeDish(dish);
+                        }}
+                        icon={<Feather name='x-circle'size='18' color='gray'/>}
+                        buttonStyle={styles.buttonStyle}
+                        />
+                    </View>
+                  </View>
+                );
+              })}</View>}
+            </View>
+          </View>
 
           {/* SNACK VIEW */}
-          <Text style={styles.headerText}>Snack</Text>
-          {this.props.snack.map((dish, index) => {
-            return (
-              <View key={index} style={styles.dishView}>
-                <Text
-                  style={styles.dishName}
-                  onPress={() => {
-                    this.seeDishInfo(dish);
-                  }}
-                >
-                  {dish.dish.name}
-                </Text>
-                <View style={styles.removeButton}>
-                  <Button
-                    onPress={() => {
-                      this.removeDish(dish);
-                    }}
-                    title="X"
-                    titleStyle={{
-                      color: 'white',
-                      fontSize: 15,
-                      lineHeight: 15,
-                    }}
-                    buttonStyle={{
-                      backgroundColor: 'gray',
-                      borderRadius: 60,
-                      height: 30,
-                      width: 30,
-                      marginTop: -10,
-                    }}
-                  />
-                </View>
-              </View>
-            );
-          })}
+          <View style={styles.mealContainer}>
+            <View style={styles.headerContainer}>
+              <Text style={styles.headerText}>Snack</Text>
+            </View>
+            <View style={styles.wholeDishView}>
+              {this.props.snack.length < 1 ? <Text style={styles.noFoodText}>No Snacks</Text> : <View>{this.props.snack.map((dish, index) => {
+                return (
+                  <View key={index} style={styles.individualDishView}>
+                    <View style={styles.dishNameContainer}>
+                    <Text
+                      style={styles.dishName}
+                      onPress={() => {
+                        this.seeDishInfo(dish);
+                      }}
+                    >
+                      {dish.dish.name}
+                    </Text>
+                    </View>
+                    <View style={styles.removeButton}>
+                      <Button
+                        onPress={() => {
+                          this.removeDish(dish);
+                        }}
+                        icon={<Feather name='x-circle'size='18' color='gray'/>}
+                        buttonStyle={styles.buttonStyle}
+                        />
+                    </View>
+                  </View>
+                );
+              })}</View>}
+            </View>
+          </View>
         </View>
       </ScrollView>
     );
   }
 }
 
-const mapState = state => {
+const mapState = (state) => {
   return {
     breakfast: state.mealdiary.breakfast,
     lunch: state.mealdiary.lunch,
@@ -348,80 +315,102 @@ const mapState = state => {
   };
 };
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
-    fetchDishes: date => dispatch(fetchDishes(date)),
-    fetchIngreInfo: dishId => dispatch(fetchIngreInfo(dishId)),
-    depositDishInfo: dish => dispatch(depositDishInfo(dish)),
-    updateIngrNut: ingrNutritionMealDiary =>
+    fetchDishes: (date) => dispatch(fetchDishes(date)),
+    fetchIngreInfo: (dishId) => dispatch(fetchIngreInfo(dishId)),
+    depositDishInfo: (dish) => dispatch(depositDishInfo(dish)),
+    updateIngrNut: (ingrNutritionMealDiary) =>
       dispatch(updateIngrNut(ingrNutritionMealDiary)),
-    updateDishNut: dishNutritionMealDiary =>
+    updateDishNut: (dishNutritionMealDiary) =>
       dispatch(updateDishNut(dishNutritionMealDiary)),
-    consolidatingDataFromMealDiary: strings =>
+    consolidatingDataFromMealDiary: (strings) =>
       dispatch(consolidatingDataFromMealDiary(strings)),
-    ingredientNamesFromMealDiary: ingredientNames =>
+    ingredientNamesFromMealDiary: (ingredientNames) =>
       dispatch(ingredientNamesFromMealDiary(ingredientNames)),
-    removeDish: id => dispatch(removeDish(id)),
+    removeDish: (id) => dispatch(removeDish(id)),
   };
 };
 
 export default connect(mapState, mapDispatch)(MealDiary);
 
+const height = Dimensions.get('window').height;
+const width = Dimensions.get('window').width
+
 const styles = StyleSheet.create({
-  dishView: {
-    flexDirection: 'row',
-    height: 25,
-    marginTop: 15,
+  outerContainer: {
+    backgroundColor: '#ECECEC',
+    height: height,
+    width: width,
+    alignItems: 'center',
+  },
+  calendarButton: {
+
+  },
+  date: {
+
+  },
+  mealContainer: {
+    borderRadius: 10,
+    width: 350,
+    backgroundColor: '#ffffff90',
+    margin: 7
+  },
+  headerContainer: {
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    fontWeight: "bold",
+    backgroundColor: "#659B0E",
     padding: 5,
-  },
-  ingredientName: {
-    width: 180,
-    borderWidth: 0.5,
-    borderColor: '#d6d7da',
-    paddingTop: 12,
-    paddingLeft: 20,
-  },
-  dishName: {
-    width: 300,
-    color: 'blue',
-    fontFamily: 'Avenir-Book',
-    paddingBottom: 30,
-  },
-  addDishField: {
-    marginTop: 15,
-    height: 25,
-  },
-  dropdowns: {
-    width: 150,
+    color: "white",
+    fontFamily: "Avenir-Book",
   },
   headerText: {
-    fontWeight: 'bold',
-    backgroundColor: '#659B0E',
-    padding: 10,
-    marginTop: 25,
-    color: 'white',
-    fontFamily: 'Avenir-Book',
+    backgroundColor: "#659B0E",
+    padding: 5,
+    color: "white",
+    fontFamily: "Avenir-Roman",
+    fontSize: 20
   },
-  BreakfastHeaderText: {
-    fontWeight: 'bold',
-    backgroundColor: '#659B0E',
-    padding: 10,
-    color: 'white',
-    fontFamily: 'Avenir-Book',
+  wholeDishView: {
+    padding: 10
+  },
+  individualDishView: {
+    flexDirection: "row",
+    height: 35,
+    marginTop: 7,
+    alignItems: 'center'
+  },
+  dishNameContainer: {
+    width: 295
+  },
+  dishName: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 5,
+    color: "#ff7f4b",
+    fontFamily: "Avenir-Book",
+    fontSize: 17,
   },
   mainHeader: {
-    // fontWeight: 'bold',
     padding: 15,
     marginTop: 0,
-    color: 'black',
-    fontSize: 20,
-    fontFamily: 'Avenir-Book',
-    justifyContent: 'center',
-    alignSelf: 'center',
+    color: "black",
+    fontSize: 24,
+    fontFamily: "Avenir-Book",
+    justifyContent: "center",
+    alignSelf: "center",
   },
-  removeButton: {
-    fontSize: 10,
-    marginTop: 5,
-    marginLeft: 20,
+  buttonStyle: {
+    backgroundColor: "#ffffff00",
+    borderRadius: 30,
+    height: 40,
+    width: 40,
   },
+  noFoodText: {
+    width: 300,
+    color: "black",
+    fontFamily: "Avenir-Book",
+    fontSize: 15
+  }
 });
