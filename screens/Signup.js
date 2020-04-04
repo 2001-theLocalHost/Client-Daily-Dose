@@ -265,7 +265,7 @@ class Signup extends React.Component {
                           onPress={value => {
                             this.setState({ sex: value });
                           }}
-                          labelStyle={{ fontSize: 15, color: 'black' }}
+                          labelStyle={{ fontSize: 15, color: 'black', fontFamily: "Avenir-Book",}}
                           labelWrapStyle={{}}
                         />
                       </RadioButton>
@@ -437,6 +437,7 @@ const styles = StyleSheet.create({
   },
   checkboxText: {
     color: 'black',
+    fontFamily: "Avenir-Book",
   },
   checkboxContainer: {
     flexDirection: 'column',
@@ -487,18 +488,21 @@ const styles = StyleSheet.create({
   headerText: {
     fontWeight: 'bold',
     padding: 10,
+    fontFamily: "Avenir-Book",
   },
   dietaryText: {
     fontWeight: 'bold',
     paddingLeft: 10,
     paddingRight: 10,
     marginTop: 20,
+    fontFamily: "Avenir-Book",
   },
   prefText: {
     fontWeight: 'bold',
     paddingLeft: 10,
     paddingRight: 10,
     marginBottom: 20,
+    fontFamily: "Avenir-Book",
   },
   text: {
     width: 203,
@@ -507,7 +511,8 @@ const styles = StyleSheet.create({
     padding: 8,
     alignItems: 'center',
     borderBottomWidth: 0.2,
-    borderBottomColor: 'gray'
+    borderBottomColor: 'gray',
+    fontFamily: "Avenir-Book",
   },
   passwordContainer: {
     width: 180,
@@ -533,7 +538,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
     marginLeft: 5,
     borderBottomWidth: 0.2,
-    borderBottomColor: 'gray'
+    borderBottomColor: 'gray',
   },
 });
 

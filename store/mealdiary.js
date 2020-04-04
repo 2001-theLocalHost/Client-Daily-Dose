@@ -33,9 +33,11 @@ export const depositDishInfo = dish => {
 export const fetchDishes = date => {
   return async dispatch => {
     try {
+      console.log('HI IM HERE IN THUNK')
       const { data } = await Axios.get(
         `https://daily-dose-server.herokuapp.com/api/userDish/${date}`
       );
+      console.log('im data', data)
       dispatch(getDishesByDate(data));
     } catch (error) {
       console.error(error);
