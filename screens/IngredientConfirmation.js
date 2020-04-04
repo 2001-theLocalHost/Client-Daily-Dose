@@ -157,9 +157,6 @@ class IngredientConfirmation extends React.Component {
               source={require('../assets/images/fruits-yellowred.png')}
               style={styles.image}
             >
-              {/* <KeyboardAwareScrollView>
-        <View style={styles.outerContainer}> */}
-
               <View style={styles.container}>
                 {/* ADD DISH NAME + SUBMIT/CONFIRM INGREDIENTS TO REDIRECT TO DISH SCREEN*/}
                 <View style={styles.confirmContainer}>
