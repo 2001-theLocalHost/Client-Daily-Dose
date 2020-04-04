@@ -255,7 +255,7 @@ export const formatIngredients = apiIngredients => {
       measurement: 'oz',
     };
   });
-  let finalArr = newArr.slice(0, 5)
+  let finalArr = newArr.slice(0, 7)
   console.log('SLICED API DATA: ', finalArr)
   return finalArr;
 };
