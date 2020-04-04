@@ -1,14 +1,11 @@
 import React, {useState} from 'react';
-import {View, Platform, StyleSheet,} from 'react-native';
-import { Button } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {View, Platform} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 const CalendarView = (props) => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
-  const [show, setShow] = useState(false);
-
+  const [show, setShow] = useState(true);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -17,40 +14,8 @@ const CalendarView = (props) => {
     props.addDate(currentDate)
   };
 
-  const showMode = currentMode => {
-    setShow(true);
-    setMode(currentMode);
-  };
-
-  let status = true
-  const showDatepicker = () => {
-    if (status === true) {
-      showMode('date'); //open calendar
-    } else if (status === false){
-      setShow(false) //close calendar
-    }
-    status = !status
-  };
-
   return (
     <View>
-      <View >
-        <Button
-          icon={
-          <Icon
-          name="calendar"
-          size={50}
-          color="gray"
-          />
-          }
-          buttonStyle={{
-            backgroundColor: 'transparent',
-            marginTop: 60
-          }}
-          onPress={showDatepicker}
-        />
-      </View>
-      {show && (
         <DateTimePicker
           testID="dateTimePicker"
           timeZoneOffsetInMinutes={0}
@@ -60,18 +25,8 @@ const CalendarView = (props) => {
           display="default"
           onChange={onChange}
         />
-      )}
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  icon:{
-    position: 'absolute',
-    right:0,
-    top:15
-  },
-
-})
 
 export default CalendarView;

@@ -1,14 +1,8 @@
-import React, { useState } from 'react';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import React from 'react';
 import {
-  Platform,
   StyleSheet,
   Text,
   View,
-  Linking,
-  TextInput,
-  Picker,
-  ImageBackground,
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -25,7 +19,7 @@ import {
 } from '../store/nutrition';
 import { consolidatingDataFromMealDiary } from '../store/dishes';
 import { connect } from 'react-redux';
-import CalendarView from '../components/CalendarView';
+import CalendarModal from '../components/CalendarModal';
 
 class MealDiary extends React.Component {
   constructor({ navigation }) {
@@ -34,8 +28,11 @@ class MealDiary extends React.Component {
     this.state = {
       date: '',
       formattedDate: '',
+      dateModalOpen: false
     };
     this.addDate = this.addDate.bind(this);
+    this.showDateModal = this.showDateModal.bind(this)
+    this.closeDateModal = this.closeDateModal.bind(this)
     this.getDishes = this.getDishes.bind(this);
     this.seeDishInfo = this.seeDishInfo.bind(this);
     this.removeDish = this.removeDish.bind(this);
@@ -59,6 +56,21 @@ class MealDiary extends React.Component {
     this.setState({
       date: date,
     });
+  }
+
+  showDateModal() {
+    this.setState({
+      dateModalOpen: true,
+    });
+  }
+
+  closeDateModal() {
+    this.setState({
+      dateModalOpen: false,
+    });
+
+    this.formattedCalendarDate(this.state.date)
+    this.getDishes()
   }
 
   // Dispatches fetchDishes to query dishes by specified date
@@ -118,38 +130,39 @@ class MealDiary extends React.Component {
     });
   }
 
+
   render() {
     return (
       <ScrollView>
         <View>
           {/* CALENDAR, SUBMIT DATE  */}
-          <View>
-            <CalendarView addDate={this.addDate} />
-          </View>
-          {this.state.date !== '' && (
-            <View>
-              <Button
-                onPress={this.getDishes}
-                title="Submit"
-                color="green"
-                titleStyle={{
-                  color: 'white',
-                  fontSize: 15,
-                  lineHeight: 15,
-                }}
-                buttonStyle={{
-                  backgroundColor: '#FF7F4B',
-                  borderRadius: 20,
-                  height: 35,
-                  width: 100,
-                  justifyContent: 'center',
-                  alignSelf: 'center',
-                  marginTop: 25,
-                  marginBottom: 10,
-                }}
-              />
-            </View>
-          )}
+          <CalendarModal
+                  addDate={this.addDate}
+                  closeDateModal={this.closeDateModal}
+                  isVisible={this.state.dateModalOpen}
+          />
+                <View>
+                  <Button
+                    title="Select Date"
+                    titleStyle={{
+                      color: 'white',
+                      fontSize: 15,
+                      lineHeight: 15,
+                    }}
+                    buttonStyle={{
+                      backgroundColor: '#ADADAD',
+                      opacity: .8,
+                      marginTop: 50,
+                      borderRadius: 20,
+                      height: 35,
+                      width: 120,
+                      justifyContent: 'center',
+                      alignSelf: 'center',
+                      marginRight: 2.5
+                    }}
+                    onPress={this.showDateModal}
+                    />
+                </View>
           <Text style={styles.mainHeader}>
             Meals for {this.state.formattedDate}
           </Text>
