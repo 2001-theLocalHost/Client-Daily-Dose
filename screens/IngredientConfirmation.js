@@ -103,9 +103,6 @@ class IngredientConfirmation extends React.Component {
     const consolidated = await consolidateData(this.props.finalIngredients);
     await this.props.consolidatingData(consolidated);
     this.setState(this.resetLocalState);
-    console.log(' navigating away: final ingredients ', this.props.finalIngredients)
-    console.log(' navigating away: consolidated data ', this.props.consolidatedData)
-    console.log(' navigating away: dish-name ', this.props.name)
     return this.navigation.navigate('Your Dish');
   }
 

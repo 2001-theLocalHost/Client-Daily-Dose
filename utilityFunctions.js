@@ -256,7 +256,6 @@ export const formatIngredients = apiIngredients => {
     };
   });
   let finalArr = newArr.slice(0, 7)
-  console.log('SLICED API DATA: ', finalArr)
   return finalArr;
 };
 
