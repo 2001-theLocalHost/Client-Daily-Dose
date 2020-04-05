@@ -145,25 +145,3 @@ const nutrition = (state = initialState, action) => {
 
 export default nutrition;
 
-/* POST REQUEST (NEED JSON FILE AS REQ BODY & NEED HEADER)
-const options = {
-  headers: {
-    'Content-Type': 'application/json',
-  },
-};
-
-export const fetchNutrition = recipe => {
-  return async dispatch => {
-    try {
-      let { data } = await axios.post(
-        `https://api.edamam.com/api/nutrition-details?app_id=${ED_APIID}&app_key=${ED_APIKEY}`,
-        recipe.default,
-        options
-      );
-      dispatch(gotNutrition(data));
-    } catch (err) {
-      console.log('not able to load nutrition details', err);
-    }
-  };
-};
-*/
