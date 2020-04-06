@@ -1,5 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, Picker, ImageBackground, ScrollView, Dimensions } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Picker,
+  ImageBackground,
+  ScrollView,
+  Dimensions,
+} from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { Feather } from '@expo/vector-icons';
 import { connect } from 'react-redux';
@@ -24,13 +33,13 @@ class IngredientConfirmation extends React.Component {
       ingredients: [],
       userAddedIngredients: [],
     };
-    this.state = {...this.resetLocalState};
+    this.state = { ...this.resetLocalState };
     this.handleChangeText = this.handleChangeText.bind(this);
     this.addIngredient = this.addIngredient.bind(this);
     this.fetchNutrition = this.fetchNutrition.bind(this);
     this.removeIngredient = this.removeIngredient.bind(this);
     this.removeUserAddedItem = this.removeUserAddedItem.bind(this);
-    this.clearAll = this.clearAll.bind(this)
+    this.clearAll = this.clearAll.bind(this);
   }
 
   componentDidMount() {
@@ -55,7 +64,7 @@ class IngredientConfirmation extends React.Component {
 
   addIngredient() {
     let addingIngredientClone = { ...this.state };
-    const trimmedName = this.state.value.trim()
+    const trimmedName = this.state.value.trim();
     addingIngredientClone.userAddedIngredients.push({
       name: trimmedName,
       quantity: this.state.qty,
@@ -69,7 +78,7 @@ class IngredientConfirmation extends React.Component {
 
   validateInformation() {
     let ingredientsArr = this.state.ingredients;
-    let emptyfields = ingredientsArr.filter(obj => {
+    let emptyfields = ingredientsArr.filter((obj) => {
       if (obj.quantity === '0' || obj.quantity.length < 1) {
         return true;
       } else {
@@ -93,7 +102,7 @@ class IngredientConfirmation extends React.Component {
       return;
     }
 
-    const trimmedDishName = this.state.name.trim()
+    const trimmedDishName = this.state.name.trim();
     await this.props.finalizeIngredients(
       this.state.ingredients,
       this.state.userAddedIngredients,
@@ -118,11 +127,9 @@ class IngredientConfirmation extends React.Component {
     this.setState(userIngredientsClone);
   }
 
-  clearAll () {
-    this.setState({ingredients:[],
-      userAddedIngredients:[]})
+  clearAll() {
+    this.setState({ ingredients: [], userAddedIngredients: [] });
   }
-
 
   render() {
     const quantTypes = [
@@ -135,298 +142,316 @@ class IngredientConfirmation extends React.Component {
     ];
     return (
       <ScrollView>
-      <View>
-      <View style={styles.outerContainer}>
-        <ImageBackground
-          source={require('../assets/images/fruits-yellowred.png')}
-          style={styles.image}
-        >
-
-      {/* <KeyboardAwareScrollView>
-        <View style={styles.outerContainer}> */}
-
-        <View style={styles.container}>
-
-                  {/* ADD DISH NAME + SUBMIT/CONFIRM INGREDIENTS TO REDIRECT TO DISH SCREEN*/}
-        <View style={styles.confirmContainer}>
-
-          <View style={styles.headerTextContainer}>
-          <Text style={styles.headerText}>
-            Enter Dish Name (required)
-          </Text>
-          </View>
-          <TextInput
-            style={styles.dishView}
-            placeholder="i.e. Vegan Pasta Salad"
-            value={this.state.name}
-            onChangeText={text => {
-              let localStateDish = { ...this.state };
-              localStateDish.name = text;
-              this.setState(localStateDish);
-            }}
-          />
-        </View>
-        <View style={styles.ingredientsContainer}>
-          {/* API INGREDIENTS ARRAY + USER-ADDED INGREDIENTS ARRAY - BOTH SHOW UNDER "CONFIRM YOUR INGREDIENTS" */}
-          <ScrollView>
-          <View style={styles.headerTextContainer}>
-          <Text style={styles.headerText}>Confirm Ingredients</Text>
-          </View>
-          <View style={styles.innerIngredientContainer}>
-          <Button
-            onPress={this.clearAll}
-                    title="Clear All"
-                    titleStyle={{
-                      color: 'black',
-                      fontSize: 11,
-                      lineHeight: 15,
-                      fontFamily: 'Avenir-Book'
-                    }}
-                    buttonStyle={{
-                      backgroundColor: '#d6d7da',
-                      borderRadius: 5,
-                      width: 60,
-                      padding: -5
-                    }}
-          />
-              <View style={styles.allIngredientContainer}>
-          {this.state.ingredients.map((item, index) => {
-            return (
-              <View key={index} style={styles.individualIngredientView}>
-                <Text style={styles.ingredientName}>{item.name}</Text>
-                <TextInput
-                  style={styles.quantityField}
-                  placeholder="Enter A Numerical Value"
-                  value={item.quantity}
-                  onChangeText={text => {
-                    let localStateClone = { ...this.state };
-                    localStateClone.ingredients[index].quantity = text;
-                    this.setState(localStateClone);
-                  }}
-                />
-                <View>
-                  <Picker
-                    itemStyle={styles.dropdowns}
-                    selectedValue={item.measurement}
-                    onValueChange={value => {
-                      let localState = { ...this.state };
-                      localState.ingredients[index].measurement = value;
-                      this.setState(localState);
-                    }}
-                  >
-                    {quantTypes.map((cateogry, index) => {
-                      return (
-                        <Picker.Item
-                          key={index}
-                          label={cateogry.value}
-                          value={cateogry.value}
-                        />
-                      );
-                    })}
-                  </Picker>
-                  <View style={styles.icon}>
-                    <Feather name="chevrons-down" size={15} color="black" />
+        <View>
+          <View style={styles.outerContainer}>
+            <ImageBackground
+              source={require('../assets/images/fruits-yellowred.png')}
+              style={styles.image}
+            >
+              <View style={styles.container}>
+                {/* ADD DISH NAME + SUBMIT/CONFIRM INGREDIENTS TO REDIRECT TO DISH SCREEN*/}
+                <View style={styles.confirmContainer}>
+                  <View style={styles.headerTextContainer}>
+                    <Text style={styles.headerText}>
+                      Enter Dish Name (required)
+                    </Text>
                   </View>
-                </View>
-                <View style={styles.removeButton}>
-                  <Button
-                    onPress={() => {
-                      this.removeIngredient(index);
-                    }}
-                    title="X"
-                    titleStyle={{
-                      color: 'white',
-                      fontSize: 13,
-                      lineHeight: 13,
-                    }}
-                    buttonStyle={{
-                      backgroundColor: 'gray',
-                      borderRadius: 60,
-                      height: 30,
-                      width: 30,
-                      marginLeft: 8
+                  <TextInput
+                    style={styles.dishView}
+                    placeholder="i.e. Vegan Pasta Salad"
+                    value={this.state.name}
+                    onChangeText={(text) => {
+                      let localStateDish = { ...this.state };
+                      localStateDish.name = text;
+                      this.setState(localStateDish);
                     }}
                   />
                 </View>
-              </View>
-            );
-          })}
+                <View style={styles.ingredientsContainer}>
+                  {/* API INGREDIENTS ARRAY + USER-ADDED INGREDIENTS ARRAY - BOTH SHOW UNDER "CONFIRM YOUR INGREDIENTS" */}
+                  <ScrollView>
+                    <View style={styles.headerTextContainer}>
+                      <Text style={styles.headerText}>Confirm Ingredients</Text>
+                    </View>
+                    <View style={styles.innerIngredientContainer}>
+                      <Button
+                        onPress={this.clearAll}
+                        title="Clear All"
+                        titleStyle={{
+                          color: 'black',
+                          fontSize: 11,
+                          lineHeight: 15,
+                          fontFamily: 'Avenir-Book',
+                        }}
+                        buttonStyle={{
+                          backgroundColor: '#d6d7da',
+                          borderRadius: 5,
+                          width: 60,
+                          padding: -5,
+                        }}
+                      />
+                      <View style={styles.allIngredientContainer}>
+                        {this.state.ingredients.map((item, index) => {
+                          return (
+                            <View
+                              key={index}
+                              style={styles.individualIngredientView}
+                            >
+                              <Text style={styles.ingredientName}>
+                                {item.name}
+                              </Text>
+                              <TextInput
+                                style={styles.quantityField}
+                                placeholder="Enter A Numerical Value"
+                                value={item.quantity}
+                                onChangeText={(text) => {
+                                  let localStateClone = { ...this.state };
+                                  localStateClone.ingredients[
+                                    index
+                                  ].quantity = text;
+                                  this.setState(localStateClone);
+                                }}
+                              />
+                              <View>
+                                <Picker
+                                  itemStyle={styles.dropdowns}
+                                  selectedValue={item.measurement}
+                                  onValueChange={(value) => {
+                                    let localState = { ...this.state };
+                                    localState.ingredients[
+                                      index
+                                    ].measurement = value;
+                                    this.setState(localState);
+                                  }}
+                                >
+                                  {quantTypes.map((cateogry, index) => {
+                                    return (
+                                      <Picker.Item
+                                        key={index}
+                                        label={cateogry.value}
+                                        value={cateogry.value}
+                                      />
+                                    );
+                                  })}
+                                </Picker>
+                                <View style={styles.icon}>
+                                  <Feather
+                                    name="chevrons-down"
+                                    size={15}
+                                    color="black"
+                                  />
+                                </View>
+                              </View>
+                              <View style={styles.removeButton}>
+                                <Button
+                                  onPress={() => {
+                                    this.removeIngredient(index);
+                                  }}
+                                  title="X"
+                                  titleStyle={{
+                                    color: 'white',
+                                    fontSize: 13,
+                                    lineHeight: 13,
+                                  }}
+                                  buttonStyle={{
+                                    backgroundColor: 'gray',
+                                    borderRadius: 60,
+                                    height: 30,
+                                    width: 30,
+                                    marginLeft: 8,
+                                  }}
+                                />
+                              </View>
+                            </View>
+                          );
+                        })}
 
+                        {this.state.userAddedIngredients.map((item, index) => {
+                          return (
+                            <View
+                              key={index}
+                              style={styles.individualIngredientView}
+                            >
+                              <Text style={styles.ingredientName}>
+                                {item.name}
+                              </Text>
+                              <TextInput
+                                style={styles.quantityField}
+                                placeholder="Enter A Numerical Value"
+                                value={item.quantity}
+                                onChangeText={(text) => {
+                                  let localUserAddedStateClone = {
+                                    ...this.state,
+                                  };
+                                  localUserAddedStateClone.userAddedIngredients[
+                                    index
+                                  ].quantity = text;
+                                  this.setState(localUserAddedStateClone);
+                                }}
+                              />
+                              <View>
+                                <Picker
+                                  itemStyle={styles.dropdowns}
+                                  selectedValue={item.measurement}
+                                  onValueChange={(value) => {
+                                    let localState = { ...this.state };
+                                    localState.userAddedIngredients[
+                                      index
+                                    ].measurement = value;
+                                    this.setState(localState);
+                                  }}
+                                >
+                                  {quantTypes.map((cateogry, index) => {
+                                    return (
+                                      <Picker.Item
+                                        key={index}
+                                        label={cateogry.value}
+                                        value={cateogry.value}
+                                      />
+                                    );
+                                  })}
+                                </Picker>
+                                <View style={styles.icon}>
+                                  <Feather
+                                    name="chevrons-down"
+                                    size={15}
+                                    color="black"
+                                  />
+                                </View>
+                              </View>
+                              <View style={styles.removeButton}>
+                                <Button
+                                  onPress={() => {
+                                    this.removeUserAddedItem(index);
+                                  }}
+                                  title="X"
+                                  titleStyle={{
+                                    color: 'white',
+                                    fontSize: 13,
+                                    lineHeight: 13,
+                                  }}
+                                  buttonStyle={{
+                                    backgroundColor: 'gray',
+                                    borderRadius: 60,
+                                    height: 30,
+                                    width: 30,
+                                    marginLeft: 8,
+                                  }}
+                                />
+                              </View>
+                            </View>
+                          );
+                        })}
+                      </View>
+                    </View>
+                  </ScrollView>
+                </View>
 
-          {this.state.userAddedIngredients.map((item, index) => {
-            return (
-              <View key={index} style={styles.individualIngredientView}>
-                <Text style={styles.ingredientName}>{item.name}</Text>
-                <TextInput
-                  style={styles.quantityField}
-                  placeholder="Enter A Numerical Value"
-                  value={item.quantity}
-                  onChangeText={text => {
-                    let localUserAddedStateClone = { ...this.state };
-                    localUserAddedStateClone.userAddedIngredients[
-                      index
-                    ].quantity = text;
-                    this.setState(localUserAddedStateClone);
-                  }}
-                />
-                <View>
-                  <Picker
-                    itemStyle={styles.dropdowns}
-                    selectedValue={item.measurement}
-                    onValueChange={value => {
-                      let localState = { ...this.state };
-                      localState.userAddedIngredients[
-                        index
-                      ].measurement = value;
-                      this.setState(localState);
-                    }}
-                  >
-                    {quantTypes.map((cateogry, index) => {
-                      return (
-                        <Picker.Item
-                          key={index}
-                          label={cateogry.value}
-                          value={cateogry.value}
-                        />
-                      );
-                    })}
-                  </Picker>
-                  <View style={styles.icon}>
-                    <Feather name="chevrons-down" size={15} color="black" />
+                {/* USER CAN ADD ADDITIONAL INGREDIENT WITH QTY + MEASUREMENT */}
+                <View style={styles.missingContainer}>
+                  <View style={styles.headerTextContainer}>
+                    <Text style={styles.headerText}>
+                      Missing Any Ingredients?
+                    </Text>
                   </View>
-                </View>
-                <View style={styles.removeButton}>
-                  <Button
-                    onPress={() => {
-                      this.removeUserAddedItem(index);
-                    }}
-                    title="X"
-                    titleStyle={{
-                      color: 'white',
-                      fontSize: 13,
-                      lineHeight: 13,
-                    }}
-                    buttonStyle={{
-                      backgroundColor: 'gray',
-                      borderRadius: 60,
-                      height: 30,
-                      width: 30,
-                      marginLeft: 8
-                    }}
-                  />
-                </View>
-              </View>
-            );
-          })}
-          </View>
-          </View>
-          </ScrollView>
-        </View>
-
-        {/* USER CAN ADD ADDITIONAL INGREDIENT WITH QTY + MEASUREMENT */}
-        <View style={styles.missingContainer}>
-        <View style={styles.headerTextContainer}>
-          <Text style={styles.headerText}>Missing Any Ingredients?</Text>
-          </View>
-          <View style={styles.ingredientView}>
-            <TextInput
-              style={styles.ingredientInput}
-              placeholder="Your Ingredient"
-              defaultValue={this.state.value}
-              onChangeText={this.handleChangeText}
-            />
-            <TextInput
-              style={styles.quantityField}
-            placeholder="Qty"
-              value={this.state.qty}
-              onChangeText={text => {
-                let localStateClone = { ...this.state };
-                localStateClone.qty = text;
-                this.setState(localStateClone);
-              }}
-            />
-            <View>
-              <Picker
-                itemStyle={styles.dropdowns}
-                selectedValue={this.state.measurement}
-                onValueChange={value => {
-                  let localState = { ...this.state };
-                  localState.measurement = value;
-                  this.setState(localState);
-                }}
-              >
-                {quantTypes.map((cateogry, index) => {
-                  return (
-                    <Picker.Item
-                      key={index}
-                      label={cateogry.value}
-                      value={cateogry.value}
+                  <View style={styles.ingredientView}>
+                    <TextInput
+                      style={styles.ingredientInput}
+                      placeholder="Your Ingredient"
+                      defaultValue={this.state.value}
+                      onChangeText={this.handleChangeText}
                     />
-                  );
-                })}
-              </Picker>
-              <View style={styles.icon}>
-                <Feather name="chevrons-down" size={15} color="black" />
+                    <TextInput
+                      style={styles.quantityField}
+                      placeholder="Qty"
+                      value={this.state.qty}
+                      onChangeText={(text) => {
+                        let localStateClone = { ...this.state };
+                        localStateClone.qty = text;
+                        this.setState(localStateClone);
+                      }}
+                    />
+                    <View>
+                      <Picker
+                        itemStyle={styles.dropdowns}
+                        selectedValue={this.state.measurement}
+                        onValueChange={(value) => {
+                          let localState = { ...this.state };
+                          localState.measurement = value;
+                          this.setState(localState);
+                        }}
+                      >
+                        {quantTypes.map((cateogry, index) => {
+                          return (
+                            <Picker.Item
+                              key={index}
+                              label={cateogry.value}
+                              value={cateogry.value}
+                            />
+                          );
+                        })}
+                      </Picker>
+                      <View style={styles.icon}>
+                        <Feather name="chevrons-down" size={15} color="black" />
+                      </View>
+                    </View>
+                  </View>
+
+                  <Button
+                    onPress={this.addIngredient}
+                    title="Add to Ingredients"
+                    color="#659B0E"
+                    titleStyle={{
+                      color: 'white',
+                      fontSize: 15,
+                      lineHeight: 15,
+                      fontFamily: 'Avenir-Book',
+                    }}
+                    buttonStyle={{
+                      backgroundColor: '#659B0E',
+                      borderRadius: 20,
+                      height: 35,
+                      width: 150,
+                      justifyContent: 'center',
+                      alignSelf: 'center',
+                      margin: 10,
+                    }}
+                    disabled={this.state.value.length < 1}
+                  />
+                </View>
+                <View>
+                  <Button
+                    onPress={this.fetchNutrition}
+                    title="All Set! Get Me Nutritional Information"
+                    color="green"
+                    titleStyle={{
+                      color: 'white',
+                      fontSize: 15,
+                      lineHeight: 15,
+                      fontFamily: 'Avenir-Book',
+                    }}
+                    buttonStyle={{
+                      backgroundColor: '#659B0E',
+                      borderRadius: 20,
+                      height: 35,
+                      width: 330,
+                      justifyContent: 'center',
+                      alignSelf: 'center',
+                      marginTop: 10,
+                    }}
+                    disabled={this.state.name.length < 1}
+                  />
+                </View>
               </View>
-            </View>
+            </ImageBackground>
           </View>
-
-          <Button
-            onPress={this.addIngredient}
-            title="Add to Ingredients"
-            color="#659B0E"
-            titleStyle={{
-              color: 'white',
-              fontSize: 15,
-              lineHeight: 15,
-              fontFamily: 'Avenir-Book'
-            }}
-            buttonStyle={{
-              backgroundColor: '#659B0E',
-              borderRadius: 20,
-              height: 35,
-              width: 150,
-              justifyContent: 'center',
-              alignSelf: 'center',
-              margin: 10,
-            }}
-            disabled={this.state.value.length < 1}
-          />
         </View>
-            <View>
-          <Button
-            onPress={this.fetchNutrition}
-            title="All Set! Get Me Nutritional Information"
-            color="green"
-            titleStyle={{
-              color: 'white',
-              fontSize: 15,
-              lineHeight: 15,
-              fontFamily: 'Avenir-Book'
-            }}
-            buttonStyle={{
-              backgroundColor: '#659B0E',
-              borderRadius: 20,
-              height: 35,
-              width: 330,
-              justifyContent: 'center',
-              alignSelf: 'center',
-              marginTop: 10,
-            }}
-            disabled={this.state.name.length < 1}
-          />
-        </View>
-
-        </View>
-        </ImageBackground>
-        </View>
-        </View>
-        </ScrollView>
+      </ScrollView>
     );
   }
 }
 
-const mapState = state => {
+const mapState = (state) => {
   return {
     finalIngredients: state.dishes.finalIngredients,
     consolidatedData: state.dishes.consolidatedData,
@@ -434,15 +459,15 @@ const mapState = state => {
   };
 };
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
     finalizeIngredients: (ingredients, userIngredients, name) =>
       dispatch(finalizeIngredients(ingredients, userIngredients, name)),
-    consolidatingData: consolidated =>
+    consolidatingData: (consolidated) =>
       dispatch(consolidatingData(consolidated)),
-    resetDishnutFromConfirmation: obj =>
+    resetDishnutFromConfirmation: (obj) =>
       dispatch(resetDishnutFromConfirmation(obj)),
-    resetIngrnutFromConfirmation: arr =>
+    resetIngrnutFromConfirmation: (arr) =>
       dispatch(resetIngrnutFromConfirmation(arr)),
   };
 };
@@ -450,7 +475,7 @@ const mapDispatch = dispatch => {
 export default connect(mapState, mapDispatch)(IngredientConfirmation);
 
 const height = Dimensions.get('window').height;
-const width = Dimensions.get('window').width
+const width = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   outerContainer: {
@@ -497,42 +522,42 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     fontFamily: 'Avenir-Book',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   allIngredientContainer: {
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   individualIngredientView: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   missingContainer: {
     borderRadius: 10,
     width: 350,
     backgroundColor: 'white',
-    margin: 10
+    margin: 10,
   },
   ingredientView: {
     flexDirection: 'row',
     margin: 5,
     paddingHorizontal: 10,
     paddingVertical: 5,
-    fontFamily: 'Avenir-Book'
+    fontFamily: 'Avenir-Book',
   },
   dishView: {
     flexDirection: 'row',
     margin: 5,
     paddingHorizontal: 10,
     paddingVertical: 5,
-    fontFamily: 'Avenir-Book'
+    fontFamily: 'Avenir-Book',
   },
   ingredientName: {
     width: 165,
     padding: 3,
     fontSize: 15,
-    fontFamily: 'Avenir-Book'
+    fontFamily: 'Avenir-Book',
   },
   ingredientInput: {
     width: 185,
@@ -560,10 +585,10 @@ const styles = StyleSheet.create({
   },
   headerTextContainer: {
     backgroundColor: '#659B0E',
-    opacity: .8,
+    opacity: 0.8,
     padding: 10,
     borderTopLeftRadius: 10,
-    borderTopRightRadius: 10
+    borderTopRightRadius: 10,
   },
   quantityField: {
     width: 50,
@@ -573,7 +598,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: 14,
-    padding: 5
+    padding: 5,
   },
   dropdowns: {
     height: 39,
@@ -581,6 +606,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
     backgroundColor: '#FFFFFF',
-    opacity: .8
-  }
+    opacity: 0.8,
+  },
 });

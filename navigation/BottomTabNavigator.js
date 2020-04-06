@@ -15,7 +15,13 @@ export default function BottomTabNavigator({ navigation, route }) {
   navigation.setOptions({ headerTitle: getHeaderTitle(route) });
 
   return (
-    <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
+    <BottomTab.Navigator
+      initialRouteName={INITIAL_ROUTE_NAME}
+      tabBarOptions={{
+        inactiveTintColor: '#A9A9A9',
+        activeTintColor: '#659B0E',
+      }}
+    >
       <BottomTab.Screen
         name="Home"
         component={ConnectedHomeScreen}
