@@ -2,7 +2,9 @@
 
 ​Daily Dose is a mobile application that uses visual recognition to process food images and analyze nutritious intake. It provides a historical log of diet enabling you to make healthy choices.
 
-![LoginPage](https://github.com/2001-theLocalHost/Client-Daily-Dose/tree/master/ForReadMe/LoginPage.png)
+![LoginPage](ForReadMe/LoginPage.png)
+
+
 
 ## How to Use Daily Dose
 
@@ -27,7 +29,7 @@ Viewing Daily-Dose:
 Clone this repo and install all dependencies (‘npm install’) and then run it with the script ‘npm start’. To view the app on your phone (iOs only), first install the Expo IO app on your iOs mobile device and then scan the QR code provided below. You can also view this app on your computer using the xcode Simulator.
 
 Scan QR Code:
-![DailyDose_QRCODE](https://github.com/2001-theLocalHost/Client-Daily-Dose/tree/master/ForReadMe/DailyDose_QRCODE.png)
+![DailyDose_QRCODE](ForReadMe/DailyDose_QRCODE.png)
 
 1. Npm install all dependencies
 2. Npm start
@@ -41,7 +43,7 @@ Tech Stack
 - [Redux](https://redux.js.org/)
 - [Express.JS](https://expressjs.com/)
 - [Sequelize](https://sequelize.org/)
-- [PostgreSQL]https://www.postgresql.org/
+- [PostgreSQL](https://www.postgresql.org/)
 
 API
 
@@ -64,12 +66,12 @@ React-Native/Expo Libraries
 
 # Gallery
 
-![UploadImage](https://github.com/2001-theLocalHost/Client-Daily-Dose/tree/master/ForReadMe/UploadImage.png)
-![IngrConfirmation](https://github.com/2001-theLocalHost/Client-Daily-Dose/tree/master/ForReadMe/IngrConfirmation.png)
-![DishPage](https://github.com/2001-theLocalHost/Client-Daily-Dose/tree/master/ForReadMe/DishPage.png)
-![Graphs](https://github.com/2001-theLocalHost/Client-Daily-Dose/tree/master/ForReadMe/Graphs.png)
-![SaveMeal](https://github.com/2001-theLocalHost/Client-Daily-Dose/tree/master/ForReadMe/SaveMeal.png)
-![MealDiary](https://github.com/2001-theLocalHost/Client-Daily-Dose/tree/master/ForReadMe/MealDiary.png)
+![UploadImage](ForReadMe/UploadImage.png)
+![IngrConfirmation](ForReadMe/IngrConfirmation.png)
+![DishPage](ForReadMe/DishPage.png)
+![Graphs](ForReadMe/Graphs.png)
+![SaveMeal](ForReadMe/SaveMeal.png)
+![MealDiary](ForReadMe/MealDiary.png)
 
 ## Authors
 
