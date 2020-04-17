@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { ED_APIKEY, ED_APIID } from '../secret';
+// import { ED_APIKEY, ED_APIID } from '../secret';
+import { Constants } from 'expo';
 import {
   combine,
   urlEncoded,
@@ -21,37 +22,37 @@ const RESET_INGRNUT_FROM_INGR_CONFIRMATION =
   'RESET_INGRNUT_FROM_INGR_CONFIRMATION'; //FROM INGR CONFIRMATION
 
 //ACTION CREATORS
-export const gotNutrition = nutrition => ({
+export const gotNutrition = (nutrition) => ({
   type: GOT_NUTRITION,
   nutrition,
 });
 
-export const gotIngrNutrition = ingrNutrition => ({
+export const gotIngrNutrition = (ingrNutrition) => ({
   type: GOT_INGR_NUTRITION,
   ingrNutrition,
 });
 
-export const updateIngrNut = ingrNutritionMealDiary => ({
+export const updateIngrNut = (ingrNutritionMealDiary) => ({
   type: UPDATE_INGR_NUT_FROM_MEALDIARY,
   ingrNutritionMealDiary,
 });
 
-export const updateDishNut = dishNutritionMealDiary => ({
+export const updateDishNut = (dishNutritionMealDiary) => ({
   type: UPDATE_DISH_NUT_FROM_MEALDIARY,
   dishNutritionMealDiary,
 });
 
-export const ingredientNamesFromMealDiary = ingredientNames => ({
+export const ingredientNamesFromMealDiary = (ingredientNames) => ({
   type: INGREDIENT_NAMES_FROM_MEALDIARY,
   ingredientNames,
 });
 
-export const resetDishnutFromConfirmation = obj => ({
+export const resetDishnutFromConfirmation = (obj) => ({
   type: RESET_DISHNUT_FROM_INGR_CONFIRMATION,
   obj,
 });
 
-export const resetIngrnutFromConfirmation = arr => ({
+export const resetIngrnutFromConfirmation = (arr) => ({
   type: RESET_INGRNUT_FROM_INGR_CONFIRMATION,
   arr,
 });
@@ -59,11 +60,11 @@ export const resetIngrnutFromConfirmation = arr => ({
 //THUNKS
 export const fetchNutrition = (name, dishUrl, userDish) => {
   //userDish = consolidatedData => ['1 cup rice', '1 oz rice cake']
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       let stringify = urlEncoded(userDish); //4%20oz%20rice%20and%201%20oz%20Kale
       let { data } = await axios.get(
-        `https://api.edamam.com/api/nutrition-data?app_id=${ED_APIID}&app_key=${ED_APIKEY}&ingr=${stringify}`
+        `https://api.edamam.com/api/nutrition-data?app_id=${Constants.manifest.extra.edamamID}&app_key=${Constants.manifest.extra.edamamKey}&ingr=${stringify}`
       );
       let newData = convertData(name, dishUrl, data);
       dispatch(gotNutrition(newData));
@@ -77,13 +78,13 @@ export const fetchIngredient = (ingrNameArr, portionQuantArr, userDish) => {
   //ingrNameArr => ['rice', 'rice cake']
   //portionQuant => ['1 cup', '1 oz']
   //userDish => consolidatedData => ['1 cup rice', '1 oz rice cake']
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       let ingredients = [];
       for (let i = 0; i < userDish.length; i++) {
         let stringify = urlEncoded(userDish[i]);
         let { data } = await axios.get(
-          `https://api.edamam.com/api/nutrition-data?app_id=${ED_APIID}&app_key=${ED_APIKEY}&ingr=${stringify}`
+          `https://api.edamam.com/api/nutrition-data?app_id=${Constants.manifest.extra.edamamID}&app_key=${Constants.manifest.extra.edamamKey}&ingr=${stringify}`
         );
         let newData = convertIngrData(ingrNameArr[i], portionQuantArr[i], data);
         ingredients.push(newData);
@@ -144,4 +145,3 @@ const nutrition = (state = initialState, action) => {
 };
 
 export default nutrition;
-
