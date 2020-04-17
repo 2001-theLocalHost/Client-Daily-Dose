@@ -1,13 +1,14 @@
 {
   "expo": {
-    "name": "Tab Navigation Template",
-    "slug": "FoodMobileApp",
+    "name": "Daily Dose",
+    "slug": "Daily-Dose",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
+    "description": "Daily Dose is a nutrition tracking mobile app that uses image recognition to process food images and analyze nutritious intakes.",
     "scheme": "myapp",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -22,5 +23,9 @@
       "supportsTablet": true
     },
     "packagerOpts": { "sourceExts": ["js", "jsx", "svg", "ts", "tsx", "ttf"] }
+  },
+  "extra": {
+    "edamamKey": "80fa1b22c1aba89f9bc4f78f6384bf0d",
+    "edamamID": "7e4bb01a"
   }
 }
