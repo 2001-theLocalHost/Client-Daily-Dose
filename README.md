@@ -4,8 +4,6 @@
 
 ![LoginPage](ForReadMe/LoginPage.png)
 
-
-
 ## How to Use Daily Dose
 
 1. Create an account
@@ -29,7 +27,7 @@ Viewing Daily-Dose:
 Clone this repo and install all dependencies (‘npm install’) and then run it with the script ‘npm start’. To view the app on your phone (iOs only), first install the Expo IO app on your iOs mobile device and then scan the QR code provided below. You can also view this app on your computer using the xcode Simulator.
 
 Scan QR Code:
-![DailyDose_QRCODE](ForReadMe/DailyDose_QRCODE.png)
+![DailyDose_QRCODE](ForReadMe/DailyDose_QRCODE_resized.png)
 
 1. Npm install all dependencies
 2. Npm start
@@ -66,12 +64,12 @@ React-Native/Expo Libraries
 
 # Gallery
 
-![UploadImage](ForReadMe/UploadImage.png)
-![IngrConfirmation](ForReadMe/IngrConfirmation.png)
-![DishPage](ForReadMe/DishPage.png)
-![Graphs](ForReadMe/Graphs.png)
-![SaveMeal](ForReadMe/SaveMeal.png)
-![MealDiary](ForReadMe/MealDiary.png)
+![UploadImage](ForReadMe/UploadImage_resized.png)
+![IngrConfirmation](ForReadMe/IngrConfirmation_resized.png)
+![DishPage](ForReadMe/DishPage_resized.png)
+![Graphs](ForReadMe/Graphs_resized.png)
+![SaveMeal](ForReadMe/SaveMeal_resized.png)
+![MealDiary](ForReadMe/MealDiary_resized.png)
 
 ## Authors
 

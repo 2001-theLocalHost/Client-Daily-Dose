@@ -7,13 +7,14 @@
     "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/dailydose-icon.png",
+    "githubUrl": "https://github.com/2001-theLocalHost/Client-Daily-Dose",
     "description": "Daily Dose is a nutrition tracking mobile app that uses image recognition to process food images and analyze nutritious intakes.",
     "scheme": "myapp",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#659B0E"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
