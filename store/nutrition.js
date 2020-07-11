@@ -1,6 +1,6 @@
 import axios from 'axios';
-// import { ED_APIKEY, ED_APIID } from '../secret';
-import { Constants } from 'expo';
+import { ED_APIKEY, ED_APIID } from '../secret';
+//import { Constants } from 'expo';
 import {
   combine,
   urlEncoded,
@@ -64,7 +64,7 @@ export const fetchNutrition = (name, dishUrl, userDish) => {
     try {
       let stringify = urlEncoded(userDish); //4%20oz%20rice%20and%201%20oz%20Kale
       let { data } = await axios.get(
-        `https://api.edamam.com/api/nutrition-data?app_id=${Constants.manifest.extra.edamamID}&app_key=${Constants.manifest.extra.edamamKey}&ingr=${stringify}`
+        `https://api.edamam.com/api/nutrition-data?app_id=${ED_APIID}&app_key=${ED_APIKEY}&ingr=${stringify}`
       );
       let newData = convertData(name, dishUrl, data);
       dispatch(gotNutrition(newData));
@@ -84,7 +84,7 @@ export const fetchIngredient = (ingrNameArr, portionQuantArr, userDish) => {
       for (let i = 0; i < userDish.length; i++) {
         let stringify = urlEncoded(userDish[i]);
         let { data } = await axios.get(
-          `https://api.edamam.com/api/nutrition-data?app_id=${Constants.manifest.extra.edamamID}&app_key=${Constants.manifest.extra.edamamKey}&ingr=${stringify}`
+          `https://api.edamam.com/api/nutrition-data?app_id=${ED_APIID}&app_key=${ED_APIKEY}&ingr=${stringify}`
         );
         let newData = convertIngrData(ingrNameArr[i], portionQuantArr[i], data);
         ingredients.push(newData);

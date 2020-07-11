@@ -23,9 +23,11 @@
       "supportsTablet": true
     },
     "packagerOpts": { "sourceExts": ["js", "jsx", "svg", "ts", "tsx", "ttf"] }
-  },
-  "extra": {
-    "edamamKey": "80fa1b22c1aba89f9bc4f78f6384bf0d",
-    "edamamID": "7e4bb01a"
   }
 }
+
+
+// "extra": {
+//   "edamamKey": "80fa1b22c1aba89f9bc4f78f6384bf0d",
+//   "edamamID": "7e4bb01a"
+// }
